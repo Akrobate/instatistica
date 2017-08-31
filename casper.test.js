@@ -1,3 +1,7 @@
+var auth = require('./auth');
+
+console.log(auth.username);
+
 
 //var casper = require("casper").create();
 var casper = require("casper").create({
@@ -6,7 +10,7 @@ var casper = require("casper").create({
         width: 1920,
         height: 1080
     },
-    waitTimeout: 25000
+    waitTimeout: 125000
 });
 var count = 0;
 
@@ -38,8 +42,8 @@ casper.then(function() {
 });
 
 casper.then(function() {
-    this.sendKeys('input[name="username"]', '');
-    this.sendKeys('input[name="password"]', '');
+    this.sendKeys('input[name="username"]', auth.username);
+    this.sendKeys('input[name="password"]', auth.password);
     count++;
     this.capture('screenshots/sh-' + count + '.jpg');
     this.waitForSelector("._qv64e").thenClick("._qv64e");
@@ -50,26 +54,60 @@ casper.then(function() {
     this.capture('screenshots/sh-' + count + '.jpg');
 });
 
-/*
-casper.waitForSelector("._7b8eu", function() {
-    count++;
-    this.capture('screenshots/sh-' + count + '.jpg');
-}, function _onTimeout(){
-    this.echo("#thing_" + filename + " not found", "WARNING");
-});
-*/
-
-
 casper.waitForSelector("._7b8eu").then(function() {
     count++;
     this.capture('screenshots/sh-' + count + '.jpg');
 });
 
+//casper.thenOpen('https://www.instagram.com/artiominsta/');
 
-casper.thenOpen('https://www.instagram.com/artiominsta/');
+
 casper.then(function() {
+    count++;
+    this.capture('screenshots/sh-' + count + '.jpg');
+    console.log("capture single");
+    console.log(count);
+    this.waitForSelector(".coreSpriteDesktopNavProfile").thenClick(".coreSpriteDesktopNavProfile");
     count++;
     this.capture('screenshots/sh-' + count + '.jpg');
 });
 
-    casper.run();
+casper.waitForSelector("._l8yre").then(function() {
+    count++;
+    this.capture('screenshots/sh-' + count + '.jpg');
+});
+
+casper.then(function() {
+    count++;
+    this.waitForSelector('a[href="/artiominsta/followers/"]').thenClick('a[href="/artiominsta/followers/"]');
+    count++;
+    this.capture('screenshots/sh-' + count + '.jpg');
+});
+
+
+
+/*
+casper.then(function() {
+    count++;
+    this.capture('screenshots/sh-' + count + '.jpg');
+    console.log("capture single");
+    console.log(count);
+    this.waitForSelector(".t98z6").thenClick(".t98z6");
+    count++;
+    this.capture('screenshots/sh-' + count + '.jpg');
+});
+*/
+
+casper.then(function() {
+
+    this.waitForSelector("._784q7").then(function() {
+        count++;
+        console.log(count);
+        this.capture('screenshots/sh-' + count + '.jpg');
+    });
+});
+
+
+
+
+casper.run();
