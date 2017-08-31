@@ -36,6 +36,7 @@ casper.then(function() {
     this.waitForSelector("._b93kq").thenClick("._b93kq");
 
 });
+
 casper.then(function() {
     count++;
     this.capture('screenshots/sh-' + count + '.jpg');
@@ -99,8 +100,27 @@ casper.then(function() {
 */
 
 casper.then(function() {
-
     this.waitForSelector("._784q7").then(function() {
+        count++;
+        console.log(count);
+        this.capture('screenshots/sh-' + count + '.jpg');
+
+        console.log("Before All users followers loaded ");
+
+/*
+        this.evaluate(function () {
+            //document.querySelector('a[href="/artiominsta/followers/"] > span').title;
+        });
+        */
+        console.log("All users followers: " + nb);
+
+    });
+
+});
+
+// Wait for list to be available
+casper.then(function() {
+    this.waitForSelector("._8q670").then(function() {
         count++;
         console.log(count);
         this.capture('screenshots/sh-' + count + '.jpg');
@@ -108,6 +128,82 @@ casper.then(function() {
 });
 
 
+casper.then(function() {
 
+
+    count++;
+    console.log(count);
+
+    //this.sendKeys('._8q670', casper.page.event.key.Down , {keepFocus: true});
+
+
+
+    this.evaluate(function () {
+        document.querySelector('._gs38e').scrollTop = 400;
+    });
+
+
+
+
+    console.log("Here... waiting...");
+        this.wait(2000);
+    console.log("Here... waiting... ended");
+
+    this.capture('screenshots/sh-' + count + '.jpg');
+});
+
+recursiveScroll(casper);
+
+var rec_start=0;
+
+function recursiveScroll(c) {
+    rec_start ++;
+    //_jfct1
+    //
+    c.then(function(){
+        this.evaluate(function () {
+            document.querySelector('._gs38e').scrollTop = 100000;
+        });
+
+        console.log("recursive starts " + rec_start);
+        count++;
+        this.capture('screenshots/sh-' + count + '.jpg');
+        this.wait(1000).then(function(){
+            if (this.getElementsInfo("._6e4x5").length < 140) {
+                console.log("Number of users loaded " + this.getElementsInfo("._6e4x5").length);
+                recursiveScroll(c)
+            } else {
+                parse_user_list_results(c);
+            }
+        });
+
+    });
+}
+
+
+function parse_user_list_results(c) {
+
+    c.then(function() {
+
+        var list_users = this.evaluate(function(){
+
+            // Getting links to other pages to scrape, this will be
+            // a primitive array that will be easily returned from page.evaluate
+            var users = [].map.call(document.querySelectorAll("._pg23k"), function(link) {
+                console.log(link.href);
+                return link.href;
+            });
+            return users;
+        });
+
+        console.log(list_users);
+
+        console.log("nbr users " + list_users.length);
+
+console.log(list_users[0]);
+
+    });
+
+}
 
 casper.run();
