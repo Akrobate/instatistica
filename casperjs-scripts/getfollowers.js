@@ -1,4 +1,6 @@
 var auth = require('../auth');
+var Navigate = require('libs/navigate');
+var Login = require('libs/login');
 
 var casper = require("casper").create({
     viewportSize: {
@@ -7,19 +9,19 @@ var casper = require("casper").create({
     },
     waitTimeout: 125000
 });
-var count = 0;
 
 casper.start();
 casper.defaultWaitForTimeout = 20000;
 casper.options.stepTimeout = 20000;
 casper.userAgent('Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)');
 
-
 casper.thenOpen('https://www.instagram.com/');
 
-casper = require('libs/login')(casper, auth);
-casper = require('libs/navigate').ToOwnUserProfile(casper);
-casper = require('libs/navigate').ToFollowersList(casper);
+casper = Login(casper, auth);
+casper = Navigate.ToOwnUserProfile(casper);
+casper = Navigate.ToFollowersList(casper);
+
+var count = 0;
 
 /*
 this.evaluate(function () {
