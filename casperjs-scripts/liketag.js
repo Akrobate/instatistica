@@ -82,11 +82,22 @@ casper.then(function(){
         return result;
     });
 
+    count++;
     this.capture('screenshots/sh-' + count + '.jpg');
     this.then(function() {
         console.log("Liked : " + liked);
         console.log("Last then...");
     });
 });
+
+// Like an element
+// casper.thenClick('a._eszkz');
+// casper.waitForSelector("._eszkz > span.coreSpriteHeartFull");
+
+casper.then(function(){
+    count++;
+    this.capture('screenshots/sh-' + count + '.jpg');
+});
+
 
 casper.run();
