@@ -15,5 +15,11 @@ function ToFollowersList(c) {
         .waitForSelector("._8q670");
 }
 
+function ToTag(c, tag_name) {
+    return c.thenOpen('https://www.instagram.com/explore/tags/'+tag_name+'/');
+}
+
+
 module.exports.ToOwnUserProfile = ToOwnUserProfile;
 module.exports.ToFollowersList = ToFollowersList;
+module.exports.ToTag = ToTag;
