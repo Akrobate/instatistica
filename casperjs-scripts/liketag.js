@@ -23,7 +23,7 @@ casper = Navigate.ToTag(casper, tag_name)
 var count = 0;
 var number_followers = 0;
 
-
+var all_founded_tags = [];
 
 // parse visible elements
 casper.then(function() {
@@ -56,11 +56,37 @@ casper.then(function() {
     fs.write(output_data_file, json_string, 'w');
 
     this.capture('screenshots/sh-' + count + '.jpg');
+
+    // strore all posts localy
+    all_founded_tags = result;
+
 });
 
 
+// test to like first result
+casper.then(function(){
+    this.thenOpen(all_founded_tags[0].url);
+    console.log(all_founded_tags[0].url);
+});
+//casper.thenOpen(all_founded_tags[0].url);
 
 
+casper.then(function(){
 
+    var liked = this.evaluate(function() {
+        var result = true;
+        // ._eszkz > span.coreSpriteHeartOpen'
+        if (document.querySelector('._eszkz > span.coreSpriteHeartFull') === null) {
+            result = false;
+        }
+        return result;
+    });
+
+    this.capture('screenshots/sh-' + count + '.jpg');
+    this.then(function() {
+        console.log("Liked : " + liked);
+        console.log("Last then...");
+    });
+});
 
 casper.run();
