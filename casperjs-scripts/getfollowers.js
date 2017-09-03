@@ -1,10 +1,14 @@
+var fs = require('fs');
 var auth = require('../auth');
 var Navigate = require('libs/navigate');
 var Login = require('libs/login');
 var CasperConf = require('libs/casperinit');
 
-var casper = require("casper").create(CasperConf.CasperCreateOptions);
+// Params
+var output_data_file = "./data/followers.json";
 
+
+var casper = require("casper").create(CasperConf.CasperCreateOptions);
 casper.start();
 casper.defaultWaitForTimeout = CasperConf.CasperDefaultWaitForTimeout;
 casper.options.stepTimeout = CasperConf.CasperOptionsStepTimeout;
@@ -17,7 +21,6 @@ casper = Navigate.ToOwnUserProfile(casper);
 casper = Navigate.ToFollowersList(casper);
 
 var count = 0;
-
 var number_followers = 0;
 
 casper.then(function() {
@@ -61,17 +64,20 @@ function recursiveScroll(c) {
 function parse_user_list_results(c) {
     c.then(function() {
         var list_users = this.evaluate(function(){
-            // Getting links to other pages to scrape, this will be
-            // a primitive array that will be easily returned from page.evaluate
-            var users = [].map.call(document.querySelectorAll("._pg23k"), function(link) {
-                console.log(link.href);
-                return link.href;
+            var users = [].map.call(document.querySelectorAll("._f5wpw"), function(user_div) {
+                var user = {
+                    photo: user_div.querySelector('._rewi8').src,
+                    url: user_div.querySelector('._pg23k').href,
+                    name: user_div.querySelector('._2g7d5').title,
+                    fullname: user_div.querySelector('._9mmn5').textContent,
+                };
+                return user;
             });
             return users;
         });
-        console.log(list_users);
-        console.log("nbr users " + list_users.length);
-        console.log(list_users[0]);
+        console.log("Number of parsed users: " + list_users.length);
+        var json_string = JSON.stringify(list_users);
+        fs.write(output_data_file, json_string, 'w');
     });
 }
 
