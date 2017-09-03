@@ -1,19 +1,14 @@
 var auth = require('../auth');
 var Navigate = require('libs/navigate');
 var Login = require('libs/login');
+var CasperConf = require('libs/casperinit');
 
-var casper = require("casper").create({
-    viewportSize: {
-        width: 1920,
-        height: 1080
-    },
-    waitTimeout: 125000
-});
+var casper = require("casper").create(CasperConf.CasperCreateOptions);
 
 casper.start();
-casper.defaultWaitForTimeout = 20000;
-casper.options.stepTimeout = 20000;
-casper.userAgent('Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)');
+casper.defaultWaitForTimeout = CasperConf.CasperDefaultWaitForTimeout;
+casper.options.stepTimeout = CasperConf.CasperOptionsStepTimeout;
+casper.userAgent(CasperConf.CasperUserAgent);
 
 casper.thenOpen('https://www.instagram.com/');
 
@@ -23,30 +18,39 @@ casper = Navigate.ToFollowersList(casper);
 
 var count = 0;
 
-/*
-this.evaluate(function () {
-    //document.querySelector('a[href="/artiominsta/followers/"] > span').title;
-});
-*/
+var number_followers = 0;
 
-recursiveScroll(casper);
+casper.then(function() {
+    var result = this.evaluate(function () {
+        return document.querySelector('a[href="/artiominsta/followers/"] > span').title;
+    });
+    number_followers = parseInt(result);
+    console.log("Number of followers: " + number_followers);
+});
 
 var rec_start=0;
+
+recursiveScroll(casper);
 
 function recursiveScroll(c) {
     rec_start ++;
     c.then(function(){
-        this.evaluate(function () {
-            document.querySelector('._gs38e').scrollTop = 100000;
-        });
+        var scroll_value = 10000 * rec_start;
+        console.log("scroll top value" + scroll_value);
+
+        this.evaluate(function (scroll_value) {
+            document.querySelector('._gs38e').scrollTop = scroll_value;
+        }, scroll_value);
+
         console.log("recursive starts " + rec_start);
         count++;
         this.capture('screenshots/sh-' + count + '.jpg');
         this.wait(1000).then(function(){
-            if (this.getElementsInfo("._6e4x5").length < 140) {
+            if (this.getElementsInfo("._6e4x5").length < number_followers) {
                 console.log("Number of users loaded " + this.getElementsInfo("._6e4x5").length);
                 recursiveScroll(c)
             } else {
+                // Once all scrolled, parse results
                 parse_user_list_results(c);
             }
         });
