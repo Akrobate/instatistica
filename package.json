@@ -1,0 +1,20 @@
+{
+  "name": "instatistica",
+  "version": "1.0.0",
+  "description": "Instagram API tests, statistics tools",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "getfollowers": "casperjs casperjs-scripts/getfollowers.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Akrobate/instatistica.git"
+  },
+  "author": "Artiom FEDOROV <fedorov.artiom@yahoo.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Akrobate/instatistica/issues"
+  },
+  "homepage": "https://github.com/Akrobate/instatistica#readme"
+}

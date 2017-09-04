@@ -3,33 +3,25 @@ var auth = require('../auth');
 var Navigate = require('libs/navigate');
 var Login = require('libs/login');
 var CasperConf = require('libs/casperinit');
-//var utils = require("utils");
+var Casper = require("casper");
+var utils = require("utils");
 
 // Params
 var output_data_file = "./data/liketags_results.json";
 
-require("casper").create(CasperConf.CasperCreateOptions);
+var casper = Casper.create(CasperConf.CasperCreateOptions);
 casper.start();
 casper.defaultWaitForTimeout = CasperConf.CasperDefaultWaitForTimeout;
 casper.options.stepTimeout = CasperConf.CasperOptionsStepTimeout;
 casper.userAgent(CasperConf.CasperUserAgent);
 
-// utils.dump(casper.cli.options);
-//
-/*
 if (casper.cli.args[0] === undefined) {
     casper.echo("Argument missing: First argument must be tag name");
     casper.exit();
 }
-*/
 
-// casper.echo("Casper CLI passed args:");
-// require("utils").dump(casper.cli.args);
-
-// casper.exit();
-//casper.echo("tag:" + casper.cli.args[0]);
-//var tag_name = casper.cli.args[0];
-var tag_name = '16f84';
+casper.echo("tag: #" + casper.cli.args[0]);
+var tag_name = casper.cli.args[0];
 
 casper.thenOpen('https://www.instagram.com/');
 
@@ -37,7 +29,6 @@ casper = Login(casper, auth);
 casper = Navigate.ToTag(casper, tag_name)
 
 var count = 0;
-var number_followers = 0;
 
 var all_founded_tags = [];
 
@@ -114,6 +105,5 @@ casper.then(function(){
     count++;
     this.capture('screenshots/sh-' + count + '.jpg');
 });
-
 
 casper.run();
