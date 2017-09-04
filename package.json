@@ -5,7 +5,8 @@
   "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "getfollowers": "casperjs casperjs-scripts/getfollowers.js"
+    "getfollowers": "casperjs casperjs-scripts/getfollowers.js",
+    "liketag": "casperjs casperjs-scripts/liketag.js"
   },
   "repository": {
     "type": "git",
