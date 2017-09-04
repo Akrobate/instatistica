@@ -3,8 +3,11 @@ var auth = require('../auth');
 var Navigate = require('libs/navigate');
 var Login = require('libs/login');
 var CasperConf = require('libs/casperinit');
+var Post = require('libs/postslikes');
+var TagsResult = require('libs/tagsresult');
 var Casper = require("casper");
 var utils = require("utils");
+
 
 // Params
 var output_data_file = "./data/liketags_results.json";
@@ -34,76 +37,39 @@ var all_founded_tags = [];
 
 // parse visible elements
 casper.then(function() {
-
-    var result = this.evaluate(function () {
-
-        var main_posts_bloc = null;
-        // Define if has popular section or not  _jzhdd
-        if (document.querySelector('._jzhdd > ._nhglx') === null) {
-            main_posts_bloc = document.querySelector('._jzhdd > div');
-        } else {
-            main_posts_bloc = document.querySelectorAll('._jzhdd > div')[1];
-        }
-
-        // class of each post: ._mck9w
-        var posts = [].map.call(main_posts_bloc.querySelectorAll("._mck9w"), function(post_div) {
-            var post = {
-                photo: post_div.querySelector('._2di5p').src,
-                url: post_div.querySelector('a').href,
-                alt: post_div.querySelector('._2di5p').alt,
-            };
-            return post;
-        });
-        return posts;
-
-    });
-
+    var result = TagsResult.ParseRecentMedia(this);
     console.log("Number of parsed posts: " + result.length);
     var json_string = JSON.stringify(result);
     fs.write(output_data_file, json_string, 'w');
-
     this.capture('screenshots/sh-' + count + '.jpg');
-
     // strore all posts localy
     all_founded_tags = result;
-
 });
 
 
-// test to like first result
-casper.then(function(){
-    this.thenOpen(all_founded_tags[0].url);
-    console.log(all_founded_tags[0].url);
-});
-//casper.thenOpen(all_founded_tags[0].url);
+var rep = 0;
+casper.then(function() {
+    this.repeat(all_founded_tags.length, function() {
+        // test to like first result
+        this.then(function(){
+            console.log(all_founded_tags[rep].url);
+            this.thenOpen(all_founded_tags[rep].url);
+            rep++;
+            count++;
+            this.capture('screenshots/sh-' + count + '.jpg');
+        });
 
-
-casper.then(function(){
-
-    var liked = this.evaluate(function() {
-        var result = true;
-        // ._eszkz > span.coreSpriteHeartOpen'
-        if (document.querySelector('._eszkz > span.coreSpriteHeartFull') === null) {
-            result = false;
-        }
-        return result;
+        // check if element is not already liked
+        this.then(function(){
+            var liked = Post.CheckIsLiked(this);
+            console.log("Liked : " + liked);
+            count++;
+            this.capture('screenshots/sh-' + count + '.jpg');
+            if (!liked) {
+                Post.LikePost(this);
+            }
+        });
     });
-
-    count++;
-    this.capture('screenshots/sh-' + count + '.jpg');
-    this.then(function() {
-        console.log("Liked : " + liked);
-        console.log("Last then...");
-    });
-});
-
-// Like an element
-// casper.thenClick('a._eszkz');
-// casper.waitForSelector("._eszkz > span.coreSpriteHeartFull");
-
-casper.then(function(){
-    count++;
-    this.capture('screenshots/sh-' + count + '.jpg');
 });
 
 casper.run();
