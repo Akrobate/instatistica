@@ -31,57 +31,67 @@ var tag_name = casper.cli.args[0];
 casper.thenOpen('https://www.instagram.com/');
 
 casper = Login(casper, auth);
-casper = Navigate.ToTag(casper, tag_name)
+
 
 var count = 0;
 
-var all_founded_tags = [];
+var times_to_repeat_all = 100;
 
-// parse visible elements
-casper.then(function() {
-    var result = TagsResult.ParseRecentMedia(this);
-    console.log("Number of parsed posts: " + result.length);
-    var json_string = JSON.stringify(result);
-    fs.write(output_data_file, json_string, 'w');
-    this.capture('screenshots/sh-' + count + '.jpg');
-    // strore all posts localy
-    all_founded_tags = result;
-});
+casper.repeat(times_to_repeat_all, function() {
+
+    var all_founded_tags = [];
+
+    this.then(function() {
+        Navigate.ToTag(this, tag_name);
+    });
+
+    // parse visible elements
+    this.then(function() {
+
+        var result = TagsResult.ParseRecentMedia(this);
+        console.log("Number of parsed posts: " + result.length);
+        var json_string = JSON.stringify(result);
+        fs.write(output_data_file, json_string, 'w');
+        this.capture('screenshots/sh-' + count + '.jpg');
+        // strore all posts localy
+        all_founded_tags = result;
+    });
 
 
-var rep = 0;
-casper.then(function() {
+    var rep = 0;
+    this.then(function() {
 
-    var random_timeout_between_tags = Random.getRandomIntFromRange(behaviour.RANDOM_MAX_VALUE_BEFORE_RELOAD_TAG, behaviour.RANDOM_MAX_VALUE_BEFORE_RELOAD_TAG);
-    console.log("Random value test between pages: " + random_timeout_between_tags);
+        var random_timeout_between_tags = Random.getRandomIntFromRange(behaviour.RANDOM_MAX_VALUE_BEFORE_RELOAD_TAG, behaviour.RANDOM_MAX_VALUE_BEFORE_RELOAD_TAG);
+        console.log("Random value test between pages: " + random_timeout_between_tags);
 
-    this.repeat(all_founded_tags.length, function() {
+        this.repeat(all_founded_tags.length, function() {
 
-        // test to like first result
-        this.then(function(){
-            console.log(all_founded_tags[rep].url);
-            this.thenOpen(all_founded_tags[rep].url);
-            rep++;
-        });
+            // test to like first result
+            this.then(function(){
+                console.log(all_founded_tags[rep].url);
+                this.thenOpen(all_founded_tags[rep].url);
+                rep++;
+            });
 
-        var random_timeout_between_likes = Random.getRandomIntFromRange(behaviour.RANDOM_MIN_VALUE_BEFORE_LIKE,behaviour.RANDOM_MAX_VALUE_BEFORE_LIKE);
-        console.log("Random value between likes: " + random_timeout_between_likes);
+            var random_timeout_between_likes = Random.getRandomIntFromRange(behaviour.RANDOM_MIN_VALUE_BEFORE_LIKE,behaviour.RANDOM_MAX_VALUE_BEFORE_LIKE);
+            console.log("Random value between likes: " + random_timeout_between_likes);
 
-        this.wait(random_timeout_between_likes, function() {
-            console.log("Waited : " + random_timeout_between_likes + "ms after page opening and before like");
-        });
+            this.wait(random_timeout_between_likes, function() {
+                console.log("Waited : " + random_timeout_between_likes + "ms after page opening and before like");
+            });
 
-        // check if element is not already liked
-        this.then(function(){
-            var liked = Post.CheckIsLiked(this);
-            console.log("Liked : " + liked);
-            if (!liked) {
-                Post.LikePost(this);
-            }
-            this.wait(100, function() {
-                count++;
-                this.capture('screenshots/sh-' + count + '.jpg');
-            })
+            // check if element is not already liked
+            this.then(function(){
+                var liked = Post.CheckIsLiked(this);
+                console.log("Liked : " + liked);
+                if (!liked) {
+                    Post.LikePost(this);
+                }
+                this.wait(100, function() {
+                    count++;
+                    this.capture('screenshots/sh-' + count + '.jpg');
+                })
+            });
         });
     });
 });
