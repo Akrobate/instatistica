@@ -1,5 +1,7 @@
 var fs = require('fs');
 var auth = require('../auth');
+var behaviour = require('../behaviour');
+var Random = require("libs/random");
 var Navigate = require('libs/navigate');
 var Login = require('libs/login');
 var CasperConf = require('libs/casperinit');
@@ -49,25 +51,37 @@ casper.then(function() {
 
 var rep = 0;
 casper.then(function() {
+
+    var random_timeout_between_tags = Random.getRandomIntFromRange(behaviour.RANDOM_MAX_VALUE_BEFORE_RELOAD_TAG, behaviour.RANDOM_MAX_VALUE_BEFORE_RELOAD_TAG);
+    console.log("Random value test between pages: " + random_timeout_between_tags);
+
     this.repeat(all_founded_tags.length, function() {
+
         // test to like first result
         this.then(function(){
             console.log(all_founded_tags[rep].url);
             this.thenOpen(all_founded_tags[rep].url);
             rep++;
-            count++;
-            this.capture('screenshots/sh-' + count + '.jpg');
+        });
+
+        var random_timeout_between_likes = Random.getRandomIntFromRange(behaviour.RANDOM_MIN_VALUE_BEFORE_LIKE,behaviour.RANDOM_MAX_VALUE_BEFORE_LIKE);
+        console.log("Random value between likes: " + random_timeout_between_likes);
+
+        this.wait(random_timeout_between_likes, function() {
+            console.log("Waited : " + random_timeout_between_likes + "ms after page opening and before like");
         });
 
         // check if element is not already liked
         this.then(function(){
             var liked = Post.CheckIsLiked(this);
             console.log("Liked : " + liked);
-            count++;
-            this.capture('screenshots/sh-' + count + '.jpg');
             if (!liked) {
                 Post.LikePost(this);
             }
+            this.wait(100, function() {
+                count++;
+                this.capture('screenshots/sh-' + count + '.jpg');
+            })
         });
     });
 });

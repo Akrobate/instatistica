@@ -58,3 +58,4 @@ typings/
 .env
 
 auth.js
+behaviour.js
