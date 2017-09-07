@@ -29,7 +29,7 @@ var number_followers = 0;
 
 casper.then(function() {
     var result = this.evaluate(function () {
-        return document.querySelector('a[href="/artiominsta/followers/"] > span').title;
+        return document.querySelector('a[href="/artiominsta/following/"] > span').title;
     });
     number_followers = parseInt(result);
     console.log("Number of followers: " + number_followers);

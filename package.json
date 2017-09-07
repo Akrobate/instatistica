@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "getfollowers": "casperjs casperjs-scripts/getfollowers.js",
-    "getfollows": "casperjs casperjs-scripts/getfollows.js",
+    "getfollowing": "casperjs casperjs-scripts/getfollowing.js",
     "liketag": "casperjs casperjs-scripts/liketag.js"
   },
   "repository": {
