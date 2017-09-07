@@ -22,7 +22,7 @@ casper.thenOpen('https://www.instagram.com/');
 
 casper = Login(casper, auth);
 casper = Navigate.ToOwnUserProfile(casper);
-casper = Navigate.ToFollowersList(casper);
+casper = Navigate.ToFollowingList(casper);
 
 var count = 0;
 var number_followers = 0;

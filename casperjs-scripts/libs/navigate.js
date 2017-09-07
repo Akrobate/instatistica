@@ -15,6 +15,18 @@ function ToFollowersList(c) {
         .waitForSelector("._8q670");
 }
 
+
+function ToFollowingList(c) {
+    return c
+        // Click on own profile link
+        .waitForSelector('a[href="/artiominsta/following/"]')
+        .thenClick('a[href="/artiominsta/following/"]')
+        .waitForSelector("._l8yre")
+        .waitForSelector("._784q7")
+        .waitForSelector("._8q670");
+}
+
+
 function ToTag(c, tag_name) {
     return c.thenOpen('https://www.instagram.com/explore/tags/'+tag_name+'/');
 }
