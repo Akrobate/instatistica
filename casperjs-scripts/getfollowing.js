@@ -4,12 +4,9 @@ var Navigate = require('libs/navigate');
 var Login = require('libs/login');
 var CasperConf = require('libs/casperinit');
 
-/**
- * TO REWrite
- */
 
 // Params
-var output_data_file = "./data/followers.json";
+var output_data_file = "./data/following.json";
 
 
 var casper = require("casper").create(CasperConf.CasperCreateOptions);
