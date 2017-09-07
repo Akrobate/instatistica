@@ -4,10 +4,8 @@ var Navigate = require('libs/navigate');
 var Login = require('libs/login');
 var CasperConf = require('libs/casperinit');
 
-
 // Params
 var output_data_file = "./data/following.json";
-
 
 var casper = require("casper").create(CasperConf.CasperCreateOptions);
 casper.start();
@@ -19,17 +17,18 @@ casper.thenOpen('https://www.instagram.com/');
 
 casper = Login(casper, auth);
 casper = Navigate.ToOwnUserProfile(casper);
+
 casper = Navigate.ToFollowingList(casper);
 
 var count = 0;
-var number_followers = 0;
+var number_following = 0;
 
 casper.then(function() {
     var result = this.evaluate(function () {
-        return document.querySelector('a[href="/artiominsta/following/"] > span').title;
+        return document.querySelector('a[href="/artiominsta/following/"] > span').textContent;
     });
-    number_followers = parseInt(result);
-    console.log("Number of followers: " + number_followers);
+    number_following = parseInt(result);
+    console.log("Number of followers: " + number_following);
 });
 
 var rec_start=0;
@@ -50,7 +49,7 @@ function recursiveScroll(c) {
         count++;
         this.capture('screenshots/sh-' + count + '.jpg');
         this.wait(1000).then(function(){
-            if (this.getElementsInfo("._6e4x5").length < number_followers) {
+            if (this.getElementsInfo("._6e4x5").length < number_following) {
                 console.log("Number of users loaded " + this.getElementsInfo("._6e4x5").length);
                 recursiveScroll(c)
             } else {

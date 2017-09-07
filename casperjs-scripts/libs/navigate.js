@@ -34,4 +34,5 @@ function ToTag(c, tag_name) {
 
 module.exports.ToOwnUserProfile = ToOwnUserProfile;
 module.exports.ToFollowersList = ToFollowersList;
+module.exports.ToFollowingList = ToFollowingList;
 module.exports.ToTag = ToTag;
