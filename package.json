@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/Akrobate/instatistica/issues"
   },
-  "homepage": "https://github.com/Akrobate/instatistica#readme"
+  "homepage": "https://github.com/Akrobate/instatistica#readme",
+  "dependencies": {
+    "minimist": "^1.2.0"
+  }
 }
