@@ -41,6 +41,17 @@ casper.repeat(times_to_repeat_all, function() {
 
     var all_founded_tags = [];
 
+
+    var random_timeout_between_tags = Random.getRandomIntFromRange(behaviour.RANDOM_MIN_VALUE_BEFORE_LOAD_TAG, behaviour.RANDOM_MAX_VALUE_BEFORE_LOAD_TAG);
+    console.log("Random value test between pages: " + random_timeout_between_tags);
+
+    console.log("Waiting... ");
+
+    this.wait(random_timeout_between_tags, function(){
+        console.log('waiting ended');
+    });
+
+
     this.then(function() {
         Navigate.ToTag(this, tag_name);
     });
@@ -60,9 +71,6 @@ casper.repeat(times_to_repeat_all, function() {
 
     var rep = 0;
     this.then(function() {
-
-        var random_timeout_between_tags = Random.getRandomIntFromRange(behaviour.RANDOM_MAX_VALUE_BEFORE_RELOAD_TAG, behaviour.RANDOM_MAX_VALUE_BEFORE_RELOAD_TAG);
-        console.log("Random value test between pages: " + random_timeout_between_tags);
 
         this.repeat(all_founded_tags.length, function() {
 
