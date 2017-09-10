@@ -3,6 +3,7 @@ var auth = require('../auth');
 var Navigate = require('libs/navigate');
 var Login = require('libs/login');
 var CasperConf = require('libs/casperinit');
+var ProfileParser = require('libs/profileparser');
 
 // Params
 var output_data_file = "./data/following.json";
@@ -20,13 +21,24 @@ casper = Navigate.ToOwnUserProfile(casper);
 
 casper = Navigate.ToFollowingList(casper);
 
+
+var my_username = null;
+
+casper.then(function() {
+    ProfileParser.getName(casper, function(name){
+        my_username = name;
+        console.log("User name : " + my_username);
+    });
+});
+
+
 var count = 0;
 var number_following = 0;
 
 casper.then(function() {
-    var result = this.evaluate(function () {
-        return document.querySelector('a[href="/artiominsta/following/"] > span').textContent;
-    });
+    var result = this.evaluate(function (my_username) {
+        return document.querySelector('a[href="/' + my_username + '/following/"] > span').textContent;
+    }, my_username);
     number_following = parseInt(result);
     console.log("Number of followers: " + number_following);
 });

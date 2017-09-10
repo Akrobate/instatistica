@@ -3,6 +3,7 @@ var auth = require('../auth');
 var Navigate = require('libs/navigate');
 var Login = require('libs/login');
 var CasperConf = require('libs/casperinit');
+var ProfileParser = require('libs/profileparser');
 
 // Params
 var output_data_file = "./data/followers.json";
@@ -16,17 +17,36 @@ casper.userAgent(CasperConf.CasperUserAgent);
 
 casper.thenOpen('https://www.instagram.com/');
 
+
 casper = Login(casper, auth);
-casper = Navigate.ToOwnUserProfile(casper);
-casper = Navigate.ToFollowersList(casper);
+
+casper.then(function() {
+    Navigate.ToOwnUserProfile(casper);
+});
+
+casper.then(function() {
+     Navigate.ToFollowersList(casper);
+});
+
+var my_username = null;
+
+casper.then(function() {
+    ProfileParser.getName(casper, function(name){
+        my_username = name;
+        console.log("User name : " + my_username);
+    });
+});
+
 
 var count = 0;
 var number_followers = 0;
 
 casper.then(function() {
-    var result = this.evaluate(function () {
-        return document.querySelector('a[href="/artiominsta/followers/"] > span').textContent;
-    });
+    // console.log("my_username : " + my_username);
+    var result = this.evaluate(function (my_username) {
+        //alert('a[href="/' + my_username + '/followers/"] > span');
+        return document.querySelector('a[href="/' + my_username + '/followers/"] > span').textContent;
+    }, my_username);
     number_followers = parseInt(result);
     console.log("Number of followers: " + number_followers);
 });

@@ -1,3 +1,6 @@
+var ProfileParser = require('./profileparser');
+
+
 function ToOwnUserProfile(c) {
     return c
         // Click on own profile link
@@ -6,24 +9,28 @@ function ToOwnUserProfile(c) {
 }
 
 function ToFollowersList(c) {
-    return c
+    return ProfileParser.getName(c, function(name) {
         // Click on own profile link
-        .waitForSelector('a[href="/artiominsta/followers/"]')
-        .thenClick('a[href="/artiominsta/followers/"]')
-        .waitForSelector("._l8yre")
-        .waitForSelector("._784q7")
-        .waitForSelector("._8q670");
+        return c
+            .waitForSelector('a[href="/' + name + '/followers/"]')
+            .thenClick('a[href="/' + name + '/followers/"]')
+            .waitForSelector("._l8yre")
+            .waitForSelector("._784q7")
+            .waitForSelector("._8q670");
+    });
 }
 
 
 function ToFollowingList(c) {
-    return c
-        // Click on own profile link
-        .waitForSelector('a[href="/artiominsta/following/"]')
-        .thenClick('a[href="/artiominsta/following/"]')
-        .waitForSelector("._l8yre")
-        .waitForSelector("._784q7")
-        .waitForSelector("._8q670");
+    return ProfileParser.getName(c, function(name) {
+        return c
+            // Click on own profile link
+            .waitForSelector('a[href="/' + name + '/following/"]')
+            .thenClick('a[href="/' + name + '/following/"]')
+            .waitForSelector("._l8yre")
+            .waitForSelector("._784q7")
+            .waitForSelector("._8q670");
+    });
 }
 
 
