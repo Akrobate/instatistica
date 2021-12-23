@@ -35,6 +35,17 @@ class NavigateToPostStep extends AbstractStep {
         return result;
     }
 
+
+    async extractPostTags(page) {
+        const result = await page.evaluate(() => {
+            return [
+                ...document.querySelectorAll('.P9YgZ')[0].querySelectorAll('.xil3i')
+            ].map((element) => element.innerText)
+        });
+        const formatted_tag_list = result.map((raw_tag) => raw_tag.replace('#', '').toLowerCase());
+        return formatted_tag_list;
+    }
+
 }
 
 const navigate_to_post_step = new NavigateToPostStep();
