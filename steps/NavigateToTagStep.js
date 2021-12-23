@@ -8,7 +8,7 @@ class NavigateToTagStep extends AbstractStep {
 
     constructor() {
         super();
-        this.screenshot_name_prefix = 'screenshot-navigate-to-tag';
+        this.screenshot_name_prefix = 'screenshot-navigate-to-post';
         this.activate_screen_shots = true;
     }
 
@@ -21,10 +21,17 @@ class NavigateToTagStep extends AbstractStep {
 
 
     async extractVisiblePostLinks(page) {
-        const results = await page.evaluate(() => {
+        const popular = await page.evaluate(() => {
+            return [...document.querySelectorAll('.EZdmt ._bz0w a')].map((el) => el.getAttribute('href'));
+        })
+        const recent = await page.evaluate(() => {
+            document.querySelector('.EZdmt').remove()
             return [...document.querySelectorAll('._bz0w a')].map((el) => el.getAttribute('href'));
         })
-        return results;
+        return {
+            popular,
+            recent
+        };
     }
 }
 
