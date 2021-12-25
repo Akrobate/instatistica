@@ -16,18 +16,20 @@ class AbstractStep {
 
 
     async screenshot(page, sub_step_name) {
-        this.screenshot_number++;
-        await page.screenshot({
-            path: `${
-                    this.screenshot_path
-                }${
-                    this.screenshot_name_prefix
-                }-${
-                    this.screenshot_number
-                }${ 
-                    sub_step_name ? '-' + sub_step_name : ''
-                }.png`
-        });
+        if (this.activate_screen_shots) {
+            this.screenshot_number++;
+            await page.screenshot({
+                path: `${
+                        this.screenshot_path
+                    }${
+                        this.screenshot_name_prefix
+                    }-${
+                        this.screenshot_number
+                    }${ 
+                        sub_step_name ? '-' + sub_step_name : ''
+                    }.png`
+            });
+        }
     }
 
 
