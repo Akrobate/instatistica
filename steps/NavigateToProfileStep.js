@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 'use strict';
 
 const {
@@ -6,6 +8,7 @@ const {
 
 class NavigateToProfileStep extends AbstractStep {
 
+    // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
         this.screenshot_name_prefix = 'screenshot-navigate-to-profile';
@@ -15,14 +18,23 @@ class NavigateToProfileStep extends AbstractStep {
     }
 
 
+    /**
+     * @param {String} page
+     * @param {String} username
+     * @returns {void}
+     */
     async process(page, username) {
         const formated_username = username.replace('@', '');
         await page.goto(`https://www.instagram.com/${formated_username}/`);
-        await this.screenshot(page); 
+        await this.screenshot(page);
     }
 
 
-    async processGetAllPostsList(page){
+    /**
+     * @param {String} page
+     * @returns {Array}
+     */
+    async processGetAllPostsList(page) {
         const total_post_count = await this.extractTotalPostCount(page);
         while (this.post_list.length < total_post_count) {
             const current_posts = await this.extractVisiblePostLinks(page);
@@ -39,6 +51,10 @@ class NavigateToProfileStep extends AbstractStep {
     }
 
 
+    /**
+     * @param {String} page
+     * @returns {void}
+     */
     async scrollDown(page) {
         await page.evaluate(() => {
             const total_height = document.body.scrollHeight;
@@ -48,6 +64,10 @@ class NavigateToProfileStep extends AbstractStep {
     }
 
 
+    /**
+     * @param {String} page
+     * @returns {Number}
+     */
     async extractTotalPostCount(page) {
         const post_count = await page.evaluate(() => {
             return [...document.querySelectorAll('.g47SY')][0].innerText;
@@ -55,6 +75,11 @@ class NavigateToProfileStep extends AbstractStep {
         return Number(post_count);
     }
 
+
+    /**
+     * @param {String} page
+     * @returns {Array}
+     */
     async extractVisiblePostLinks(page) {
         const visible = await page.evaluate(() => {
             return [...document.querySelectorAll('._bz0w a')].map((el) => el.getAttribute('href'));
