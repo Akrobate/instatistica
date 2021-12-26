@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const {
     AbstractStep,
@@ -6,12 +6,20 @@ const {
 
 class LoginStep extends AbstractStep {
 
+
+    // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
         this.screenshot_name_prefix = 'screenshot-login';
         this.activate_screen_shots = true;
     }
 
+
+    /**
+     * @param {String} page
+     * @param {AuthObject} auth
+     * @returns {Promise}
+     */
     async process(page, auth) {
 
         await page.goto('https://www.instagram.com/');
@@ -21,17 +29,19 @@ class LoginStep extends AbstractStep {
 
         await this.screenshot(page);
         await page.click('.bIiDR');
-      
-        await page.waitForSelector('.bIiDR', { hidden: true })
-        await this.screenshot(page);
-      
-        await page.type('input[name="username"]', auth.username);
-        await page.type('input[name="password"]', auth.password);
-      
+
+        await page.waitForSelector('.bIiDR', {
+            hidden: true,
+        });
         await this.screenshot(page);
 
-        await page.waitForSelector('button[type="submit"]:not([disabled])')
-        await this.screenshot(page);        
+        await page.type('input[name="username"]', auth.username);
+        await page.type('input[name="password"]', auth.password);
+
+        await this.screenshot(page);
+
+        await page.waitForSelector('button[type="submit"]:not([disabled])');
+        await this.screenshot(page);
         await page.click('button[type="submit"]');
         await this.screenshot(page);
 
@@ -42,11 +52,11 @@ class LoginStep extends AbstractStep {
         await page.waitForSelector('.ABCxa');
         await this.screenshot(page);
         await page.click('.cmbtv > button[type="button"]');
-        
+
         await this.screenshot(page);
         await page.waitForTimeout(2000);
 
-        await this.screenshot(page);        
+        await this.screenshot(page);
     }
 
 }
