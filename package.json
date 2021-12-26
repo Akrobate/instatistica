@@ -4,6 +4,7 @@
   "description": "Instagram API tests, statistics tools",
   "main": "",
   "scripts": {
+    "lint": "eslint ./",
     "test": "echo \"Error: no test specified\" && exit 1",
     "getfollowers": "casperjs casperjs-scripts/getfollowers.js",
     "getfollowing": "casperjs casperjs-scripts/getfollowing.js",
@@ -25,6 +26,6 @@
     "puppeteer": "^13.0.0"
   },
   "devDependencies": {
-    "eslint": "^8.5.0"
+    "eslint": "^7.32.0"
   }
 }
