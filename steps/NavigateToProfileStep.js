@@ -13,7 +13,6 @@ class NavigateToProfileStep extends AbstractStep {
         super();
         this.screenshot_name_prefix = 'screenshot-navigate-to-profile';
         this.activate_screen_shots = true;
-
         this.post_list = [];
     }
 
@@ -27,6 +26,17 @@ class NavigateToProfileStep extends AbstractStep {
         const formated_username = username.replace('@', '');
         await page.goto(`https://www.instagram.com/${formated_username}/`);
         await this.screenshot(page);
+    }
+
+
+    /**
+     * @returns {void}
+     */
+    reset() {
+        super.reset();
+        this.screenshot_name_prefix = 'screenshot-navigate-to-profile';
+        this.activate_screen_shots = true;
+        this.post_list = [];
     }
 
 
