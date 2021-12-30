@@ -4,10 +4,26 @@ class AbstractStep {
 
     // eslint-disable-next-line require-jsdoc
     constructor() {
+        this.initDefault();
+    }
+
+
+    /**
+     * @returns {void}
+     */
+    initDefault() {
         this.screenshot_name_prefix = 'untitled';
         this.activate_screen_shots = false;
         this.screenshot_path = './screenshots/';
         this.screenshot_number = 0;
+    }
+
+
+    /**
+     * @returns {void}
+     */
+    reset() {
+        this.initDefault();
     }
 
 
