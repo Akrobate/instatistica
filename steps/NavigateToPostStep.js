@@ -66,6 +66,16 @@ class NavigateToPostStep extends AbstractStep {
         return formatted_tag_list;
     }
 
+
+    /**
+     * @todo
+     * @param {Object} page
+     * @returns {String}
+     */
+    async extractUsername(page) {
+        
+    }
+
 }
 
 const navigate_to_post_step = new NavigateToPostStep();
