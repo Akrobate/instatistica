@@ -22,11 +22,12 @@ const {
     // await navigate_to_profile_step.process(page, 'artiominsta');
     // const data = await navigate_to_profile_step.extractVisiblePostLinks(page);
     // const data = await navigate_to_profile_step.processGetAllPostsList(page);
-    
+
     // '/p/CXt1_RhrhpN/', '/p/B45GCjzohtk/', '/p/Bniz_cbgyGC/'
     await navigate_to_post_step.process(page, '/p/CXt1_RhrhpN/');
-    
-    
+    const user_name = await navigate_to_post_step.extractUsername(page);
+    console.log(user_name);
+
     // await navigate_to_post_step.process(page, '/p/B45GCjzohtk/');
     // await navigate_to_post_step.process(page, '/p/Bniz_cbgyGC/');
 
@@ -34,6 +35,3 @@ const {
     // console.log(data.length);
     await browser.close();
 })();
-
-
-
