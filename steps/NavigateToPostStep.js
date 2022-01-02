@@ -73,7 +73,10 @@ class NavigateToPostStep extends AbstractStep {
      * @returns {String}
      */
     async extractUsername(page) {
-        
+        const result = await page.evaluate(() => {
+            return document.querySelector('.e1e1d a').innerText;
+        });
+        return result;
     }
 
 }
