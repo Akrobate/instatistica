@@ -1,5 +1,7 @@
 'use strict';
 
+const JsonFileRepository = require('../repositories');
+
 class BookMarkService {
 
     /**
@@ -10,7 +12,9 @@ class BookMarkService {
         if (BookMarkService.instance) {
             return BookMarkService.instance;
         }
-        BookMarkService.instance = new BookMarkService();
+        BookMarkService.instance = new BookMarkService(
+            JsonFileRepository.getInstance()
+        );
         return BookMarkService.instance;
     }
 
