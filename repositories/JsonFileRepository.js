@@ -2,7 +2,7 @@
 
 const fs = require('fs').promises;
 
-class JsonFile {
+class JsonFileRepository {
 
 
     /**
@@ -22,18 +22,18 @@ class JsonFile {
 
     /**
      * @static
-     * @returns {JsonFile}
+     * @returns {JsonFileRepository}
      */
     static getInstance() {
-        if (JsonFile.instance) {
-            return JsonFile.instance;
+        if (JsonFileRepository.instance) {
+            return JsonFileRepository.instance;
         }
-        JsonFile.instance = new JsonFile();
-        return JsonFile.instance;
+        JsonFileRepository.instance = new JsonFileRepository();
+        return JsonFileRepository.instance;
     }
 
     /**
-     * @returns {JsonFile}
+     * @returns {JsonFileRepository}
      */
     constructor() {
         this.filename = null;
@@ -65,8 +65,8 @@ class JsonFile {
      */
     getFileNameWithPath() {
         return this.filename === null
-            ? `${JsonFile.DATA_FOLDER}${JsonFile.FILENAME}`
-            : `${JsonFile.DATA_FOLDER}${this.filename}`;
+            ? `${JsonFileRepository.DATA_FOLDER}${JsonFileRepository.FILENAME}`
+            : `${JsonFileRepository.DATA_FOLDER}${this.filename}`;
     }
 
     /**
@@ -79,5 +79,5 @@ class JsonFile {
 }
 
 module.exports = {
-    JsonFile,
+    JsonFileRepository,
 };
