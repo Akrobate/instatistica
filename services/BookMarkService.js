@@ -38,6 +38,16 @@ class BookMarkService {
         this.json_file_repository.setFileName(this.tags_to_process_filename);
         await this.saveData(data);
     }
+
+
+    /**
+     * @returns {Array}
+     */
+    async getTagsToProcess() {
+        this.json_file_repository.setFileName(this.tags_to_process_filename);
+        const tag_list = await this.getData();
+        return tag_list;
+    }
 }
 
 BookMarkService.instance = null;
