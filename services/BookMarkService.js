@@ -48,6 +48,19 @@ class BookMarkService {
         const tag_list = await this.getData();
         return tag_list;
     }
+
+
+    /**
+     * @param {String} tag
+     * @returns {Void}
+     */
+    async bookMarkTag(tag) {
+        const tag_list = await this.getTagsToProcess();
+        const tag_index = tag_list.findIndex((item) => item.tag === tag);
+        tag_list[tag_index].status = 'PROCESSED';
+        await this.saveTagsToProcess(tag_list);
+    }
+
 }
 
 BookMarkService.instance = null;
