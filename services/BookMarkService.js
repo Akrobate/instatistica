@@ -18,16 +18,25 @@ class BookMarkService {
 
     /**
      * @static
-     * @returns {JsonFile}
+     * @returns {BookMarkService}
      */
     static getInstance() {
         if (BookMarkService.instance) {
             return BookMarkService.instance;
         }
-        BookMarkService.instance = new BookMarkService(
+        BookMarkService.instance = BookMarkService.buildInstance();
+        return BookMarkService.instance;
+    }
+
+
+    /**
+     * @static
+     * @returns {BookMarkService}
+     */
+    static buildInstance() {
+        return new BookMarkService(
             JsonFileRepository.getInstance()
         );
-        return BookMarkService.instance;
     }
 
 
@@ -96,7 +105,9 @@ class BookMarkService {
 }
 
 BookMarkService.instance = null;
+const book_mark_service = BookMarkService.buildInstance();
 
 module.exports = {
     BookMarkService,
+    book_mark_service,
 };

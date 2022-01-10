@@ -1,6 +1,11 @@
 'use strict';
 
 const {
+    book_mark_service,
+} = require('../services');
+
+
+const {
     init_puppeteer_step,
     login_step,
     navigate_to_tag_step,
