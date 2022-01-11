@@ -22,6 +22,8 @@ const auth = require('../auth');
 
     // get tags list to like
     const tag_list = [];
+    await book_mark_service.saveAndDeduplicateTagsListToProcess(tag_list);
+
 
     for (const tag of tag_list) {
 
@@ -30,7 +32,6 @@ const auth = require('../auth');
         const {
             recent,
         } = recent_post_result;
-
 
     }
 
