@@ -41,6 +41,25 @@ class BookMarkService {
 
 
     /**
+     * @param {Array} tag_list
+     * @returns {Void}
+     */
+    async saveAndDeduplicateTagsListToProcess(tag_list) {
+        const saved_tag_list = await this.getTagsToProcess();
+        tag_list.forEach((item) => {
+            const found_existing_tag = saved_tag_list
+                .find((saved_tag) => saved_tag.name === item);
+            if (found_existing_tag === undefined) {
+                saved_tag_list.push({
+                    tag: item,
+                    status: 'TO_PROCESS',
+                });
+            }
+        });
+        await this.saved_tag_list(saved_tag_list);
+    }
+
+    /**
      * @param {Array} data
      * @returns {Void}
      */
