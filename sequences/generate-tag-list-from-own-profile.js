@@ -13,6 +13,8 @@ const {
 
 const auth = require('../auth');
 
+const user_to_get_tags_from = '';
+
 
 (async () => {
     await init_puppeteer_step.process();
@@ -21,15 +23,13 @@ const auth = require('../auth');
     await login_step.process(page, auth);
 
     // get tags list to like
-    const tag_list = await book_mark_service.getTagsToProcess();
+    const tag_list = [];
 
-    for (const tag of tag_list) {
+    // Go to own profile
 
-        await navigate_to_tag_step.process(page, tag);
-        const recent_post_result = await navigate_to_tag_step.extractVisiblePostLinks();
-        const {
-            recent,
-        } = recent_post_result;
-    }
+    // Extract tags of each user post
+
+    // Save and deduplicate tags
+    await book_mark_service.saveAndDeduplicateTagsListToProcess(tag_list);
 
 })();
