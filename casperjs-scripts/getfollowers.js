@@ -1,3 +1,5 @@
+// @Todo: Remove this script after moving to puppeter
+
 var fs = require('fs');
 var auth = require('../auth');
 var Navigate = require('libs/navigate');
