@@ -23,7 +23,6 @@ const user_to_get_tags_from = '';
 
     await login_step.process(page, auth);
 
-    // get tags list to like
     await navigate_to_profile_step.process(page, user_to_get_tags_from);
     const post_list = await navigate_to_profile_step.processGetAllPostsList();
 
@@ -35,11 +34,6 @@ const user_to_get_tags_from = '';
     }
     tag_list = [...new Set(tag_list)];
 
-    // Go to own profile
-
-    // Extract tags of each user post
-
-    // Save and deduplicate tags
     await book_mark_service.saveAndDeduplicateTagsListToProcess(tag_list);
 
 })();
