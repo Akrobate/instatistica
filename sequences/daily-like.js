@@ -10,11 +10,12 @@ const {
     login_step,
     navigate_to_tag_step,
     navigate_to_post_step,
+    navigate_to_profile_step,
 } = require('../steps');
 
 const auth = require('../auth');
 
-const username_list = [];
+
 (async () => {
     await init_puppeteer_step.process();
     const page = init_puppeteer_step.getPage();
@@ -30,10 +31,21 @@ const username_list = [];
             recent,
         } = recent_post_result;
 
+        // Get all users that posted recently on wanted tag
+        const username_list = [];
         for (const post of recent) {
             await navigate_to_post_step.process(page, post);
             const username = navigate_to_post_step.extractUsername();
             username_list.push(username);
+        }
+
+        // Go to like each lastest user post
+        for (const usename of username_list) {
+            navigate_to_profile_step.process(page, usename);
+
+            // get last posts
+
+            // like if not liked last post
         }
     }
 
