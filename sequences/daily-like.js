@@ -44,8 +44,18 @@ const auth = require('../auth');
             navigate_to_profile_step.process(page, usename);
 
             // get last posts
+            const visible_posts = await navigate_to_profile_step.extractVisiblePostLinks(page);
 
             // like if not liked last post
+            for (const user_post of visible_posts) {
+                await navigate_to_post_step.process(page, user_post);
+                const post_liked = await navigate_to_post_step.checkIsLiked(page);
+                if (post_liked) {
+                    break;
+                } else {
+                    await navigate_to_post_step.clickLikeButton(page);
+                }
+            }
         }
     }
 
