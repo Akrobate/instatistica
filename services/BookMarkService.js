@@ -18,6 +18,21 @@ class BookMarkService {
 
     /**
      * @static
+     */
+    static get TAG_TO_PROCESS() {
+        return 'TO_PROCESS';
+    }
+
+
+    /**
+     * @static
+     */
+    static get TAG_PROCESSED() {
+        return 'PROCESSED';
+    }
+
+    /**
+     * @static
      * @returns {BookMarkService}
      */
     static getInstance() {
@@ -70,11 +85,15 @@ class BookMarkService {
 
 
     /**
+     * @param {String} status
      * @returns {Array}
      */
-    async getTagsToProcess() {
+    async getTagsToProcess(status = null) {
         this.json_file_repository.setFileName(this.tags_to_process_filename);
         const tag_list = await this.getData();
+        if (status !== null) {
+            return tag_list.filter((tag) => tag.status === status);
+        }
         return tag_list;
     }
 

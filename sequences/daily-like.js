@@ -57,6 +57,8 @@ const auth = require('../auth');
                 }
             }
         }
+
+        await book_mark_service.bookMarkTag(tag);
     }
 
 })();
