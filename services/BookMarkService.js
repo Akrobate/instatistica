@@ -1,6 +1,8 @@
 'use strict';
 
-const JsonFileRepository = require('../repositories');
+const {
+    JsonFileRepository,
+} = require('../repositories');
 
 class BookMarkService {
 
@@ -67,7 +69,7 @@ class BookMarkService {
             if (found_existing_tag === undefined) {
                 saved_tag_list.push({
                     tag: item,
-                    status: 'TO_PROCESS',
+                    status: BookMarkService.TAG_TO_PROCESS,
                 });
             }
         });
@@ -105,7 +107,7 @@ class BookMarkService {
     async bookMarkTag(tag) {
         const tag_list = await this.getTagsToProcess();
         const tag_index = tag_list.findIndex((item) => item.tag === tag);
-        tag_list[tag_index].status = 'PROCESSED';
+        tag_list[tag_index].status = BookMarkService.TAG_PROCESSED;
         await this.saveTagsToProcess(tag_list);
     }
 
@@ -136,7 +138,7 @@ class BookMarkService {
     async bookMarkUsername(username) {
         const username_list = await this.getUsernameToProcess();
         const username_index = username_list.findIndex((item) => item.username === username);
-        username_list[username_index].status = 'PROCESSED';
+        username_list[username_index].status = BookMarkService.TAG_PROCESSED;
         await this.saveUsernameToProcess(username_list);
     }
 
