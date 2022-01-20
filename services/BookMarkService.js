@@ -21,7 +21,7 @@ class BookMarkService {
     /**
      * @static
      */
-    static get TAG_TO_PROCESS() {
+    static get TO_PROCESS() {
         return 'TO_PROCESS';
     }
 
@@ -29,7 +29,7 @@ class BookMarkService {
     /**
      * @static
      */
-    static get TAG_PROCESSED() {
+    static get PROCESSED() {
         return 'PROCESSED';
     }
 
@@ -69,7 +69,7 @@ class BookMarkService {
             if (found_existing_tag === undefined) {
                 saved_tag_list.push({
                     tag: item,
-                    status: BookMarkService.TAG_TO_PROCESS,
+                    status: BookMarkService.TO_PROCESS,
                 });
             }
         });
@@ -107,7 +107,7 @@ class BookMarkService {
     async bookMarkTag(tag) {
         const tag_list = await this.getTagsToProcess();
         const tag_index = tag_list.findIndex((item) => item.tag === tag);
-        tag_list[tag_index].status = BookMarkService.TAG_PROCESSED;
+        tag_list[tag_index].status = BookMarkService.PROCESSED;
         await this.saveTagsToProcess(tag_list);
     }
 
@@ -138,7 +138,7 @@ class BookMarkService {
     async bookMarkUsername(username) {
         const username_list = await this.getUsernameToProcess();
         const username_index = username_list.findIndex((item) => item.username === username);
-        username_list[username_index].status = BookMarkService.TAG_PROCESSED;
+        username_list[username_index].status = BookMarkService.PROCESSED;
         await this.saveUsernameToProcess(username_list);
     }
 
