@@ -33,6 +33,7 @@ class BookMarkService {
         return 'PROCESSED';
     }
 
+
     /**
      * @static
      * @returns {BookMarkService}
@@ -76,6 +77,7 @@ class BookMarkService {
         await this.saved_tag_list(saved_tag_list);
     }
 
+
     /**
      * @param {Array} data
      * @returns {Void}
@@ -110,6 +112,7 @@ class BookMarkService {
         tag_list[tag_index].status = BookMarkService.PROCESSED;
         await this.saveTagsToProcess(tag_list);
     }
+
 
     /**
      * @param {Array} data
