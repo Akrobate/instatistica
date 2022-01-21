@@ -2,6 +2,7 @@
 
 const {
     book_mark_service,
+    BookMarkService,
 } = require('../services');
 
 
@@ -22,7 +23,7 @@ const auth = require('../auth');
 
     await login_step.process(page, auth);
 
-    const tag_list = await book_mark_service.getTagsToProcess();
+    const tag_list = await book_mark_service.getTagsToProcess(BookMarkService.TO_PROCESS);
 
     for (const tag of tag_list) {
         await navigate_to_tag_step.process(page, tag);
