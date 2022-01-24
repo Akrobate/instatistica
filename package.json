@@ -5,7 +5,7 @@
   "main": "",
   "scripts": {
     "lint": "eslint ./",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --recursive",
     "getfollowers": "casperjs casperjs-scripts/getfollowers.js",
     "getfollowing": "casperjs casperjs-scripts/getfollowing.js",
     "liketag": "casperjs casperjs-scripts/liketag.js",
@@ -28,6 +28,7 @@
   "devDependencies": {
     "chai": "^4.3.4",
     "eslint": "^7.32.0",
-    "mocha": "^9.1.4"
+    "mocha": "^9.1.4",
+    "sinon": "^12.0.1"
   }
 }
