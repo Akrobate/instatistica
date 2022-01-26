@@ -2,7 +2,7 @@
 
 const {
     BookMarkService,
-} = require('./');
+} = require('./BookMarkService');
 
 class TagBookMarkService extends BookMarkService {
 

@@ -2,7 +2,7 @@
 
 const {
     BookMarkService,
-} = require('./');
+} = require('./BookMarkService');
 
 class UsernameBookMarkService extends BookMarkService {
 

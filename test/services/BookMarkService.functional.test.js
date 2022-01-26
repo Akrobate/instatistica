@@ -2,7 +2,7 @@
 
 const {
     BookMarkService,
-} = require('../services')
+} = require('../../services');
 
 const {
     mock,
