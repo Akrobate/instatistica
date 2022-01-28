@@ -20,6 +20,23 @@ class JsonFileRepository {
         return 'default_file.json';
     }
 
+
+    /**
+     * @returns {String}
+     */
+    getFileName() {
+        return this.constructor.FILENAME;
+    }
+
+
+    /**
+     * @returns {String}
+     */
+    getDataFolder() {
+        return this.constructor.DATA_FOLDER;
+    }
+
+
     /**
      * @static
      * @returns {JsonFileRepository}
@@ -65,8 +82,8 @@ class JsonFileRepository {
      */
     getFileNameWithPath() {
         return this.filename === null
-            ? `${JsonFileRepository.DATA_FOLDER}${JsonFileRepository.FILENAME}`
-            : `${JsonFileRepository.DATA_FOLDER}${this.filename}`;
+            ? `${this.getDataFolder}${this.getFileName()}`
+            : `${this.getDataFolder}${this.filename}`;
     }
 
     /**
