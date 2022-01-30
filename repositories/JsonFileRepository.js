@@ -82,8 +82,8 @@ class JsonFileRepository {
      */
     getFileNameWithPath() {
         return this.filename === null
-            ? `${this.getDataFolder}${this.getFileName()}`
-            : `${this.getDataFolder}${this.filename}`;
+            ? `${this.getDataFolder()}${this.getFileName()}`
+            : `${this.getDataFolder()}${this.filename}`;
     }
 
     /**
