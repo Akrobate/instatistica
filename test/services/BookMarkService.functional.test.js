@@ -5,41 +5,37 @@ const {
 } = require('../../services');
 
 const {
+    JsonFileRepository,
+} = require('../../repositories');
+
+const {
     mock,
     stub,
 } = require('sinon');
 
-const ClassBookMarkService = BookMarkService;
-const class_book_mark_service = BookMarkService.getInstance();
+const {
+    expect,
+} = require('chai');
 
+const json_file_repository = new JsonFileRepository();
+const class_book_mark_service = new BookMarkService(json_file_repository);
 
+const stubs = {};
 
 describe('test', () => {
 
     beforeEach(() => {
-        console.log('In before each')
-
-        stub(class_book_mark_service, 'tags_to_process_filename').callsFake(() => 'Tesst here');
-
-        console.log('class_book_mark_service.tags_to_process_filename', class_book_mark_service.tags_to_process_filename)
-
-        console.log('After In before each')
+        stubs.getDataFolder = stub(json_file_repository, 'getDataFolder')
+            .callsFake(() => 'test');
     });
 
-    afterEach(() => {
-
-    });
+    // afterEach(() => {});
 
     it('Should be able to save file with tags', (done) => {
-        console.log(class_book_mark_service)
-        console.log(class_book_mark_service.constructor.__proto__)
-        console.log(ClassBookMarkService)
-        console.log(ClassBookMarkService.TO_PROCESS)
-        console.log(class_book_mark_service.constructor.TO_PROCESS)
-        console.log(typeof class_book_mark_service.constructor.TO_PROCESS)
-        console.log(typeof ClassBookMarkService.TO_PROCESS)
+        const data_folder = json_file_repository.getDataFolder();
+        console.log(data_folder);
 
-        console.log(class_book_mark_service)
+        expect(data_folder).to.equal('test');
 
         done();
     });
