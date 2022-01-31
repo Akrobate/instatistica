@@ -77,6 +77,18 @@ class JsonFileRepository {
         return response;
     }
 
+
+    /**
+     * @param {Object} data
+     * @return {Object}
+     */
+    async removeData() {
+        const filename = this.getFileNameWithPath();
+        const response = await fs.unlink(filename);
+        return response;
+    }
+
+
     /**
      * @returns {String}
      */
