@@ -69,12 +69,12 @@ class BookMarkService {
                 .find((saved_tag) => saved_tag.name === item);
             if (found_existing_tag === undefined) {
                 saved_tag_list.push({
-                    tag: item,
+                    name: item,
                     status: BookMarkService.TO_PROCESS,
                 });
             }
         });
-        await this.saved_tag_list(saved_tag_list);
+        await this.saveTagsToProcess(saved_tag_list);
     }
 
 
