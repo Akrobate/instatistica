@@ -84,7 +84,7 @@ class BookMarkService {
      */
     async saveTagsToProcess(data) {
         this.json_file_repository.setFileName(this.tags_to_process_filename);
-        await this.saveData(data);
+        await this.json_file_repository.saveData(data);
     }
 
 
@@ -94,7 +94,7 @@ class BookMarkService {
      */
     async getTagsToProcess(status = null) {
         this.json_file_repository.setFileName(this.tags_to_process_filename);
-        const tag_list = await this.getData();
+        const tag_list = await this.json_file_repository.getData();
         if (status !== null) {
             return tag_list.filter((tag) => tag.status === status);
         }
@@ -120,7 +120,7 @@ class BookMarkService {
      */
     async saveUsernameToProcess(data) {
         this.json_file_repository.setFileName(this.username_to_process_filename);
-        await this.saveData(data);
+        await this.json_file_repository.saveData(data);
     }
 
 
@@ -129,7 +129,7 @@ class BookMarkService {
      */
     async getUsernameToProcess() {
         this.json_file_repository.setFileName(this.username_to_process_filename);
-        const username_list = await this.getData();
+        const username_list = await this.json_file_repository.getData();
         return username_list;
     }
 
