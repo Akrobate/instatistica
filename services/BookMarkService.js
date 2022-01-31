@@ -145,6 +145,15 @@ class BookMarkService {
         await this.saveUsernameToProcess(username_list);
     }
 
+
+    /**
+     * @param {Array} data
+     * @returns {Void}
+     */
+    async deleteAllTagsToProcess() {
+        this.json_file_repository.setFileName(this.tags_to_process_filename);
+        await this.json_file_repository.removeData();
+    }
 }
 
 BookMarkService.instance = null;
