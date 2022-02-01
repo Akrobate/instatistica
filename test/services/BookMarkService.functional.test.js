@@ -9,7 +9,6 @@ const {
 } = require('../../repositories');
 
 const {
-    mock,
     stub,
 } = require('sinon');
 
@@ -24,20 +23,37 @@ const stubs = {};
 
 describe('test', () => {
 
-    beforeEach(() => {
+    beforeEach(async () => {
         stubs.getDataFolder = stub(json_file_repository, 'getDataFolder')
-            .callsFake(() => 'test');
+            .callsFake(() => `${__dirname}/../data_working_folder/`);
+        try {
+            await class_book_mark_service.deleteAllTagsToProcess();
+        } catch (error) {
+            console.log('No file to delete, error: ', error);
+        }
     });
 
-    // afterEach(() => {});
+    afterEach(() => {
+        stubs.getDataFolder.restore();
+    });
 
-    it('Should be able to save file with tags', (done) => {
+    it('Check stub correcty setted the data folder path', (done) => {
         const data_folder = json_file_repository.getDataFolder();
-        console.log(data_folder);
-
-        expect(data_folder).to.equal('test');
-
+        expect(data_folder).to.equal(`${__dirname}/../data_working_folder/`);
         done();
+    });
+
+
+    it('Should be able to save file with tags saveAndDeduplicateTagsListToProcess', async () => {
+        const data_folder = json_file_repository.getDataFolder();
+        const tag_list = [
+            'tag_1',
+            'tag_2',
+            'tag_3',
+        ];
+        await class_book_mark_service.saveAndDeduplicateTagsListToProcess(tag_list);
+        const tags_to_process = await class_book_mark_service.getTagsToProcess('TO_PROCESS');
+        console.log(tags_to_process);
     });
 
 });
