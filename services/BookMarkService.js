@@ -94,7 +94,12 @@ class BookMarkService {
      */
     async getTagsToProcess(status = null) {
         this.json_file_repository.setFileName(this.tags_to_process_filename);
-        const tag_list = await this.json_file_repository.getData();
+        let tag_list = [];
+        try {
+            tag_list = await this.json_file_repository.getData();
+        } catch (error) {
+            console.log('No tag json file found, error: ', error.message);
+        }
         if (status !== null) {
             return tag_list.filter((tag) => tag.status === status);
         }
