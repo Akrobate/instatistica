@@ -45,7 +45,7 @@ describe('test', () => {
 
 
     it('Should be able to save file with tags saveAndDeduplicateTagsListToProcess', async () => {
-        const data_folder = json_file_repository.getDataFolder();
+
         const tag_list = [
             'tag_1',
             'tag_2',
@@ -53,7 +53,20 @@ describe('test', () => {
         ];
         await class_book_mark_service.saveAndDeduplicateTagsListToProcess(tag_list);
         const tags_to_process = await class_book_mark_service.getTagsToProcess('TO_PROCESS');
-        console.log(tags_to_process);
+
+        const [
+            tag_1,
+            tag_2,
+            tag_3,
+        ] = tags_to_process;
+
+        expect(tag_1).to.have.property('name', 'tag_1');
+        expect(tag_1).to.have.property('status', 'TO_PROCESS');
+        expect(tag_2).to.have.property('name', 'tag_2');
+        expect(tag_2).to.have.property('status', 'TO_PROCESS');
+        expect(tag_3).to.have.property('name', 'tag_3');
+        expect(tag_3).to.have.property('status', 'TO_PROCESS');
+
     });
 
 });
