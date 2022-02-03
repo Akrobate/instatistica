@@ -52,7 +52,7 @@ describe('test', () => {
             'tag_3',
         ];
         await class_book_mark_service.saveAndDeduplicateTagsListToProcess(tag_list);
-        const tags_to_process = await class_book_mark_service.getTagsToProcess('TO_PROCESS');
+        const tags_to_process = await class_book_mark_service.getTagsToProcess();
 
         const [
             tag_1,
@@ -66,6 +66,58 @@ describe('test', () => {
         expect(tag_2).to.have.property('status', 'TO_PROCESS');
         expect(tag_3).to.have.property('name', 'tag_3');
         expect(tag_3).to.have.property('status', 'TO_PROCESS');
+
+    });
+
+
+    it('Should be able to change tag to processed', async () => {
+
+        const tag_list = [
+            'tag_1',
+            'tag_2',
+            'tag_3',
+        ];
+        await class_book_mark_service.saveAndDeduplicateTagsListToProcess(tag_list);
+        await class_book_mark_service.bookMarkTag('tag_2');
+        const tags_to_process = await class_book_mark_service.getTagsToProcess();
+
+        const [
+            tag_1,
+            tag_2,
+            tag_3,
+        ] = tags_to_process;
+
+        expect(tag_1).to.have.property('name', 'tag_1');
+        expect(tag_1).to.have.property('status', 'TO_PROCESS');
+
+        expect(tag_2).to.have.property('name', 'tag_2');
+        expect(tag_2).to.have.property('status', 'PROCESSED');
+
+        expect(tag_3).to.have.property('name', 'tag_3');
+        expect(tag_3).to.have.property('status', 'TO_PROCESS');
+
+    });
+
+
+    it('Should be able to change tag to filter tags to process vs processes', async () => {
+
+        const tag_list = [
+            'tag_1',
+            'tag_2',
+            'tag_3',
+        ];
+        await class_book_mark_service.saveAndDeduplicateTagsListToProcess(tag_list);
+        await class_book_mark_service.bookMarkTag('tag_1');
+        let tags_to_process = null;
+
+        tags_to_process = await class_book_mark_service.getTagsToProcess('TO_PROCESS');
+        expect(tags_to_process).to.be.an('Array').and.have.lengthOf(2);
+
+        tags_to_process = await class_book_mark_service.getTagsToProcess('PROCESSED');
+        expect(tags_to_process).to.be.an('Array').and.have.lengthOf(1);
+
+        tags_to_process = await class_book_mark_service.getTagsToProcess();
+        expect(tags_to_process).to.be.an('Array').and.have.lengthOf(3);
 
     });
 
