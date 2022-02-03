@@ -113,7 +113,7 @@ class BookMarkService {
      */
     async bookMarkTag(tag) {
         const tag_list = await this.getTagsToProcess();
-        const tag_index = tag_list.findIndex((item) => item.tag === tag);
+        const tag_index = tag_list.findIndex((item) => item.name === tag);
         tag_list[tag_index].status = BookMarkService.PROCESSED;
         await this.saveTagsToProcess(tag_list);
     }
