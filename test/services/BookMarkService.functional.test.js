@@ -28,6 +28,7 @@ describe('test', () => {
             .callsFake(() => `${__dirname}/../data_working_folder/`);
         try {
             await class_book_mark_service.deleteAllTagsToProcess();
+            await class_book_mark_service.deleteAllUsernameToProcess();
         } catch (error) {
             console.log('No file to delete, error: ', error);
         }
