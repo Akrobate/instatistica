@@ -122,4 +122,36 @@ describe('test', () => {
 
     });
 
+
+    /**
+     * USERNAME Book marks
+     */
+    it('Should be able to save file with tags saveAndDeduplicateTagsListToProcess', async () => {
+
+        const username_list = [
+            'username_1',
+            'username_2',
+            'username_3',
+        ];
+        await class_book_mark_service.saveUsernameToProcess(username_list.map((item) => ({
+            name: item,
+            status: 'TO_PROCESS',
+        })));
+        const username_to_process = await class_book_mark_service.getUsernameToProcess();
+
+        const [
+            username_1,
+            username_2,
+            username_3,
+        ] = username_to_process;
+
+        expect(username_1).to.have.property('name', 'username_1');
+        expect(username_1).to.have.property('status', 'TO_PROCESS');
+        expect(username_2).to.have.property('name', 'username_2');
+        expect(username_2).to.have.property('status', 'TO_PROCESS');
+        expect(username_3).to.have.property('name', 'username_3');
+        expect(username_3).to.have.property('status', 'TO_PROCESS');
+
+    });
+
 });
