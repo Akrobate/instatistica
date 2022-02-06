@@ -59,6 +59,8 @@ class BookMarkService {
 
 
     /**
+     * @todo remove technical-debt
+     *
      * @param {Array} tag_list
      * @returns {Void}
      */
@@ -79,6 +81,8 @@ class BookMarkService {
 
 
     /**
+     * @todo remove technical-debt
+     *
      * @param {Array} data
      * @returns {Void}
      */
@@ -89,6 +93,8 @@ class BookMarkService {
 
 
     /**
+     * @todo remove technical-debt
+     *
      * @param {String} status
      * @returns {Array}
      */
@@ -108,6 +114,8 @@ class BookMarkService {
 
 
     /**
+     * @todo remove technical-debt
+     *
      * @param {String} tag
      * @returns {Void}
      */
@@ -120,6 +128,8 @@ class BookMarkService {
 
 
     /**
+     * @todo remove technical-debt
+     *
      * @param {Array} data
      * @returns {Void}
      */
@@ -130,6 +140,7 @@ class BookMarkService {
 
 
     /**
+     * @todo remove technical-debt
      * @returns {Array}
      */
     async getUsernameToProcess() {
@@ -140,6 +151,8 @@ class BookMarkService {
 
 
     /**
+     * @todo remove technical-debt
+     *
      * @param {String} username
      * @returns {Void}
      */
@@ -152,6 +165,8 @@ class BookMarkService {
 
 
     /**
+     * @todo remove technical-debt
+     *
      * @param {Array} data
      * @returns {Void}
      */
@@ -161,6 +176,8 @@ class BookMarkService {
     }
 
     /**
+     * @todo remove technical-debt
+     *
      * @param {Array} data
      * @returns {Void}
      */
