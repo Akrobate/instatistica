@@ -4,14 +4,33 @@ const {
     BookMarkService,
 } = require('./BookMarkService');
 
+const {
+    JsonFileRepository,
+} = require('../repositories');
+
 class TagBookMarkService extends BookMarkService {
 
     /**
+     * @param {JsonFileRepository} json_file_repository
      * @retruns {TagBookMarkService}
      */
-    constructor() {
-        super();
+    constructor(json_file_repository) {
+        super(json_file_repository);
         this.filename = 'tags_to_process.json';
+    }
+
+    /**
+     * @static
+     * @returns {BookMarkService}
+     */
+    static getInstance() {
+        if (TagBookMarkService.instance) {
+            return TagBookMarkService.instance;
+        }
+        TagBookMarkService.instance = new TagBookMarkService(
+            JsonFileRepository.getInstance()
+        );
+        return TagBookMarkService.instance;
     }
 
 }
