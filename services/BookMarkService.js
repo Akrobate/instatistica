@@ -218,7 +218,6 @@ class BookMarkService {
 
 
     /**
-     * @todo remove technical-debt
      *
      * @param {Array} book_mark_list
      * @returns {Void}
@@ -237,6 +236,30 @@ class BookMarkService {
             }
         });
         await this.save(saved_book_mark_list);
+    }
+
+
+    /**
+     *
+     * @param {Array} book_mark_list
+     * @returns {Void}
+     */
+    async deleteAll() {
+        this.json_file_repository.setFileName(this.book_mark_filename);
+        await this.json_file_repository.removeData();
+    }
+
+
+    /**
+     *
+     * @param {String} item
+     * @returns {Void}
+     */
+    async setProcessedItem(item) {
+        const book_mark_list = await this.getTagsToProcess();
+        const index = book_mark_list.findIndex((book_mark) => book_mark.name === item);
+        book_mark_list[index].status = BookMarkService.PROCESSED;
+        await this.save(book_mark_list);
     }
 }
 
