@@ -21,7 +21,7 @@ const tag_book_mark_service = new TagBookMarkService(json_file_repository);
 
 const stubs = {};
 
-describe.only('TagBookMarkService functional test', () => {
+describe('TagBookMarkService functional test', () => {
 
     beforeEach(async () => {
         stubs.getDataFolder = stub(json_file_repository, 'getDataFolder')

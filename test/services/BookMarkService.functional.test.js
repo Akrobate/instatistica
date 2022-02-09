@@ -21,7 +21,7 @@ const class_book_mark_service = new BookMarkService(json_file_repository);
 
 const stubs = {};
 
-describe('test', () => {
+describe('BookMarkService functional test', () => {
 
     beforeEach(async () => {
         stubs.getDataFolder = stub(json_file_repository, 'getDataFolder')
