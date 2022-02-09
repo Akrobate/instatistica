@@ -16,7 +16,7 @@ class TagBookMarkService extends BookMarkService {
      */
     constructor(json_file_repository) {
         super(json_file_repository);
-        this.filename = 'tags_to_process.json';
+        this.book_mark_filename = 'tags_to_process.json';
     }
 
     /**

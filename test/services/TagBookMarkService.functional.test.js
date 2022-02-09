@@ -17,18 +17,18 @@ const {
 } = require('chai');
 
 const json_file_repository = new JsonFileRepository();
-const class_book_mark_service = new TagBookMarkService(json_file_repository);
+const tag_book_mark_service = new TagBookMarkService(json_file_repository);
 
 const stubs = {};
 
-describe('test', () => {
+describe.only('TagBookMarkService functional test', () => {
 
     beforeEach(async () => {
         stubs.getDataFolder = stub(json_file_repository, 'getDataFolder')
             .callsFake(() => `${__dirname}/../data_working_folder/`);
         try {
-            await class_book_mark_service.deleteAllTagsToProcess();
-            await class_book_mark_service.deleteAllUsernameToProcess();
+            await tag_book_mark_service.deleteAllTagsToProcess();
+            await tag_book_mark_service.deleteAllUsernameToProcess();
         } catch (error) {
             console.log('No file to delete, error: ', error);
         }
@@ -46,15 +46,15 @@ describe('test', () => {
     });
 
 
-    it('Should be able to save file with tags saveAndDeduplicateTagsListToProcess', async () => {
+    it('Should be able to save file with tags saveAndDeduplicateList', async () => {
 
         const tag_list = [
             'tag_1',
             'tag_2',
             'tag_3',
         ];
-        await class_book_mark_service.saveAndDeduplicateTagsListToProcess(tag_list);
-        const tags_to_process = await class_book_mark_service.getTagsToProcess();
+        await tag_book_mark_service.saveAndDeduplicateList(tag_list);
+        const tags_to_process = await tag_book_mark_service.search();
 
         const [
             tag_1,
