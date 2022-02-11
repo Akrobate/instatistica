@@ -72,4 +72,32 @@ describe('TagBookMarkService functional test', () => {
     });
 
 
+    it('Should be able to change tag to processed', async () => {
+
+        const tag_list = [
+            'tag_1',
+            'tag_2',
+            'tag_3',
+        ];
+        await tag_book_mark_service.saveAndDeduplicateList(tag_list);
+        await tag_book_mark_service.setProcessedItem('tag_2');
+        const tags_to_process = await tag_book_mark_service.search();
+
+        const [
+            tag_1,
+            tag_2,
+            tag_3,
+        ] = tags_to_process;
+
+        expect(tag_1).to.have.property('name', 'tag_1');
+        expect(tag_1).to.have.property('status', 'TO_PROCESS');
+
+        expect(tag_2).to.have.property('name', 'tag_2');
+        expect(tag_2).to.have.property('status', 'PROCESSED');
+
+        expect(tag_3).to.have.property('name', 'tag_3');
+        expect(tag_3).to.have.property('status', 'TO_PROCESS');
+
+    });
+
 });
