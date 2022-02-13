@@ -27,8 +27,7 @@ describe('TagBookMarkService functional test', () => {
         stubs.getDataFolder = stub(json_file_repository, 'getDataFolder')
             .callsFake(() => `${__dirname}/../data_working_folder/`);
         try {
-            await tag_book_mark_service.deleteAllTagsToProcess();
-            await tag_book_mark_service.deleteAllUsernameToProcess();
+            await tag_book_mark_service.deleteAll();
         } catch (error) {
             console.log('No file to delete, error: ', error);
         }
