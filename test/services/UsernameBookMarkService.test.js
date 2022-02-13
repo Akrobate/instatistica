@@ -27,8 +27,7 @@ describe('UsernameBookMarkService functional test', () => {
         stubs.getDataFolder = stub(json_file_repository, 'getDataFolder')
             .callsFake(() => `${__dirname}/../data_working_folder/`);
         try {
-            await username_book_mark_service.deleteAllUsernamesToProcess();
-            await username_book_mark_service.deleteAllUsernameToProcess();
+            await username_book_mark_service.deleteAll();
         } catch (error) {
             console.log('No file to delete, error: ', error);
         }
@@ -82,7 +81,6 @@ describe('UsernameBookMarkService functional test', () => {
         await username_book_mark_service.saveAndDeduplicateList(username_list);
         await username_book_mark_service.setProcessedItem('username_2');
         const usernames_to_process = await username_book_mark_service.search();
-
         const [
             username_1,
             username_2,

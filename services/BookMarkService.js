@@ -198,7 +198,7 @@ class BookMarkService {
         try {
             book_mark_list = await this.json_file_repository.getData();
         } catch (error) {
-            console.log('No tag json file found, error: ', error.message);
+            console.log('No json file found, error: ', error.message);
         }
         if (status !== null) {
             return book_mark_list.filter((book_mark) => book_mark.status === status);
@@ -256,7 +256,7 @@ class BookMarkService {
      * @returns {Void}
      */
     async setProcessedItem(item) {
-        const book_mark_list = await this.getTagsToProcess();
+        const book_mark_list = await this.search();
         const index = book_mark_list.findIndex((book_mark) => book_mark.name === item);
         book_mark_list[index].status = BookMarkService.PROCESSED;
         await this.save(book_mark_list);
