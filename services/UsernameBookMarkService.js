@@ -1,14 +1,14 @@
 'use strict';
 
 const {
-    BookMarkService,
-} = require('./BookMarkService');
+    AbstractBookMarkService,
+} = require('./AbstractBookMarkService');
 
 const {
     JsonFileRepository,
 } = require('../repositories');
 
-class UsernameBookMarkService extends BookMarkService {
+class UsernameBookMarkService extends AbstractBookMarkService {
 
     /**
      * @param {JsonFileRepository} json_file_repository

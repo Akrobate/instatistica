@@ -1,9 +1,9 @@
 'use strict';
 
 const {
-    BookMarkService,
+    AbstractBookMarkService,
     book_mark_service,
-} = require('./BookMarkService');
+} = require('./AbstractBookMarkService');
 
 const {
     TagBookMarkService,
@@ -16,7 +16,7 @@ const {
 } = require('./UsernameBookMarkService');
 
 module.exports = {
-    BookMarkService,
+    AbstractBookMarkService,
     book_mark_service,
     TagBookMarkService,
     tag_book_mark_service,

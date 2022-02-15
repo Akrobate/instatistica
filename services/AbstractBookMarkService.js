@@ -4,7 +4,7 @@ const {
     JsonFileRepository,
 } = require('../repositories');
 
-class BookMarkService {
+class AbstractBookMarkService {
 
 
     /**
@@ -34,23 +34,23 @@ class BookMarkService {
 
     /**
      * @static
-     * @returns {BookMarkService}
+     * @returns {AbstractBookMarkService}
      */
     static getInstance() {
-        if (BookMarkService.instance) {
-            return BookMarkService.instance;
+        if (AbstractBookMarkService.instance) {
+            return AbstractBookMarkService.instance;
         }
-        BookMarkService.instance = BookMarkService.buildInstance();
-        return BookMarkService.instance;
+        AbstractBookMarkService.instance = AbstractBookMarkService.buildInstance();
+        return AbstractBookMarkService.instance;
     }
 
 
     /**
      * @static
-     * @returns {BookMarkService}
+     * @returns {AbstractBookMarkService}
      */
     static buildInstance() {
-        return new BookMarkService(
+        return new AbstractBookMarkService(
             JsonFileRepository.getInstance()
         );
     }
@@ -99,7 +99,7 @@ class BookMarkService {
             ) {
                 saved_book_mark_list.push({
                     name: item,
-                    status: BookMarkService.TO_PROCESS,
+                    status: AbstractBookMarkService.TO_PROCESS,
                 });
             }
         });
@@ -126,15 +126,15 @@ class BookMarkService {
     async setProcessedItem(item) {
         const book_mark_list = await this.search();
         const index = book_mark_list.findIndex((book_mark) => book_mark.name === item);
-        book_mark_list[index].status = BookMarkService.PROCESSED;
+        book_mark_list[index].status = AbstractBookMarkService.PROCESSED;
         await this.save(book_mark_list);
     }
 }
 
-BookMarkService.instance = null;
-const book_mark_service = BookMarkService.buildInstance();
+AbstractBookMarkService.instance = null;
+const book_mark_service = AbstractBookMarkService.buildInstance();
 
 module.exports = {
-    BookMarkService,
+    AbstractBookMarkService,
     book_mark_service,
 };
