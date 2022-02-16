@@ -1,8 +1,8 @@
 'use strict';
 
 const {
-    book_mark_service,
-    BookMarkService,
+    TagBookMarkService,
+    tag_book_mark_service,
 } = require('../services');
 
 
@@ -23,7 +23,7 @@ const auth = require('../auth');
 
     await login_step.process(page, auth);
 
-    const tag_list = await book_mark_service.getTagsToProcess(BookMarkService.TO_PROCESS);
+    const tag_list = await tag_book_mark_service.search(TagBookMarkService.TO_PROCESS);
 
     for (const tag of tag_list) {
         await navigate_to_tag_step.process(page, tag);
@@ -59,7 +59,7 @@ const auth = require('../auth');
             }
         }
 
-        await book_mark_service.bookMarkTag(tag);
+        await tag_book_mark_service.setProcessedItem(tag);
     }
 
 })();

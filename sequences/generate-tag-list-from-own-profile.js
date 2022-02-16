@@ -1,7 +1,7 @@
 'use strict';
 
 const {
-    book_mark_service,
+    tag_book_mark_service,
 } = require('../services');
 
 
@@ -34,6 +34,6 @@ const user_to_get_tags_from = '';
     }
     tag_list = [...new Set(tag_list)];
 
-    await book_mark_service.saveAndDeduplicateTagsListToProcess(tag_list);
+    await tag_book_mark_service.saveAndDeduplicate(tag_list);
 
 })();
