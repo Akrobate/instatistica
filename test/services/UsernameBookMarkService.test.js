@@ -98,4 +98,20 @@ describe('UsernameBookMarkService functional test', () => {
 
     });
 
+
+    it('Should be able to delete username data', async () => {
+
+        const username_list = [
+            'username_1',
+        ];
+        await username_book_mark_service.saveAndDeduplicateList(username_list);
+        const usernames_to_process = await username_book_mark_service.search();
+        expect(usernames_to_process).to.be.an('Array').and.have.lengthOf(1);
+
+        await username_book_mark_service.deleteAll();
+        const usernames_to_process_after_delete = await username_book_mark_service.search();
+
+        expect(usernames_to_process_after_delete).to.be.an('Array').and.have.lengthOf(0);
+    });
+
 });
