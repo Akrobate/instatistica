@@ -99,4 +99,20 @@ describe('TagBookMarkService functional test', () => {
 
     });
 
+
+    it('Should be able to delete all tag data', async () => {
+
+        const username_list = [
+            'tag_1',
+        ];
+        await tag_book_mark_service.saveAndDeduplicateList(username_list);
+        const usernames_to_process = await tag_book_mark_service.search();
+        expect(usernames_to_process).to.be.an('Array').and.have.lengthOf(1);
+
+        await tag_book_mark_service.deleteAll();
+        const usernames_to_process_after_delete = await tag_book_mark_service.search();
+
+        expect(usernames_to_process_after_delete).to.be.an('Array').and.have.lengthOf(0);
+    });
+
 });

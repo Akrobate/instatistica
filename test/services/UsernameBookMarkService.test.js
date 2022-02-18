@@ -99,7 +99,7 @@ describe('UsernameBookMarkService functional test', () => {
     });
 
 
-    it('Should be able to delete username data', async () => {
+    it('Should be able to delete add username data', async () => {
 
         const username_list = [
             'username_1',
