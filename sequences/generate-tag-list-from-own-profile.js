@@ -24,7 +24,7 @@ const user_to_get_tags_from = '';
     await login_step.process(page, auth);
 
     await navigate_to_profile_step.process(page, user_to_get_tags_from);
-    const post_list = await navigate_to_profile_step.processGetAllPostsList();
+    const post_list = await navigate_to_profile_step.processGetAllPostsList(page);
 
     let tag_list = [];
     for (const post of post_list) {

@@ -27,7 +27,7 @@ class InitPuppeteerStep extends AbstractStep {
      */
     async process() {
         this.browser = await puppeteer.launch();
-        this.page = await browser.newPage();
+        this.page = await this.browser.newPage();
         return this;
     }
 
