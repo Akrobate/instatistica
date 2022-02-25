@@ -68,7 +68,6 @@ class NavigateToPostStep extends AbstractStep {
 
 
     /**
-     * @todo
      * @param {Object} page
      * @returns {String}
      */
