@@ -2,6 +2,14 @@
 
 class TerminalInputService {
 
+
+    /**
+     * @param {Object} process_argv
+     */
+    constructor(process_argv) {
+        this.argv = process_argv;
+    }
+
     /**
      * {
      *      outuput: <String>
