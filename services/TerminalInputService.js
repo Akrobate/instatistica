@@ -20,21 +20,19 @@ class TerminalInputService {
      * @return {array}
      */
     extractParams(params_schema = {}) {
-
         const {
-            params_list,
+            param_list,
+            // eslint-disable-next-line no-unused-vars
             help_message,
         } = params_schema;
 
-        const params = process.argv;
-        if (process.argv[2] === undefined || process.argv[3] === undefined) {
-            console.log(help_message);
-            process.exit(1);
-        }
+        const param_argv_shift = 2;
+        const output = {};
+        param_list.forEach((param) => {
+            output[param.outuput] = this.argv[param_argv_shift + param.position];
+        });
 
-        let following_lock_file = null;
-        let followers_file = process.argv[2];
-        let following_file = process.argv[3];
+        return output;
     }
 }
 

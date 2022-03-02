@@ -10,21 +10,41 @@ const {
 describe('TerminalInputService', () => {
 
     it('Should be able to parse input', () => {
-        const argv = [];
-        const terminal_input_service = new TerminalInputService(argv);
+        const argv_seed = [
+            '__TECHNICAL_PARAM',
+            '__TECHNICAL_PARAM',
+            'value_param_1',
+            'value_param_2',
+            'value_param_3',
+        ];
+        const terminal_input_service = new TerminalInputService(argv_seed);
 
-        const params = [
+        const param_list = [
             {
-                outuput: 'first_param',
+                outuput: 'param_1',
+                position: 0,
+                required: true,
+            },
+            {
+                outuput: 'param_2',
                 position: 1,
                 required: true,
+            },
+            {
+                outuput: 'param_3',
+                position: 2,
+                required: false,
             },
         ];
 
         const result = terminal_input_service.extractParams({
-            params,
+            param_list,
+            help_message: 'MESSAGE',
         });
 
         expect(result).to.be.an('Object');
+        expect(result).to.have.property('param_1', 'value_param_1');
+        expect(result).to.have.property('param_2', 'value_param_2');
+        expect(result).to.have.property('param_3', 'value_param_3');
     });
 });
