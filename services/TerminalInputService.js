@@ -29,16 +29,30 @@ class TerminalInputService {
         const param_argv_shift = 2;
         const output = {};
         param_list.forEach((param) => {
-            output[param.outuput] = this.argv[param_argv_shift + param.position];
+            output[param.outuput] = this
+                .returnNullIfUndefinedArgv(param_argv_shift + param.position);
         });
 
         return output;
     }
+
+
+    /**
+     * @param {Array} argv_position
+     * @return {String|Null}
+     */
+    returnNullIfUndefinedArgv(argv_position) {
+        if (this.argv[argv_position] === undefined) {
+            return null;
+        }
+        return this.argv[argv_position];
+    }
+
 }
 
 const terminal_input_service = new TerminalInputService();
 
-export {
+module.exports = {
     TerminalInputService,
     terminal_input_service,
 };
