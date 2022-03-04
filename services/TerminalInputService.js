@@ -33,6 +33,11 @@ class TerminalInputService {
                 .returnNullIfUndefinedArgv(param_argv_shift + param.position);
         });
 
+        if (!this.checkRequireParam(param_list, output)) {
+            this.outputMessage(help_message);
+            return null;
+        }
+
         return output;
     }
 
@@ -46,6 +51,26 @@ class TerminalInputService {
             return null;
         }
         return this.argv[argv_position];
+    }
+
+
+    /**
+     * @todo
+     * @param {Object} param_list
+     * @param {Object} output
+     * @return {bool}
+     */
+    checkRequireParam(param_list, output) {
+        return true;
+    }
+
+
+    /**
+     * @param {String} message
+     * @return {Void}
+     */
+    outputMessage(message) {
+        console.log(message);
     }
 
 }
