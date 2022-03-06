@@ -61,7 +61,9 @@ class TerminalInputService {
      * @return {bool}
      */
     checkRequireParam(param_list, output) {
-        return true;
+        const required_params_missing = param_list
+            .map((param) => output[param.output] === null && param.required);
+        return !required_params_missing.includes(true);
     }
 
 
