@@ -120,4 +120,23 @@ describe.only('TerminalInputService', () => {
 
         expect(result).to.equal(null);
     });
+
+    describe('Submethods test', () => {
+
+        it('checkRequireParam - Nominal case', () => {
+            const terminal_input_service = new TerminalInputService();
+
+            const param_list = [
+
+            ];
+
+            const output = [
+
+            ];
+
+            const response = terminal_input_service(param_list, output);
+            expect(response).to.equal(true);
+        });
+
+    });
 });
