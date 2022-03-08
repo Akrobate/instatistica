@@ -7,7 +7,7 @@ const {
     TerminalInputService,
 } = require('../../services/TerminalInputService');
 
-describe.only('TerminalInputService', () => {
+describe('TerminalInputService', () => {
 
     it('Should be able to parse input', () => {
         const argv_seed = [
@@ -21,17 +21,17 @@ describe.only('TerminalInputService', () => {
 
         const param_list = [
             {
-                outuput: 'param_1',
+                output: 'param_1',
                 position: 0,
                 required: true,
             },
             {
-                outuput: 'param_2',
+                output: 'param_2',
                 position: 1,
                 required: true,
             },
             {
-                outuput: 'param_3',
+                output: 'param_3',
                 position: 2,
                 required: false,
             },
@@ -59,17 +59,17 @@ describe.only('TerminalInputService', () => {
 
         const param_list = [
             {
-                outuput: 'param_1',
+                output: 'param_1',
                 position: 0,
                 required: true,
             },
             {
-                outuput: 'param_2',
+                output: 'param_2',
                 position: 1,
                 required: true,
             },
             {
-                outuput: 'param_3',
+                output: 'param_3',
                 position: 2,
                 required: false,
             },
@@ -97,17 +97,17 @@ describe.only('TerminalInputService', () => {
 
         const param_list = [
             {
-                outuput: 'param_1',
+                output: 'param_1',
                 position: 0,
                 required: true,
             },
             {
-                outuput: 'param_2',
+                output: 'param_2',
                 position: 1,
                 required: true,
             },
             {
-                outuput: 'param_3',
+                output: 'param_3',
                 position: 2,
                 required: true,
             },

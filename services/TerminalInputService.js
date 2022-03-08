@@ -12,7 +12,7 @@ class TerminalInputService {
 
     /**
      * {
-     *      outuput: <String>
+     *      output: <String>
      *      position: <Int>
      *      required: <Bool> Default true
      * }
@@ -29,7 +29,7 @@ class TerminalInputService {
         const param_argv_shift = 2;
         const output = {};
         param_list.forEach((param) => {
-            output[param.outuput] = this
+            output[param.output] = this
                 .returnNullIfUndefinedArgv(param_argv_shift + param.position);
         });
 
