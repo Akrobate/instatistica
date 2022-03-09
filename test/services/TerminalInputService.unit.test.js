@@ -127,14 +127,74 @@ describe('TerminalInputService', () => {
             const terminal_input_service = new TerminalInputService();
 
             const param_list = [
-
+                {
+                    output: 'param_1',
+                    position: 0,
+                    required: true,
+                },
+                {
+                    output: 'param_2',
+                    position: 1,
+                    required: true,
+                },
             ];
 
-            const output = [
+            const output = {
+                param_1: 'something',
+                param_2: 'something',
+            };
 
+            const response = terminal_input_service.checkRequireParam(param_list, output);
+            expect(response).to.equal(true);
+        });
+
+        it('checkRequireParam - Missing required param', () => {
+            const terminal_input_service = new TerminalInputService();
+
+            const param_list = [
+                {
+                    output: 'param_1',
+                    position: 0,
+                    required: true,
+                },
+                {
+                    output: 'param_2',
+                    position: 1,
+                    required: true,
+                },
             ];
 
-            const response = terminal_input_service(param_list, output);
+            const output = {
+                param_1: 'something',
+                param_2: null,
+            };
+
+            const response = terminal_input_service.checkRequireParam(param_list, output);
+            expect(response).to.equal(false);
+        });
+
+        it('checkRequireParam - Optionnal param can be null', () => {
+            const terminal_input_service = new TerminalInputService();
+
+            const param_list = [
+                {
+                    output: 'param_1',
+                    position: 0,
+                    required: true,
+                },
+                {
+                    output: 'param_2',
+                    position: 1,
+                    required: false,
+                },
+            ];
+
+            const output = {
+                param_1: 'something',
+                param_2: null,
+            };
+
+            const response = terminal_input_service.checkRequireParam(param_list, output);
             expect(response).to.equal(true);
         });
 
