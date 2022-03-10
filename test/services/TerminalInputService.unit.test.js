@@ -4,10 +4,16 @@ const {
     expect,
 } = require('chai');
 const {
+    mock,
+} = require('sinon');
+
+const {
     TerminalInputService,
 } = require('../../services/TerminalInputService');
 
 describe('TerminalInputService', () => {
+
+    const mocks = {};
 
     it('Should be able to parse input', () => {
         const argv_seed = [
@@ -87,6 +93,7 @@ describe('TerminalInputService', () => {
     });
 
     it('Should log help if required param is not defined', () => {
+
         const argv_seed = [
             '__TECHNICAL_PARAM',
             '__TECHNICAL_PARAM',
@@ -94,6 +101,7 @@ describe('TerminalInputService', () => {
             'value_param_2',
         ];
         const terminal_input_service = new TerminalInputService(argv_seed);
+        mocks.terminal_input_service = mock(terminal_input_service);
 
         const param_list = [
             {
@@ -119,6 +127,12 @@ describe('TerminalInputService', () => {
         });
 
         expect(result).to.equal(null);
+        mocks.terminal_input_service
+            .expect('outputMessage')
+            .once()
+            .withArgs('REQUIRED PARAM MISSING: command example');
+        mocks.terminal_input_service.restore();
+
     });
 
     describe('Submethods test', () => {
