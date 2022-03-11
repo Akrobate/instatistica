@@ -212,5 +212,29 @@ describe('TerminalInputService', () => {
             expect(response).to.equal(true);
         });
 
+        it('checkRequireParam - All optionnal param can be null', () => {
+            const terminal_input_service = new TerminalInputService();
+
+            const param_list = [
+                {
+                    output: 'param_1',
+                    position: 0,
+                    required: false,
+                },
+                {
+                    output: 'param_2',
+                    position: 1,
+                    required: false,
+                },
+            ];
+
+            const output = {
+                param_1: null,
+                param_2: null,
+            };
+
+            const response = terminal_input_service.checkRequireParam(param_list, output);
+            expect(response).to.equal(true);
+        });
     });
 });
