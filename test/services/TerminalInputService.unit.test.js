@@ -128,7 +128,7 @@ describe('TerminalInputService', () => {
 
         expect(result).to.equal(null);
         mocks.terminal_input_service
-            .expect('outputMessage')
+            .expects('outputMessage')
             .once()
             .withArgs('REQUIRED PARAM MISSING: command example');
         mocks.terminal_input_service.restore();
