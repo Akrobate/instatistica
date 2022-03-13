@@ -1,5 +1,9 @@
 /**
  * Script to remove all screenshots
+ *
+ * Removes all screen shots from folders
+ * @params SCREENSHOT_FOLDER Path to screenshot
+ * @params SCREENSHOT_EXTENTION Filter file extention
  */
 
 const {
