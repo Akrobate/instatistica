@@ -3,7 +3,9 @@
 const {
     JsonFileRepository,
 } = require('../repositories');
-
+const {
+    logger,
+} = require('../logger');
 class AbstractBookMarkService {
 
 
@@ -66,7 +68,7 @@ class AbstractBookMarkService {
         try {
             book_mark_list = await this.json_file_repository.getData();
         } catch (error) {
-            console.log('No json file found, error: ', error.message);
+            logger.log('No json file found, error: ', error.message);
         }
         if (status !== null) {
             return book_mark_list.filter((book_mark) => book_mark.status === status);

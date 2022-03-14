@@ -1,5 +1,9 @@
 'use strict';
 
+const {
+    logger,
+} = require('../logger');
+
 class TerminalInputService {
 
 
@@ -72,7 +76,7 @@ class TerminalInputService {
      * @return {Void}
      */
     outputMessage(message) {
-        console.log(message);
+        logger.info(message);
     }
 
 }
