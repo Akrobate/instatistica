@@ -23,7 +23,9 @@
   "homepage": "https://github.com/Akrobate/instatistica#readme",
   "dependencies": {
     "minimist": "^1.2.0",
-    "puppeteer": "^13.0.0"
+    "puppeteer": "^13.0.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
   },
   "devDependencies": {
     "chai": "^4.3.4",
