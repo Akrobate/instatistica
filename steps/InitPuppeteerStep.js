@@ -2,7 +2,15 @@
 
 'use strict';
 
-const puppeteer = require('puppeteer');
+//const puppeteer = require('puppeteer');
+
+const puppeteer = require('puppeteer-extra')
+
+// add stealth plugin and use defaults (all evasion techniques)
+const StealthPlugin = require('puppeteer-extra-plugin-stealth')
+puppeteer.use(StealthPlugin())
+
+
 
 const {
     AbstractStep,
@@ -37,6 +45,14 @@ class InitPuppeteerStep extends AbstractStep {
      */
     getPage() {
         return this.page;
+    }
+
+
+    /**
+     * @returns {Object}
+     */
+    getBrowser() {
+        return this.browser;
     }
 
 }
