@@ -25,15 +25,22 @@ const {
     init_puppeteer_step,
 } = require('./InitPuppeteerStep');
 
+const {
+    NavigateToUrlStep,
+    navigate_to_url_step,
+} = require('./NavigateToUrlStep');
+
 module.exports = {
     NavigateToTagStep,
     NavigateToProfileStep,
     LoginStep,
     NavigateToPostStep,
     InitPuppeteerStep,
+    NavigateToUrlStep,
     login_step,
     navigate_to_tag_step,
     navigate_to_profile_step,
     navigate_to_post_step,
     init_puppeteer_step,
+    navigate_to_url_step,
 };
