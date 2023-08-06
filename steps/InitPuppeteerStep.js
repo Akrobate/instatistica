@@ -10,8 +10,6 @@ const puppeteer = require('puppeteer-extra')
 const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 puppeteer.use(StealthPlugin())
 
-
-
 const {
     AbstractStep,
 } = require('./AbstractStep');
@@ -25,6 +23,7 @@ class InitPuppeteerStep extends AbstractStep {
         this.activate_screen_shots = true;
         this.browser = null;
         this.page = null;
+        this.headless = true;
     }
 
 
@@ -34,7 +33,10 @@ class InitPuppeteerStep extends AbstractStep {
      * @returns {void}
      */
     async process() {
-        this.browser = await puppeteer.launch();
+        this.browser = await puppeteer.launch({
+            headless: this.headless,
+            userDataDir: "./user_data"
+        });
         this.page = await this.browser.newPage();
         return this;
     }
