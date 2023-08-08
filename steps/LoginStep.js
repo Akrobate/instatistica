@@ -67,46 +67,6 @@ console.log("waitForSelector('.bIiDR'")
         await this.screenshot(page);
     }
 
-
-    async saveSession(page) {
-        const cookies = JSON.stringify(await page.cookies());
-        const sessionStorage = await page.evaluate(() =>JSON.stringify(sessionStorage));
-        const localStorage = await page.evaluate(() => JSON.stringify(localStorage));
-    
-        await fs.writeFile("./cookies.json", cookies);
-        await fs.writeFile("./sessionStorage.json", sessionStorage);
-        await fs.writeFile("./localStorage.json", localStorage);
-
-    }
-
-
-    async restoreSession(page) {
-
-        const cookiesString = await fs.readFile("./cookies.json");
-        const cookies = JSON.parse(cookiesString);
-
-        const sessionStorageString = await fs.readFile("./sessionStorage.json");
-        const sessionStorage = JSON.parse(sessionStorageString);
-
-        const localStorageString = await fs.readFile("./localStorage.json");
-        const localStorage = JSON.parse(localStorageString);
-
-        await page.setCookie(...cookies);
-
-        console.log("here 111111111111111111111")
-        await page.evaluate((data) => {
-            for (const [key, value] of Object.entries(data)) {
-            sessionStorage[key] = value;
-            }
-        }, sessionStorage);
-        console.log("here 2222222222222222222222222")
-        await page.evaluate((data) => {
-            for (const [key, value] of Object.entries(data)) {
-            localStorage[key] = value;
-            }
-        }, sessionStorage);
-    }
-
 }
 
 const login_step = new LoginStep();
