@@ -35,9 +35,19 @@ class InitPuppeteerStep extends AbstractStep {
     async process() {
         this.browser = await puppeteer.launch({
             headless: this.headless,
-            userDataDir: "./user_data"
+            userDataDir: "./user_data",
+            args:[
+                '--start-maximized' // you can also use '--start-fullscreen'
+            ]
         });
+
         this.page = await this.browser.newPage();
+
+        await this.page.setViewport({
+            width: 1920,
+            height: 1080,
+        });
+
         return this;
     }
 
