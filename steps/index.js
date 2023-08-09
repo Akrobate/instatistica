@@ -30,6 +30,11 @@ const {
     navigate_to_url_step,
 } = require('./NavigateToUrlStep');
 
+const {
+    ExtractFollowersStep,
+    extract_followers_step,
+} = require('./ExtractFollowersStep');
+
 module.exports = {
     NavigateToTagStep,
     NavigateToProfileStep,
@@ -37,10 +42,12 @@ module.exports = {
     NavigateToPostStep,
     InitPuppeteerStep,
     NavigateToUrlStep,
+    ExtractFollowersStep,
     login_step,
     navigate_to_tag_step,
     navigate_to_profile_step,
     navigate_to_post_step,
     init_puppeteer_step,
     navigate_to_url_step,
+    extract_followers_step,
 };
