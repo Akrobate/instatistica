@@ -37,7 +37,7 @@ class InitPuppeteerStep extends AbstractStep {
             headless: this.headless,
             userDataDir: "./user_data",
             args:[
-                '--start-maximized' // you can also use '--start-fullscreen'
+                '--start-maximized' // or '--start-fullscreen'
             ]
         });
 
@@ -67,6 +67,15 @@ class InitPuppeteerStep extends AbstractStep {
         return this.browser;
     }
 
+
+    /**
+     * @returns {Promise<void>}
+     */
+    async stop() {
+        await this.page.close();
+        await this.browser.close();
+    }
+    
 }
 
 const init_puppeteer_step = new InitPuppeteerStep();
