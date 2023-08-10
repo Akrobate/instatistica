@@ -65,6 +65,11 @@ class AbstractStep {
     process() {
         throw new Error('Process should be overwritten');
     }
+
+
+    randomInteger(min, max) {
+        return min + Math.ceil(Math.random() * (max - min));
+    }
 }
 
 module.exports = {
