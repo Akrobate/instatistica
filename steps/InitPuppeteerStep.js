@@ -24,7 +24,11 @@ class InitPuppeteerStep extends AbstractStep {
         this.browser = null;
         this.page = null;
         this.headless = true;
+
+        this.user_data_dir = null;
     }
+
+
 
 
     /**
@@ -33,14 +37,28 @@ class InitPuppeteerStep extends AbstractStep {
      * @returns {void}
      */
     async process() {
-        this.browser = await puppeteer.launch({
-            headless: this.headless,
-            userDataDir: "./user_data",
-            args:[
-                '--start-maximized' // or '--start-fullscreen'
-            ]
-        });
 
+        let config = {
+            headless: this.headless,
+        }
+
+        if (this.headless === false) {
+            config = {
+                ...config,
+                args: [
+                    '--start-maximized' // or '--start-fullscreen'
+                ]
+            }
+        }
+
+        if (this.user_data_dir !== null) {
+            config = {
+                ...config,
+                userDataDir: this.user_data_dir,    
+            }
+        }
+
+        this.browser = await puppeteer.launch(config);
         this.page = await this.browser.newPage();
 
         await this.page.setViewport({
@@ -50,6 +68,17 @@ class InitPuppeteerStep extends AbstractStep {
 
         return this;
     }
+
+
+
+    /**
+     * @returns {Promise<void>}
+     */
+    async stop() {
+        await this.page.close();
+        await this.browser.close();
+    }
+    
 
 
     /**
@@ -67,15 +96,14 @@ class InitPuppeteerStep extends AbstractStep {
         return this.browser;
     }
 
-
-    /**
-     * @returns {Promise<void>}
-     */
-    async stop() {
-        await this.page.close();
-        await this.browser.close();
-    }
     
+    /**
+     * @param {String} user_data_dir 
+     */
+    setUserDataDir(user_data_dir = "./user_data") {
+        this.user_data_dir = user_data_dir;
+    }
+
 }
 
 const init_puppeteer_step = new InitPuppeteerStep();
