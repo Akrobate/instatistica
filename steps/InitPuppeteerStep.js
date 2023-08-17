@@ -26,6 +26,9 @@ class InitPuppeteerStep extends AbstractStep {
         this.headless = true;
 
         this.user_data_dir = null;
+
+        this.viewport_width = null;
+        this.viewport_height = null;
     }
 
 
@@ -102,6 +105,16 @@ class InitPuppeteerStep extends AbstractStep {
      */
     setUserDataDir(user_data_dir = "./user_data") {
         this.user_data_dir = user_data_dir;
+    }
+
+    /**
+     * 
+     * @param {Number} width 
+     * @param {Number} height 
+     */
+    setViewportSize(width = 1920, height = 1080) {
+        this.viewport_width = width;
+        this.viewport_height = height;
     }
 
 }
