@@ -10,6 +10,10 @@ const {
  */
 class ConfigurationLoaderService {
 
+    constructor() {
+        this.configuration_files_path = null;
+    }
+
     /**
      * @static
      * @returns {BookMarkService}
@@ -20,6 +24,32 @@ class ConfigurationLoaderService {
             );
         }
         return ConfigurationLoaderService.instance;
+    }
+
+
+    /**
+     * @param {String} configuration_files_path 
+     */
+    setConfigurationFilesPath(configuration_files_path) {
+        this.configuration_files_path = configuration_files_path;
+    }
+
+    /**
+     * @param {String} configuration_files_path 
+     */
+    getConfigurationFilesPath() {
+        return this.configuration_files_path;
+    }
+
+    
+    /**
+     * 
+     */
+    loadConfiguration() {
+        if (this.configuration_files_path === null) {
+            throw new Error('Configuration file path is not set');
+        }
+        return {};
     }
 
 }
