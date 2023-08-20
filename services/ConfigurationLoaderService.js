@@ -30,7 +30,7 @@ class ConfigurationLoaderService {
     /**
      * @param {String} configuration_files_path 
      */
-    setConfigurationFilesPath(configuration_files_path) {
+    setConfigurationFilesPath(configuration_files_path = './data/users_configurations') {
         this.configuration_files_path = configuration_files_path;
     }
 
