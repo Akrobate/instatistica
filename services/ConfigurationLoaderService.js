@@ -10,8 +10,9 @@ const {
  */
 class ConfigurationLoaderService {
 
-    constructor() {
+    constructor(json_file_repository) {
         this.configuration_files_path = null;
+        this.json_file_repository = json_file_repository;
     }
 
     /**
@@ -21,6 +22,7 @@ class ConfigurationLoaderService {
     static getInstance() {
         if (ConfigurationLoaderService.instance === null) {
             ConfigurationLoaderService.instance = new ConfigurationLoaderService(
+                JsonFileRepository.getInstance()
             );
         }
         return ConfigurationLoaderService.instance;
@@ -41,11 +43,12 @@ class ConfigurationLoaderService {
         return this.configuration_files_path;
     }
 
-    
     /**
      * 
+     * @param {String} user_configuration_name 
+     * @returns 
      */
-    loadConfiguration() {
+    loadConfiguration(user_configuration_name) {
         if (this.configuration_files_path === null) {
             throw new Error('Configuration file path is not set');
         }
@@ -55,7 +58,7 @@ class ConfigurationLoaderService {
 }
 
 ConfigurationLoaderService.instance = null;
-const configuration_loader_service = ConfigurationLoaderService.buildInstance();
+const configuration_loader_service = ConfigurationLoaderService.getInstance();
 
 module.exports = {
     ConfigurationLoaderService,
