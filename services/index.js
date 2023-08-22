@@ -15,6 +15,11 @@ const {
     username_book_mark_service,
 } = require('./UsernameBookMarkService');
 
+const {
+    ConfigurationLoaderService,
+    configuration_loader_service,
+} = require('./ConfigurationLoaderService');
+
 module.exports = {
     AbstractBookMarkService,
     book_mark_service,
@@ -22,4 +27,6 @@ module.exports = {
     tag_book_mark_service,
     UsernameBookMarkService,
     username_book_mark_service,
+    ConfigurationLoaderService,
+    configuration_loader_service,
 };
