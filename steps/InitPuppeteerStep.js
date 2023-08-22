@@ -2,13 +2,14 @@
 
 'use strict';
 
-//const puppeteer = require('puppeteer');
+// const puppeteer = require('puppeteer');
 
-const puppeteer = require('puppeteer-extra')
+const puppeteer = require('puppeteer-extra');
 
 // add stealth plugin and use defaults (all evasion techniques)
-const StealthPlugin = require('puppeteer-extra-plugin-stealth')
-puppeteer.use(StealthPlugin())
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+// eslint-disable-next-line new-cap
+puppeteer.use(StealthPlugin());
 
 const {
     AbstractStep,
@@ -32,8 +33,6 @@ class InitPuppeteerStep extends AbstractStep {
     }
 
 
-
-
     /**
      * @param {Object} page
      * @param {String} post_url
@@ -43,22 +42,22 @@ class InitPuppeteerStep extends AbstractStep {
 
         let config = {
             headless: this.headless,
-        }
+        };
 
         if (this.headless === false) {
             config = {
                 ...config,
                 args: [
-                    '--start-maximized' // or '--start-fullscreen'
-                ]
-            }
+                    '--start-maximized', // or '--start-fullscreen'
+                ],
+            };
         }
 
         if (this.user_data_dir !== null) {
             config = {
                 ...config,
-                userDataDir: this.user_data_dir,    
-            }
+                userDataDir: this.user_data_dir,
+            };
         }
 
         this.browser = await puppeteer.launch(config);
@@ -73,7 +72,6 @@ class InitPuppeteerStep extends AbstractStep {
     }
 
 
-
     /**
      * @returns {Promise<void>}
      */
@@ -81,7 +79,6 @@ class InitPuppeteerStep extends AbstractStep {
         await this.page.close();
         await this.browser.close();
     }
-    
 
 
     /**
@@ -99,24 +96,24 @@ class InitPuppeteerStep extends AbstractStep {
         return this.browser;
     }
 
-    
+
     /**
-     * @param {String} user_data_dir 
+     * @param {String} user_data_dir
+     * @return {void}
      */
-    setUserDataDir(user_data_dir = "./user_data") {
+    setUserDataDir(user_data_dir = './user_data') {
         this.user_data_dir = user_data_dir;
     }
 
     /**
-     * 
-     * @param {Number} width 
-     * @param {Number} height 
+     * @param {Number} width
+     * @param {Number} height
+     * @returns {void}
      */
     setViewportSize(width = 1920, height = 1080) {
         this.viewport_width = width;
         this.viewport_height = height;
     }
-
 }
 
 const init_puppeteer_step = new InitPuppeteerStep();
