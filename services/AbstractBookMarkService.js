@@ -63,10 +63,9 @@ class AbstractBookMarkService {
      * @returns {Array}
      */
     async search(status = null) {
-        this.json_file_repository.setFileName(this.book_mark_filename);
         let book_mark_list = [];
         try {
-            book_mark_list = await this.json_file_repository.getData();
+            book_mark_list = await this.json_file_repository.getData(this.book_mark_filename);
         } catch (error) {
             logger.log('No json file found, error: ', error.message);
         }
@@ -82,8 +81,7 @@ class AbstractBookMarkService {
      * @returns {Void}
      */
     async save(data) {
-        this.json_file_repository.setFileName(this.book_mark_filename);
-        await this.json_file_repository.saveData(data);
+        await this.json_file_repository.saveData(data, this.book_mark_filename);
     }
 
 
@@ -115,8 +113,7 @@ class AbstractBookMarkService {
      * @returns {Void}
      */
     async deleteAll() {
-        this.json_file_repository.setFileName(this.book_mark_filename);
-        await this.json_file_repository.removeData();
+        await this.json_file_repository.removeData(this.book_mark_filename);
     }
 
 

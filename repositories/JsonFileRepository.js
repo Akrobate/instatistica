@@ -4,30 +4,12 @@ const fs = require('fs').promises;
 
 class JsonFileRepository {
 
-
     /**
      * @returns {String}
      */
     static get DATA_FOLDER() {
         return `${__dirname}/../data/`;
     }
-
-
-    /**
-     * @returns {String}
-     */
-    static get FILENAME() {
-        return 'default_file.json';
-    }
-
-
-    /**
-     * @returns {String}
-     */
-    getFileName() {
-        return this.constructor.FILENAME;
-    }
-
 
     /**
      * @returns {String}
@@ -42,70 +24,52 @@ class JsonFileRepository {
      * @returns {JsonFileRepository}
      */
     static getInstance() {
-        if (JsonFileRepository.instance) {
-            return JsonFileRepository.instance;
+        if (JsonFileRepository.instance === null) {
+            JsonFileRepository.instance = new JsonFileRepository();
         }
-        JsonFileRepository.instance = new JsonFileRepository();
         return JsonFileRepository.instance;
     }
 
     /**
-     * @returns {JsonFileRepository}
+     * @param {String} filename
+     * @returns {Object}
      */
-    constructor() {
-        this.filename = null;
-    }
-
-    /**
-     * @return {Object}
-     */
-    async getData() {
-        const filename = this.getFileNameWithPath();
-        const string_data = await fs.readFile(filename);
+    async getData(filename) {
+        const string_data = await fs.readFile(
+            `${this.getDataFolder()}${filename}`
+        );
         return JSON.parse(string_data);
     }
 
 
     /**
      * @param {Object} data
+     * @param {String} filename
      * @return {Object}
      */
-    async saveData(data) {
-        const filename = this.getFileNameWithPath();
+    async saveData(data, filename) {
         const string_data = JSON.stringify(data);
-        const response = await fs.writeFile(filename, string_data);
+        const response = await fs.writeFile(
+            `${this.getDataFolder()}${filename}`,
+            string_data
+        );
         return response;
     }
 
-
-    /**
-     * @param {Object} data
-     * @return {Object}
-     */
-    async removeData() {
-        const filename = this.getFileNameWithPath();
-        const response = await fs.unlink(filename);
-        return response;
-    }
-
-
-    /**
-     * @returns {String}
-     */
-    getFileNameWithPath() {
-        return this.filename === null
-            ? `${this.getDataFolder()}${this.getFileName()}`
-            : `${this.getDataFolder()}${this.filename}`;
-    }
 
     /**
      * @param {String} filename
-     * @returns {void}
+     * @return {Object}
      */
-    setFileName(filename) {
-        this.filename = filename;
+    async removeData(filename) {
+        const response = await fs.unlink(
+            `${this.getDataFolder()}${filename}`
+        );
+        return response;
     }
 }
+
+JsonFileRepository.instance = null;
 
 module.exports = {
     JsonFileRepository,
