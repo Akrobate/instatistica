@@ -4,7 +4,7 @@ const {
     stub,
 } = require('sinon');
 
-const MUTE_CONSOLE_LOGS = true;
+const MUTE_CONSOLE_LOGS = false;
 
 const stubs = {};
 
