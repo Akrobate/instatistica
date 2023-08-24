@@ -9,6 +9,12 @@ const {
 } = require('../../repositories');
 
 const {
+    configuration,
+} = require('../../configuration');
+
+const path = require('path');
+
+const {
     stub,
 } = require('sinon');
 
@@ -24,8 +30,8 @@ const stubs = {};
 describe('UsernameBookMarkService functional test', () => {
 
     beforeEach(async () => {
-        stubs.getDataFolder = stub(json_file_repository, 'getDataFolder')
-            .callsFake(() => `${__dirname}/../data_working_folder/`);
+        stubs.getDataFolder = stub(configuration, 'getDataFolder')
+            .callsFake(() => path.join(__dirname, '..', 'data_working_folder'));
         try {
             await username_book_mark_service.deleteAll();
         } catch (error) {
@@ -35,13 +41,6 @@ describe('UsernameBookMarkService functional test', () => {
 
     afterEach(() => {
         stubs.getDataFolder.restore();
-    });
-
-
-    it('Check stub correcty setted the data folder path', (done) => {
-        const data_folder = json_file_repository.getDataFolder();
-        expect(data_folder).to.equal(`${__dirname}/../data_working_folder/`);
-        done();
     });
 
 

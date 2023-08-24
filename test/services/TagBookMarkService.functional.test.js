@@ -8,6 +8,13 @@ const {
     JsonFileRepository,
 } = require('../../repositories');
 
+
+const {
+    configuration,
+} = require('../../configuration');
+
+const path = require('path');
+
 const {
     stub,
 } = require('sinon');
@@ -24,8 +31,8 @@ const stubs = {};
 describe('TagBookMarkService functional test', () => {
 
     beforeEach(async () => {
-        stubs.getDataFolder = stub(json_file_repository, 'getDataFolder')
-            .callsFake(() => `${__dirname}/../data_working_folder/`);
+        stubs.getDataFolder = stub(configuration, 'getDataFolder')
+            .callsFake(() => path.join(__dirname, '..', 'data_working_folder'));
         try {
             await tag_book_mark_service.deleteAll();
         } catch (error) {
@@ -37,14 +44,6 @@ describe('TagBookMarkService functional test', () => {
         stubs.getDataFolder.restore();
     });
 
-
-    it('Check stub correcty setted the data folder path', (done) => {
-        const data_folder = json_file_repository.getDataFolder();
-        expect(data_folder).to.equal(`${__dirname}/../data_working_folder/`);
-        done();
-    });
-
-
     it('Should be able to save file with tags saveAndDeduplicateList', async () => {
 
         const tag_list = [
@@ -54,7 +53,6 @@ describe('TagBookMarkService functional test', () => {
         ];
         await tag_book_mark_service.saveAndDeduplicateList(tag_list);
         const tags_to_process = await tag_book_mark_service.search();
-
         const [
             tag_1,
             tag_2,
