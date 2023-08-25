@@ -50,16 +50,23 @@ class ConfigurationLoaderService {
      * @returns {Object}
      */
     async loadConfiguration(username) {
-        const files = await this.file_repository.listFilesInDirectory(
-            path.join(
-                configuration.getDataFolder(),
-                this.users_files_path,
-                'configurations',
-                username
-            )
+        const user_configuration_path = path.join(
+            this.users_files_path,
+            'configurations',
+            username
         );
-        console.log(files);
-        return {};
+
+        const files = await this.file_repository.listFilesInDirectory(
+            path.join(configuration.getDataFolder(), user_configuration_path)
+        );
+
+        const result = {};
+        for (const file of files) {
+            result[file.replace('.json', '')] = await this.json_file_repository
+                .getData(path.join(user_configuration_path, file));
+        }
+
+        return result;
     }
 
 }
