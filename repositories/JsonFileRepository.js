@@ -8,21 +8,6 @@ const {
 class JsonFileRepository {
 
     /**
-     * @returns {String}
-     */
-    static get DATA_FOLDER() {
-        return `${__dirname}/../data/`;
-    }
-
-    /**
-     * @returns {String}
-     */
-    __getDataFolder() {
-        return this.constructor.DATA_FOLDER;
-    }
-
-
-    /**
      * @static
      * @returns {JsonFileRepository}
      */
