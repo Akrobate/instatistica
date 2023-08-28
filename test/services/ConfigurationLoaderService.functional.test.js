@@ -30,7 +30,7 @@ const configuration_loader_service = new ConfigurationLoaderService(
 
 const stubs = {};
 
-describe.only('ConfigurationLoaderService functional test', () => {
+describe('ConfigurationLoaderService functional test', () => {
 
     beforeEach(() => {
         stubs.getDataFolder = stub(configuration, 'getDataFolder')
@@ -47,6 +47,10 @@ describe.only('ConfigurationLoaderService functional test', () => {
         expect(user_configuration).to.be.an('Object');
         expect(user_configuration).to.have.property('auth');
         expect(user_configuration.auth).to.have.property('username', 'USERNAME_USER_1');
+        expect(user_configuration.auth).to.have.property('password', 'PASSWORD_USER_1');
+
+        expect(user_configuration).to.have.property('random_file');
+        expect(user_configuration.random_file).to.have.property('random_data', 'random_data');
     });
 
 });
