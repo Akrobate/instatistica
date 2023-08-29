@@ -5,17 +5,13 @@ const {
     navigate_to_url_step,
 } = require('../steps');
 
-//const headless_detector_url = 'https://infosimples.github.io/detect-headless/';
+// const headless_detector_url = 'https://infosimples.github.io/detect-headless/';
 const headless_detector_url = 'https://bot.sannysoft.com/';
 
 (async () => {
     init_puppeteer_step.headless = false;
     await init_puppeteer_step.process();
     const page = init_puppeteer_step.getPage();
-
-/*
-    page.setViewport({ width: 1920, height: 1080});
-*/
 
     await navigate_to_url_step.process(page, headless_detector_url);
 
