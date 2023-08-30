@@ -21,9 +21,17 @@ const auth = require('../auth');
     // await login_step.process(page, auth);
 
     await page.goto('https://www.instagram.com/');
-    await page.waitForSelector('svg[aria-label="Search"]');
-    await page.click('svg[aria-label="Search"]');
 
+    try {
+        await page.waitForSelector('svg[aria-label="Search"]');
+    } catch (error) {
+        console.log(error);
+        await login_step.process(page, auth);
+        page.goto('https://www.instagram.com/');
+        await page.waitForSelector('svg[aria-label="Search"]');
+    }
+
+    await page.click('svg[aria-label="Search"]');
 
     // const instagram_name = 'jorleinascimento01';
     const instagram_name = 'ailab_oneart';
