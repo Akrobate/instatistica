@@ -18,8 +18,6 @@ const auth = require('../auth');
     await init_puppeteer_step.process();
     const page = init_puppeteer_step.getPage();
 
-    // await login_step.process(page, auth);
-
     await page.goto('https://www.instagram.com/');
 
     try {
