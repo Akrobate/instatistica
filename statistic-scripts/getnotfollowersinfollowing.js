@@ -1,9 +1,11 @@
 'use strict';
 
 const fs = require('fs');
-const minimist = require('minimist');
 
-let argv = minimist(process.argv.slice(2));
+// To test
+// const minimist = require('minimist');
+// let argv = minimist(process.argv.slice(2));
+
 
 // @todo process better argv management
 // console.log(argv);
@@ -17,18 +19,18 @@ if (process.argv[2] === undefined || process.argv[3] === undefined) {
     process.exit(1);
 }
 
-let following_lock_file = null;
-const followers_file = process.argv[2];
-let following_file = process.argv[3];
+const [
+    ,
+    ,
+    followers_file, // process.argv[2];
+    following_file, // process.argv[3];
+    following_lock_file, // process.argv[4];
+] = params;
 
-if (process.argv[4] !== undefined) {
-    following_lock_file = process.argv[4];
-}
-// loading files
 
-let followers;
-let following;
-let following_lock;
+let followers = {};
+let following = {};
+let following_lock = {};
 
 
 function getNotFollowersInFollowing(followers_array, following_array) {
