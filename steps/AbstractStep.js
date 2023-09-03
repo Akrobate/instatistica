@@ -67,6 +67,11 @@ class AbstractStep {
     }
 
 
+    /**
+     * @param {*} min
+     * @param {*} max
+     * @returns {Number}
+     */
     randomInteger(min, max) {
         return min + Math.ceil(Math.random() * (max - min));
     }
