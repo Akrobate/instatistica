@@ -18,7 +18,7 @@ class ExtractFollowersStep extends AbstractStep {
         super();
         this.screenshot_name_prefix = 'screenshot-extract-followers';
         this.activate_screen_shots = false;
-        this.json_file_repository = JsonFileRepository.getInstance()
+        this.json_file_repository = JsonFileRepository.getInstance();
     }
 
 
@@ -46,34 +46,39 @@ class ExtractFollowersStep extends AbstractStep {
 
             iteration++;
             previous_count = result_count;
-            await page.evaluate((selector, iteration) => {
+            // eslint-disable-next-line no-loop-func
+            await page.evaluate((selector, _iteration) => {
                 const scrollableSection = document.querySelector(selector);
-                scrollableSection.scrollTop = 1000 * (iteration + 1);
+                scrollableSection.scrollTop = 1000 * (_iteration + 1);
             }, scrollable_section_selector, iteration);
 
-            await page.waitForNetworkIdle({ idleTime: 250 }),
+            await page.waitForNetworkIdle({
+                idleTime: 250,
+            });
 
-            await page.waitForTimeout(this.randomInteger(1000,1500));
-            
-            result_count = await page.evaluate((item_selector) => {
-                return Promise.resolve(document.querySelectorAll(item_selector).length)
-            }, item_selector)
+            await page.waitForTimeout(this.randomInteger(1000, 1500));
 
-            const data = await page.evaluate((item_selector) => {
-                const list = [...document.querySelectorAll(item_selector)].map((sub_element) => {
+            // eslint-disable-next-line no-loop-func
+            result_count = await page.evaluate((_item_selector) => {
+                return Promise.resolve(document.querySelectorAll(_item_selector).length);
+            }, item_selector);
+
+            // eslint-disable-next-line no-loop-func
+            const data = await page.evaluate((_item_selector) => {
+                const list = [...document.querySelectorAll(_item_selector)].map((sub_element) => {
                     return {
                         instagram_username: sub_element.querySelectorAll('span')[0].innerText,
                         name: sub_element.querySelectorAll('span')[1].innerText,
-                    }
-                })
+                    };
+                });
 
-                return Promise.resolve(list)
-            }, item_selector)
+                return Promise.resolve(list);
+            }, item_selector);
 
             this.json_file_repository.setFileName(`${instagram_username}-followers.json`);
             await this.json_file_repository.saveData(data);
 
-            console.log(`result_count: ${result_count} - iteration: ${iteration}`)
+            console.log(`result_count: ${result_count} - iteration: ${iteration}`);
         }
 
     }
