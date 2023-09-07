@@ -15,7 +15,6 @@ Instagram API tests, statistics tools
 node sequence/remove-all-screenshots.js
 
 
-
 ## Getting the list of the followers (outdated)
 
 Show all the followers of the connected user
@@ -26,3 +25,8 @@ npm run getfollowers
 ## Automatic like posts of a tag (outdated)
 
 npm run liketag like4like
+
+
+## Todo
+
+* write script get-user-statistics (07/09/2023)
