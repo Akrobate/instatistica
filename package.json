@@ -8,6 +8,7 @@
     "test": "mocha --recursive",
     "getfollowers": "casperjs casperjs-scripts/getfollowers.js",
     "getfollowing": "casperjs casperjs-scripts/getfollowing.js",
+    "get-users-statistics": "node sequences/get-users-statistics",
     "liketag": "casperjs casperjs-scripts/liketag.js",
     "getnotfollowersinfollowing": "node statistic-scripts/getnotfollowersinfollowing.js ./data/followers.json ./data/following.json"
   },
@@ -25,7 +26,8 @@
     "minimist": "^1.2.0",
     "puppeteer": "^13.0.0",
     "puppeteer-extra": "^3.3.6",
-    "puppeteer-extra-plugin-stealth": "^2.11.2"
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
     "chai": "^4.3.4",
