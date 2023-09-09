@@ -7,10 +7,17 @@
  *  - followers_count
  */
 
-
 'use strict';
 
+const {
+    command_line_params_service,
+} = require('../services/CommandLineParamsService');
+
+
 (async () => {
+
+    const y = command_line_params_service.getParam('y', true);
+    console.log(y);
 
     // Init pupetter with user folder
 
