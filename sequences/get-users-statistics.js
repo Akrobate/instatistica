@@ -16,8 +16,9 @@ const {
 
 (async () => {
 
-    const y = command_line_params_service.getParam('y', true);
-    console.log(y);
+    const connected_user = command_line_params_service.getParam('connected_user', true);
+    const username = command_line_params_service.getParam('username', true);
+
 
     // Init pupetter with user folder
 
