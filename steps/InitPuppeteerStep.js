@@ -28,8 +28,8 @@ class InitPuppeteerStep extends AbstractStep {
 
         this.user_data_dir = null;
 
-        this.viewport_width = null;
-        this.viewport_height = null;
+        this.viewport_width = 1920;
+        this.viewport_height = 1080;
     }
 
 
@@ -64,8 +64,8 @@ class InitPuppeteerStep extends AbstractStep {
         this.page = await this.browser.newPage();
 
         await this.page.setViewport({
-            width: 1920,
-            height: 1080,
+            width: this.viewport_width,
+            height: this.viewport_height,
         });
 
         return this;
@@ -105,6 +105,7 @@ class InitPuppeteerStep extends AbstractStep {
         this.user_data_dir = user_data_dir;
     }
 
+
     /**
      * @param {Number} width
      * @param {Number} height
@@ -113,6 +114,34 @@ class InitPuppeteerStep extends AbstractStep {
     setViewportSize(width = 1920, height = 1080) {
         this.viewport_width = width;
         this.viewport_height = height;
+    }
+
+
+    /**
+     * @param {Object} user_configuration
+     * @returns {void}
+     */
+    setConfiguration(user_configuration) {
+        const {
+            browser,
+        } = user_configuration;
+        if (browser === null) {
+            return;
+        }
+
+        const {
+            browser_data,
+            viewport_width,
+            viewport_height,
+        } = browser;
+
+        if (browser_data) {
+            this.setUserDataDir(browser_data);
+        }
+
+        if (viewport_width && viewport_height) {
+            this.setViewportSize(viewport_width, viewport_height);
+        }
     }
 }
 
