@@ -49,6 +49,9 @@ describe('ConfigurationLoaderService functional test', () => {
         expect(user_configuration.auth).to.have.property('username', 'USERNAME_USER_1');
         expect(user_configuration.auth).to.have.property('password', 'PASSWORD_USER_1');
 
+        expect(user_configuration).to.have.property('browser');
+        expect(user_configuration.browser).to.have.property('browser_data');
+
         expect(user_configuration).to.have.property('random_file');
         expect(user_configuration.random_file).to.have.property('random_data', 'random_data');
     });
