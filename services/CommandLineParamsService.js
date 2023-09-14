@@ -39,6 +39,61 @@ class CommandLineParamsService {
         return this.params[key];
     }
 
+
+    /**
+     * @param {*} command_line_structure
+     * @returns {Object}
+     * configuration example:
+     * {
+     *      params: {
+     *          'a': {
+     *              type: Number,
+     *           }
+     *      }
+     *
+     * }
+     */
+    setCommandLineStructure(command_line_structure = {}) {
+        const params_structure = {
+            params: {
+                'param_name': {
+                    type: 'Number',
+                    required: true,
+                    help: 'Some explanation text',
+                    default: undefined,
+                },
+            },
+            array_params: [
+                {
+                    type: 'Number',
+                    required: true,
+                    help: 'Some explanation text',
+                    default: undefined,
+                },
+            ],
+        };
+    }
+
+    /**
+     * @returns {string}
+     */
+    getHelp() {
+        return '';
+    }
+
+
+    /**
+     * @returns {void}
+     */
+    checkIfDisplayHelp() {
+        const param_h = this.getParam('h');
+        const param_help = this.getParam('help');
+        if (param_h || param_help) {
+            console.log(this.getHelp());
+            process.exist();
+        }
+    }
+
 }
 
 CommandLineParamsService.instance = null;
