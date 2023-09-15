@@ -10,12 +10,32 @@
 'use strict';
 
 const {
-    command_line_params_service,
+    CommandLineParamsService,
 } = require('../services/CommandLineParamsService');
 
+const command_line_params_service = new CommandLineParamsService();
+command_line_params_service.setCommandLineParamsSchema(
+    {
+        params: {
+            'param_name': {
+                type: 'Number',
+                required: true,
+                help: 'Some explanation text',
+            },
+        },
+        array_params: [
+            {
+                type: 'Number',
+                required: true,
+                help: 'Some explanation text',
+            },
+        ],
+    }
+);
 
 (async () => {
 
+    command_line_params_service.checkIfDisplayHelp();
     const connected_user = command_line_params_service.getParam('connected_user', true);
     const username = command_line_params_service.getParam('username', true);
 
