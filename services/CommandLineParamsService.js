@@ -4,6 +4,26 @@ const {
     argv,
 } = require('yargs');
 
+
+// {
+//     params: {
+//         'param_name': {
+//             type: 'Number',
+//             required: true,
+//             help: 'Some explanation text',
+//             default: undefined,
+//         },
+//     },
+//     array_params: [
+//         {
+//             type: 'Number',
+//             required: true,
+//             help: 'Some explanation text',
+//             default: undefined,
+//         },
+//     ],
+// }
+
 class CommandLineParamsService {
 
     /**
@@ -11,6 +31,7 @@ class CommandLineParamsService {
      */
     constructor() {
         this.params = argv;
+        this.command_line_params_schema = {};
     }
 
     /**
@@ -41,44 +62,19 @@ class CommandLineParamsService {
 
 
     /**
-     * @param {*} command_line_structure
+     * @param {*} command_line_params_schema
      * @returns {Object}
-     * configuration example:
-     * {
-     *      params: {
-     *          'a': {
-     *              type: Number,
-     *           }
-     *      }
-     *
-     * }
      */
-    setCommandLineStructure(command_line_structure = {}) {
-        const params_structure = {
-            params: {
-                'param_name': {
-                    type: 'Number',
-                    required: true,
-                    help: 'Some explanation text',
-                    default: undefined,
-                },
-            },
-            array_params: [
-                {
-                    type: 'Number',
-                    required: true,
-                    help: 'Some explanation text',
-                    default: undefined,
-                },
-            ],
-        };
+    setCommandLineParamsSchema(command_line_params_schema = {}) {
+        this.command_line_params_schema = command_line_params_schema;
     }
+
 
     /**
      * @returns {string}
      */
     getHelp() {
-        return '';
+        return 'Help...';
     }
 
 
@@ -90,7 +86,8 @@ class CommandLineParamsService {
         const param_help = this.getParam('help');
         if (param_h || param_help) {
             console.log(this.getHelp());
-            process.exist();
+            // eslint-disable-next-line no-process-exit
+            process.exit();
         }
     }
 
