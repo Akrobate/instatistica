@@ -77,8 +77,6 @@ class CommandLineParamsService {
             }
         });
 
-
-
         return {};
     }
 
