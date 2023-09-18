@@ -77,7 +77,13 @@ class CommandLineParamsService {
             }
         });
 
-        return {};
+        const response = {};
+
+        all_named_params.forEach((param_name) => {
+            response[param_name] = this.getParam(param_name);
+        });
+
+        return response;
     }
 
     /**
