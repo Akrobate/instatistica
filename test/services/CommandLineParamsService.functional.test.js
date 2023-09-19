@@ -8,7 +8,7 @@ const {
     CommandLineParamsService,
 } = require('../../services');
 
-describe('CommandLineParamsService functional test', () => {
+describe.only('CommandLineParamsService functional test', () => {
     describe('getParam', () => {
         it('getParam', () => {
             const configuration_loader_service = new CommandLineParamsService();
@@ -44,7 +44,20 @@ describe('CommandLineParamsService functional test', () => {
                         default: undefined,
                     },
                 },
-                array_params: [],
+                array_params: [
+                    {
+                        type: 'Number',
+                        required: true,
+                        help: 'First param',
+                        default: undefined,
+                    },
+                    {
+                        type: 'Number',
+                        required: true,
+                        help: 'Second param',
+                        default: undefined,
+                    },
+                ],
             };
 
             const argv_seed = {

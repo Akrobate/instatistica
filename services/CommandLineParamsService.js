@@ -27,11 +27,13 @@ const {
 class CommandLineParamsService {
 
     /**
+     * @param {Object} logger
      * @returns {CommandLineParamsService}
      */
-    constructor() {
+    constructor(logger = null) {
         this.params = argv;
         this.command_line_params_schema = {};
+        this.logger = logger;
     }
 
     /**
@@ -113,6 +115,17 @@ class CommandLineParamsService {
             console.log(this.getHelp());
             // eslint-disable-next-line no-process-exit
             process.exit();
+        }
+    }
+
+
+    /**
+     * @param {String} content
+     * @returns {void}
+     */
+    printConsole(content) {
+        if (this.logger && this.logger.log) {
+            this.logger.log(content);
         }
     }
 
