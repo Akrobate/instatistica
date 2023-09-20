@@ -3,12 +3,27 @@
 const {
     expect,
 } = require('chai');
-
+const {
+    mock,
+} = require('sinon');
 const {
     CommandLineParamsService,
 } = require('../../services');
 
+const {
+    Logger,
+} = require('../../logger');
+
+const logger = Logger.getInstance();
+
 describe.only('CommandLineParamsService functional test', () => {
+
+    const mocks = {};
+
+    beforeEach(() => {
+        mocks.logger = mock(logger);
+        mocks.process = mock(process);
+    });
     describe('getParam', () => {
         it('getParam', () => {
             const configuration_loader_service = new CommandLineParamsService();
@@ -71,6 +86,41 @@ describe.only('CommandLineParamsService functional test', () => {
             const response = configuration_loader_service.processSchema();
 
             expect(response).to.have.property('count', 10);
+
+        });
+
+        it('processSchema with missing named required param', () => {
+
+            mocks.logger.expects('log').withArgs('Missing param -other');
+            mocks.process.expects('exit').returns();
+
+            const schema = {
+                params: {
+                    'count': {
+                        type: 'Number',
+                        required: true,
+                        help: 'Some explanation text',
+                        default: undefined,
+                    },
+                    'other': {
+                        type: 'Number',
+                        required: true,
+                        help: 'Some explanation text',
+                        default: undefined,
+                    },
+                },
+                array_params: [],
+            };
+            const configuration_loader_service = new CommandLineParamsService(logger);
+            configuration_loader_service.params = {
+                'count': 10,
+            };
+            configuration_loader_service.setCommandLineParamsSchema(schema);
+
+            configuration_loader_service.processSchema();
+
+            mocks.process.verify();
+            mocks.logger.verify();
 
         });
     });

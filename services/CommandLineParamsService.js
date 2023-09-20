@@ -81,10 +81,14 @@ class CommandLineParamsService {
 
         const response = {};
 
-        all_named_params.forEach((param_name) => {
-            response[param_name] = this.getParam(param_name);
-        });
-
+        try {
+            all_named_params.forEach((param_name) => {
+                response[param_name] = this.getParam(param_name, params[param_name].required);
+            });
+        } catch (error) {
+            this.printConsole(error.message);
+            this.exit();
+        }
         return response;
     }
 
@@ -113,8 +117,7 @@ class CommandLineParamsService {
         const param_help = this.getParam('help');
         if (param_h || param_help) {
             console.log(this.getHelp());
-            // eslint-disable-next-line no-process-exit
-            process.exit();
+            this.exit();
         }
     }
 
@@ -129,6 +132,14 @@ class CommandLineParamsService {
         }
     }
 
+
+    /**
+     * @returns {void}
+     */
+    exit() {
+        // eslint-disable-next-line no-process-exit
+        process.exit();
+    }
 }
 
 CommandLineParamsService.instance = null;
