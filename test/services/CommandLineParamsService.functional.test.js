@@ -24,6 +24,13 @@ describe.only('CommandLineParamsService functional test', () => {
         mocks.logger = mock(logger);
         mocks.process = mock(process);
     });
+
+    afterEach(() => {
+        mocks.logger.restore();
+        mocks.process.restore();
+    });
+
+
     describe('getParam', () => {
         it('getParam', () => {
             const configuration_loader_service = new CommandLineParamsService();
@@ -89,7 +96,7 @@ describe.only('CommandLineParamsService functional test', () => {
 
         });
 
-        it('processSchema with missing named required param', () => {
+        it('processSchema with missing named required param without explanation', () => {
 
             mocks.logger.expects('log').withArgs('Missing param -other');
             mocks.process.expects('exit').returns();
@@ -105,7 +112,6 @@ describe.only('CommandLineParamsService functional test', () => {
                     'other': {
                         type: 'Number',
                         required: true,
-                        help: 'Some explanation text',
                         default: undefined,
                     },
                 },
@@ -123,5 +129,28 @@ describe.only('CommandLineParamsService functional test', () => {
             mocks.logger.verify();
 
         });
+
+        it('processSchema with missing named required param with explanation', () => {
+            mocks.logger.expects('log').withArgs('Missing param -count, Some explanation text');
+            mocks.process.expects('exit').returns();
+            const schema = {
+                params: {
+                    'count': {
+                        type: 'Number',
+                        required: true,
+                        help: 'Some explanation text',
+                        default: undefined,
+                    },
+                },
+                array_params: [],
+            };
+            const configuration_loader_service = new CommandLineParamsService(logger);
+            configuration_loader_service.params = {};
+            configuration_loader_service.setCommandLineParamsSchema(schema);
+            configuration_loader_service.processSchema();
+            mocks.process.verify();
+            mocks.logger.verify();
+        });
     });
+
 });

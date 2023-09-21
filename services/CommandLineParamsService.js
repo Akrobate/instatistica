@@ -83,7 +83,11 @@ class CommandLineParamsService {
 
         try {
             all_named_params.forEach((param_name) => {
-                response[param_name] = this.getParam(param_name, params[param_name].required);
+                response[param_name] = this.getParam(
+                    param_name,
+                    params[param_name].required,
+                    params[param_name].help
+                );
             });
         } catch (error) {
             this.printConsole(error.message);
