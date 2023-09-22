@@ -55,12 +55,51 @@ class CommandLineParamsService {
      * @param {Boolen} help
      * @returns {String}
      */
-    getParam(key, required = false, help = false) {
+    _getParam(key, required = false, help = false) {
         if (this.params[key] === undefined && required) {
-            throw new Error(help ? `Missing param -${key}, ${help}` : `Missing param -${key}`);
+            throw new Error(help
+                ? `Missing param -${key}, ${help}`
+                : `Missing param -${key}`
+            );
         }
         return this.params[key];
     }
+
+    /**
+     * @param {String} key
+     * @param {Boolen} required
+     * @param {Boolen} help
+     * @returns {String}
+     */
+    getParam(key, required = false, help = false) {
+        if (this.params[key] === undefined && required) {
+            throw new Error(`Missing param -${key}${
+                help
+                    ? `, ${help}`
+                    : ''
+            }`);
+        }
+        return this.params[key];
+    }
+
+
+    /**
+     * @param {String} index
+     * @param {Boolen} required
+     * @param {Boolen} help
+     * @returns {String}
+     */
+    getArrayParam(index, required = false, help = false) {
+        if (this.params._[index] === undefined && required) {
+            throw new Error(`Missing not named param ${index + 1}${
+                help
+                    ? `, ${help}`
+                    : ''
+            }`);
+        }
+        return this.params._[index];
+    }
+
 
     /**
      * @returns {Object}
@@ -93,6 +132,16 @@ class CommandLineParamsService {
             this.printConsole(error.message);
             this.exit();
         }
+
+        let required_array_params_count = 0;
+        if (params.array_params) {
+            params.array_params.forEach((array_param, index) => {
+                if (array_param.required) {
+                    required_array_params_count = index + 1;
+                }
+            });
+        }
+
         return response;
     }
 
