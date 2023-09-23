@@ -118,7 +118,9 @@ class CommandLineParamsService {
             }
         });
 
-        const response = {};
+        const response = {
+            array_params: [],
+        };
 
         try {
             all_named_params.forEach((param_name) => {
@@ -133,12 +135,10 @@ class CommandLineParamsService {
             this.exit();
         }
 
-        let required_array_params_count = 0;
         if (params.array_params) {
             params.array_params.forEach((array_param, index) => {
-                if (array_param.required) {
-                    required_array_params_count = index + 1;
-                }
+                response.array_params[index] = this
+                    .getArrayParam(index, array_param.required, array_param.help);
             });
         }
 
