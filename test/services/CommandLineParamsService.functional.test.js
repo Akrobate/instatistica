@@ -197,7 +197,7 @@ describe.only('CommandLineParamsService functional test', () => {
             const [
                 first_param,
                 second_param,
-            ] = response;
+            ] = response.array_params;
 
             expect(first_param).to.equal(125);
             expect(second_param).to.equal(456);
