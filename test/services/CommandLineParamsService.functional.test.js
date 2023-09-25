@@ -192,7 +192,6 @@ describe.only('CommandLineParamsService functional test', () => {
             configuration_loader_service.setCommandLineParamsSchema(schema);
 
             const response = configuration_loader_service.processSchema();
-            console.log(response);
 
             const [
                 first_param,
