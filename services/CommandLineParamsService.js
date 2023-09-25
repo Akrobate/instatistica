@@ -55,22 +55,6 @@ class CommandLineParamsService {
      * @param {Boolen} help
      * @returns {String}
      */
-    _getParam(key, required = false, help = false) {
-        if (this.params[key] === undefined && required) {
-            throw new Error(help
-                ? `Missing param -${key}, ${help}`
-                : `Missing param -${key}`
-            );
-        }
-        return this.params[key];
-    }
-
-    /**
-     * @param {String} key
-     * @param {Boolen} required
-     * @param {Boolen} help
-     * @returns {String}
-     */
     getParam(key, required = false, help = false) {
         if (this.params[key] === undefined && required) {
             throw new Error(`Missing param -${key}${
@@ -90,14 +74,17 @@ class CommandLineParamsService {
      * @returns {String}
      */
     getArrayParam(index, required = false, help = false) {
-        if (this.params._[index] === undefined && required) {
-            throw new Error(`Missing not named param ${index + 1}${
-                help
-                    ? `, ${help}`
-                    : ''
-            }`);
+        if (this.params._) {
+            if (this.params._[index] === undefined && required) {
+                throw new Error(`Missing not named param ${index + 1}${
+                    help
+                        ? `, ${help}`
+                        : ''
+                }`);
+            }
+            return this.params._[index];
         }
-        return this.params._[index];
+        return undefined;
     }
 
 
@@ -108,6 +95,7 @@ class CommandLineParamsService {
 
         const {
             params,
+            array_params,
         } = this.command_line_params_schema;
 
         const all_named_params = Object.keys(params);
@@ -135,8 +123,8 @@ class CommandLineParamsService {
             this.exit();
         }
 
-        if (params.array_params) {
-            params.array_params.forEach((array_param, index) => {
+        if (array_params) {
+            array_params.forEach((array_param, index) => {
                 response.array_params[index] = this
                     .getArrayParam(index, array_param.required, array_param.help);
             });
