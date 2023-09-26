@@ -203,5 +203,54 @@ describe.only('CommandLineParamsService functional test', () => {
 
         });
 
+
+        it('processSchema missing param case', () => {
+            const schema = {
+                params: {
+                    'count': {
+                        type: 'Number',
+                        required: false,
+                        help: 'Some explanation text',
+                        default: undefined,
+                    },
+                },
+                array_params: [
+                    {
+                        type: 'Number',
+                        required: true,
+                        help: 'First param',
+                        default: undefined,
+                    },
+                    {
+                        type: 'Number',
+                        required: true,
+                        help: 'Second param',
+                        default: undefined,
+                    },
+                ],
+            };
+
+            const argv_seed = {
+                _: [
+                    125,
+                ],
+            };
+
+            const configuration_loader_service = new CommandLineParamsService();
+            configuration_loader_service.params = argv_seed;
+            configuration_loader_service.setCommandLineParamsSchema(schema);
+
+            const response = configuration_loader_service.processSchema();
+
+            const [
+                first_param,
+                second_param,
+            ] = response.array_params;
+
+            expect(first_param).to.equal(125);
+            expect(second_param).to.equal(456);
+
+        });
+
     });
 });
