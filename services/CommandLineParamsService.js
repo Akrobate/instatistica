@@ -118,16 +118,17 @@ class CommandLineParamsService {
                     params[param_name].help
                 );
             });
+
+            if (array_params) {
+                array_params.forEach((array_param, index) => {
+                    response.array_params[index] = this
+                        .getArrayParam(index, array_param.required, array_param.help);
+                });
+            }
+
         } catch (error) {
             this.printConsole(error.message);
             this.exit();
-        }
-
-        if (array_params) {
-            array_params.forEach((array_param, index) => {
-                response.array_params[index] = this
-                    .getArrayParam(index, array_param.required, array_param.help);
-            });
         }
 
         return response;
