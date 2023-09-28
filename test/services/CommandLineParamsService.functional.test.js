@@ -205,6 +205,10 @@ describe.only('CommandLineParamsService functional test', () => {
 
 
         it('processSchema missing param case', () => {
+
+            mocks.logger.expects('log').withArgs('Missing not named param 2, Second param');
+            mocks.process.expects('exit').returns();
+
             const schema = {
                 params: {
                     'count': {
@@ -236,20 +240,13 @@ describe.only('CommandLineParamsService functional test', () => {
                 ],
             };
 
-            const configuration_loader_service = new CommandLineParamsService();
+            const configuration_loader_service = new CommandLineParamsService(logger);
             configuration_loader_service.params = argv_seed;
             configuration_loader_service.setCommandLineParamsSchema(schema);
 
-            const response = configuration_loader_service.processSchema();
-
-            const [
-                first_param,
-                second_param,
-            ] = response.array_params;
-
-            expect(first_param).to.equal(125);
-            expect(second_param).to.equal(456);
-
+            configuration_loader_service.processSchema();
+            mocks.process.verify();
+            mocks.logger.verify();
         });
 
     });
