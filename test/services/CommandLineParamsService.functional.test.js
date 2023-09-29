@@ -243,11 +243,45 @@ describe.only('CommandLineParamsService functional test', () => {
             const configuration_loader_service = new CommandLineParamsService(logger);
             configuration_loader_service.params = argv_seed;
             configuration_loader_service.setCommandLineParamsSchema(schema);
-
             configuration_loader_service.processSchema();
             mocks.process.verify();
             mocks.logger.verify();
         });
 
+        it('processSchema missing param case', () => {
+
+            mocks.logger.expects('log').withArgs('Missing not named param 1, First param');
+            mocks.process.expects('exit').returns();
+
+            const schema = {
+                params: {
+                    'count': {
+                        type: 'Number',
+                        required: false,
+                        help: 'Some explanation text',
+                        default: undefined,
+                    },
+                },
+                array_params: [
+                    {
+                        type: 'Number',
+                        required: true,
+                        help: 'First param',
+                        default: undefined,
+                    },
+                ],
+            };
+
+            const argv_seed = {
+                _: [],
+            };
+
+            const configuration_loader_service = new CommandLineParamsService(logger);
+            configuration_loader_service.params = argv_seed;
+            configuration_loader_service.setCommandLineParamsSchema(schema);
+            configuration_loader_service.processSchema();
+            mocks.process.verify();
+            mocks.logger.verify();
+        });
     });
 });
