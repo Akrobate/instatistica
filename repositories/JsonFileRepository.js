@@ -18,6 +18,7 @@ class JsonFileRepository {
         return JsonFileRepository.instance;
     }
 
+
     /**
      * @param {String} filename
      * @returns {Object}

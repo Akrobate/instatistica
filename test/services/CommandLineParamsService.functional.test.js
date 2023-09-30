@@ -16,7 +16,7 @@ const {
 
 const logger = Logger.getInstance();
 
-describe.only('CommandLineParamsService functional test', () => {
+describe('CommandLineParamsService functional test', () => {
 
     const mocks = {};
 
