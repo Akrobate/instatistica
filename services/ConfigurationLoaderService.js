@@ -69,6 +69,24 @@ class ConfigurationLoaderService {
         return result;
     }
 
+
+    /**
+     * @param {String} json_files_folder
+     * @returns {Object}
+     */
+    async loadJsonFilesFromFolder(json_files_folder) {
+        const files = await this.file_repository
+            .listFilesInDirectory(json_files_folder);
+
+        const result = {};
+        for (const file of files) {
+            result[file.replace('.json', '')] = await this.json_file_repository
+                .getData(path.join(json_files_folder, file));
+        }
+
+        return result;
+    }
+
 }
 
 ConfigurationLoaderService.instance = null;
