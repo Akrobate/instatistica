@@ -1,10 +1,7 @@
 'use strict';
 
 const fs = require('fs').promises;
-const path = require('path');
-const {
-    configuration,
-} = require('../configuration');
+
 class JsonFileRepository {
 
     /**
@@ -20,13 +17,12 @@ class JsonFileRepository {
 
 
     /**
+     * path.join(configuration.getDataFolder(), filename)
      * @param {String} filename
      * @returns {Object}
      */
     async getData(filename) {
-        const string_data = await fs.readFile(
-            path.join(configuration.getDataFolder(), filename)
-        );
+        const string_data = await fs.readFile(filename);
         return JSON.parse(string_data);
     }
 
@@ -39,7 +35,7 @@ class JsonFileRepository {
     async saveData(data, filename) {
         const string_data = JSON.stringify(data);
         const response = await fs.writeFile(
-            path.join(configuration.getDataFolder(), filename),
+            filename,
             string_data
         );
         return response;
@@ -51,9 +47,7 @@ class JsonFileRepository {
      * @return {Object}
      */
     async removeData(filename) {
-        const response = await fs.unlink(
-            path.join(configuration.getDataFolder(), filename)
-        );
+        const response = await fs.unlink(filename);
         return response;
     }
 }
