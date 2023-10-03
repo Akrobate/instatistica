@@ -56,15 +56,9 @@ class ConfigurationLoaderService {
             username
         );
 
-        const files = await this.file_repository.listFilesInDirectory(
+        const result = await this.loadJsonFilesFromFolder(
             path.join(configuration.getDataFolder(), user_configuration_path)
         );
-
-        const result = {};
-        for (const file of files) {
-            result[file.replace('.json', '')] = await this.json_file_repository
-                .getData(path.join(user_configuration_path, file));
-        }
 
         return result;
     }
