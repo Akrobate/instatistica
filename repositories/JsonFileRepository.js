@@ -1,6 +1,12 @@
 'use strict';
 
 const fs = require('fs').promises;
+const {
+    FileRepository,
+} = require('./FileRepository');
+
+console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", FileRepository.getInstance())
+
 
 class JsonFileRepository {
 
@@ -10,11 +16,20 @@ class JsonFileRepository {
      */
     static getInstance() {
         if (JsonFileRepository.instance === null) {
-            JsonFileRepository.instance = new JsonFileRepository();
+            JsonFileRepository.instance = new JsonFileRepository(
+                FileRepository.getInstance()
+            );
         }
         return JsonFileRepository.instance;
     }
 
+
+    /**
+     * @param {FileRepository} file_repository
+     */
+    constructor(file_repository) {
+        this.file_repository = file_repository;
+    }
 
     /**
      * path.join(configuration.getDataFolder(), filename)
@@ -22,6 +37,19 @@ class JsonFileRepository {
      * @returns {Object}
      */
     async getData(filename) {
+        console.log("==========================>>>>>>>>>>", this.file_repository)
+        const string_data = await this.file_repository
+            .readFile(filename);
+        return JSON.parse(string_data);
+    }
+
+    /**
+     * path.join(configuration.getDataFolder(), filename)
+     * @param {String} filename
+     * @returns {Object}
+     */
+    async _getData(filename) {
+        console.log("==========================", this.file_repository)
         const string_data = await fs.readFile(filename);
         return JSON.parse(string_data);
     }

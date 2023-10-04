@@ -27,6 +27,16 @@ class FileRepository {
             .filter((dirent) => dirent.isFile())
             .map((item) => item.name);
     }
+
+
+    /**
+     * @param {string} filename
+     * @returns {String}
+     */
+    async readFile(filename) {
+        const string_data = await fs.promises.readFile(filename);
+        return string_data;
+    }
 }
 
 FileRepository.instance = null;
