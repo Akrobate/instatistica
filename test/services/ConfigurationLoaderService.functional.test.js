@@ -23,10 +23,11 @@ const {
     expect,
 } = require('chai');
 
-const json_file_repository = new JsonFileRepository();
 const file_repository = new FileRepository();
+const json_file_repository = new JsonFileRepository(file_repository);
 const configuration_loader_service = new ConfigurationLoaderService(
-    json_file_repository, file_repository);
+    json_file_repository, file_repository
+);
 
 const stubs = {};
 
