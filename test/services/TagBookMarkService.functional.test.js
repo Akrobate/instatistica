@@ -23,7 +23,7 @@ const {
     expect,
 } = require('chai');
 
-const json_file_repository = new JsonFileRepository();
+const json_file_repository = JsonFileRepository.getInstance();
 const tag_book_mark_service = new TagBookMarkService(json_file_repository);
 
 const stubs = {};
