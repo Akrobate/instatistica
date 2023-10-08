@@ -6,6 +6,7 @@ const {
 
 const {
     JsonFileRepository,
+    FileRepository
 } = require('../../repositories');
 
 const {
@@ -22,7 +23,7 @@ const {
     expect,
 } = require('chai');
 
-const json_file_repository = new JsonFileRepository();
+const json_file_repository = new JsonFileRepository(new FileRepository());
 const username_book_mark_service = new UsernameBookMarkService(json_file_repository);
 
 const stubs = {};
