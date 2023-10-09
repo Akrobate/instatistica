@@ -5,9 +5,6 @@ const {
     FileRepository,
 } = require('./FileRepository');
 
-console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", FileRepository.getInstance())
-
-
 class JsonFileRepository {
 
     /**
@@ -37,7 +34,6 @@ class JsonFileRepository {
      * @returns {Object}
      */
     async getData(filename) {
-        console.log("==========================>>>>>>>>>>", this.file_repository)
         const string_data = await this.file_repository
             .readFile(filename);
         return JSON.parse(string_data);
@@ -49,7 +45,6 @@ class JsonFileRepository {
      * @returns {Object}
      */
     async _getData(filename) {
-        console.log("==========================", this.file_repository)
         const string_data = await fs.readFile(filename);
         return JSON.parse(string_data);
     }
