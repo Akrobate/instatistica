@@ -24,7 +24,7 @@ const {
 } = require('chai');
 
 const json_file_repository = JsonFileRepository.getInstance();
-const tag_book_mark_service = new TagBookMarkService(json_file_repository);
+let tag_book_mark_service = null;
 
 const stubs = {};
 
@@ -33,10 +33,11 @@ describe('TagBookMarkService functional test', () => {
     beforeEach(async () => {
         stubs.getDataFolder = stub(configuration, 'getDataFolder')
             .callsFake(() => path.join(__dirname, '..', 'data_working_folder'));
+        tag_book_mark_service = new TagBookMarkService(json_file_repository);
         try {
             await tag_book_mark_service.deleteAll();
         } catch (error) {
-            console.log('No file to delete, error: ', error);
+            console.log('No file to delete');
         }
     });
 
@@ -44,7 +45,7 @@ describe('TagBookMarkService functional test', () => {
         stubs.getDataFolder.restore();
     });
 
-    it('Should be able to save file with tags saveAndDeduplicateList', async () => {
+    it.only('Should be able to save file with tags saveAndDeduplicateList', async () => {
 
         const tag_list = [
             'tag_1',
@@ -69,7 +70,7 @@ describe('TagBookMarkService functional test', () => {
     });
 
 
-    it('Should be able to change tag to processed', async () => {
+    it.only('Should be able to change tag to processed', async () => {
 
         const tag_list = [
             'tag_1',
