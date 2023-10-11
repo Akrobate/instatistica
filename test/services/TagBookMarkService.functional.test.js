@@ -45,7 +45,7 @@ describe('TagBookMarkService functional test', () => {
         stubs.getDataFolder.restore();
     });
 
-    it.only('Should be able to save file with tags saveAndDeduplicateList', async () => {
+    it('Should be able to save file with tags saveAndDeduplicateList', async () => {
 
         const tag_list = [
             'tag_1',
@@ -70,7 +70,7 @@ describe('TagBookMarkService functional test', () => {
     });
 
 
-    it.only('Should be able to change tag to processed', async () => {
+    it('Should be able to change tag to processed', async () => {
 
         const tag_list = [
             'tag_1',
