@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const {
     AbstractBookMarkService,
 } = require('./AbstractBookMarkService');
@@ -7,6 +8,10 @@ const {
 const {
     JsonFileRepository,
 } = require('../repositories');
+
+const {
+    configuration,
+} = require('../configuration');
 
 class UsernameBookMarkService extends AbstractBookMarkService {
 
@@ -16,7 +21,8 @@ class UsernameBookMarkService extends AbstractBookMarkService {
      */
     constructor(json_file_repository) {
         super(json_file_repository);
-        this.book_mark_filename = 'username_to_process.json';
+        this.book_mark_filename = path.join(configuration.getDataFolder(), 'username_to_process.json');
+
     }
 
     /**
