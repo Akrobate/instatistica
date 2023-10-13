@@ -6,7 +6,7 @@ const {
 
 const {
     JsonFileRepository,
-    FileRepository
+    FileRepository,
 } = require('../../repositories');
 
 const {
@@ -24,7 +24,7 @@ const {
 } = require('chai');
 
 const json_file_repository = new JsonFileRepository(new FileRepository());
-const username_book_mark_service = new UsernameBookMarkService(json_file_repository);
+let username_book_mark_service = null;
 
 const stubs = {};
 
@@ -33,10 +33,11 @@ describe('UsernameBookMarkService functional test', () => {
     beforeEach(async () => {
         stubs.getDataFolder = stub(configuration, 'getDataFolder')
             .callsFake(() => path.join(__dirname, '..', 'data_working_folder'));
+        username_book_mark_service = new UsernameBookMarkService(json_file_repository);
         try {
             await username_book_mark_service.deleteAll();
         } catch (error) {
-            console.log('No file to delete, error: ', error);
+            console.log('No file to delete, error: ');
         }
     });
 
