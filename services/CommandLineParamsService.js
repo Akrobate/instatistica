@@ -98,7 +98,10 @@ class CommandLineParamsService {
             array_params,
         } = this.command_line_params_schema;
 
-        const all_named_params = Object.keys(params);
+        const all_named_params = params === undefined
+            ? []
+            : Object.keys(params);
+
         const required_named_params = [];
         all_named_params.forEach((param_name) => {
             if (params[param_name].required) {
