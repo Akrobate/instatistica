@@ -37,6 +37,19 @@ class FileRepository {
         const string_data = await fs.promises.readFile(filename);
         return string_data;
     }
+
+
+    /**
+     * @param {string} filename
+     * @returns {string}
+     */
+    async readFileUtf8(filename) {
+        const string_data = await fs.promises.readFile(
+            filename,
+            'utf8'
+        );
+        return string_data;
+    }
 }
 
 FileRepository.instance = null;
