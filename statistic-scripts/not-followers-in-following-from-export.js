@@ -1,32 +1,48 @@
 'use strict';
 
+const path = require('path');
 const {
-    argv,
-} = process;
+    logger,
+} = require('../logger');
 const {
     JsonFileRepository,
+    FileRepository,
 } = require('../repositories');
-const path = require('path');
+const {
+    CommandLineParamsService,
+} = require('../services/');
 
-const param = argv[argv.length - 1];
-if (param === __filename) {
-    console.log('No parameter passed');
-    // eslint-disable-next-line no-process-exit
-    process.exit();
-}
+const command_line_params_service = new CommandLineParamsService(logger);
+command_line_params_service.setCommandLineParamsSchema({
+    array_params: [
+        {
+            type: 'String',
+            required: true,
+            help: 'Instagram full dump folder path',
+        },
+        {
+            type: 'String',
+            required: false,
+            help: 'File of followed accounts to except',
+        },
+    ],
+});
 
-const json_file_repository = JsonFileRepository.getInstance();
+const [
+    instagram_export_path,
+    following_exception_file,
+] = command_line_params_service.processSchema().array_params;
 
 (async () => {
-
+    const json_file_repository = JsonFileRepository.getInstance();
     const followers_json = await json_file_repository.getData(
-        path.join(param, 'followers_and_following', 'followers_1.json')
+        path.join(instagram_export_path, 'followers_and_following', 'followers_1.json')
     );
     const follower_list = followers_json
         .map((item) => item.string_list_data[0].value);
 
     const followings_json = await json_file_repository.getData(
-        path.join(param, 'followers_and_following', 'following.json')
+        path.join(instagram_export_path, 'followers_and_following', 'following.json')
     );
     const following_list = followings_json
         .relationships_following
@@ -37,9 +53,21 @@ const json_file_repository = JsonFileRepository.getInstance();
 
     console.log('following count', following_list.length);
     console.log('follower count', follower_list.length);
-    console.log('following_not_follower_list', following_not_follower_list.length);
 
-    console.log(following_not_follower_list);
+    if (following_exception_file === undefined) {
+        console.log('following_not_follower_list', following_not_follower_list.length);
+        console.log(following_not_follower_list);
+    } else {
+        const file_repository = FileRepository.getInstance();
+        const exception_file = await file_repository
+            .readFileUtf8(following_exception_file);
+        console.log(exception_file);
 
-
+        const exception_list = exception_file.split('\n');
+        const excepted_list = following_not_follower_list.filter((following) => {
+            return !exception_list.includes(following);
+        });
+        console.log('following_not_follower_list', excepted_list.length);
+        console.log(excepted_list);
+    }
 })();
