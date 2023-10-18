@@ -1,11 +1,9 @@
 'use strict';
 
-const path = require('path');
 const {
     logger,
 } = require('../logger');
 const {
-    JsonFileRepository,
     FileRepository,
 } = require('../repositories');
 const {
@@ -18,7 +16,7 @@ command_line_params_service.setCommandLineParamsSchema({
         {
             type: 'String',
             required: true,
-            help: 'All posts file',
+            help: 'Tags list to evaluate like : "#one #two"',
         },
         {
             type: 'String',
@@ -28,7 +26,7 @@ command_line_params_service.setCommandLineParamsSchema({
         {
             type: 'String',
             required: false,
-            help: 'Never used tags file',
+            help: 'Never used tags file (tags has to be wroten #something)',
         },
     ],
 });
