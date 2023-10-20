@@ -84,7 +84,4 @@ function printTagList(tag_list) {
     });
 
     printTagList(unknown_tag_list);
-
-
 })();
-
