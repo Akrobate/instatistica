@@ -20,6 +20,9 @@ const {
     CommandLineParamsService,
     command_line_params_service,
 } = require('./CommandLineParamsService');
+const {
+    StatisticScriptCommonsService,
+} = require('./StatisticScriptCommonsService');
 
 module.exports = {
     AbstractBookMarkService,
@@ -32,4 +35,5 @@ module.exports = {
     configuration_loader_service,
     CommandLineParamsService,
     command_line_params_service,
+    StatisticScriptCommonsService,
 };

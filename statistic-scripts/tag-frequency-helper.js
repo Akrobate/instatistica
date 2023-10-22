@@ -8,6 +8,7 @@ const {
 } = require('../repositories');
 const {
     CommandLineParamsService,
+    StatisticScriptCommonsService,
 } = require('../services/');
 
 const command_line_params_service = new CommandLineParamsService(logger);
@@ -25,6 +26,47 @@ const [
     post_filename,
 ] = command_line_params_service.processSchema().array_params;
 
+function tagsOrderedByMostAncientUsage(_post_list) {
+
+    const post_tag_list = _post_list
+        .map((item) => StatisticScriptCommonsService.extractHashtags(item));
+
+    const uniq_tags_list = [];
+
+    post_tag_list.forEach((_tag_list) => {
+        _tag_list.forEach((_tag) => {
+            if (!uniq_tags_list.includes(_tag)) {
+                uniq_tags_list.push(_tag);
+            }
+        });
+    });
+
+    const tag_count = uniq_tags_list.map((_tag) => {
+        let used_last_time = 0;
+        for (let i = post_tag_list.length - 1; i > 1; i--) {
+            if (post_tag_list[i].includes(_tag)) {
+                used_last_time = post_tag_list.length - i - 1;
+                break;
+            }
+        }
+        return {
+            name: _tag,
+            used_last_time,
+        };
+    });
+
+    tag_count.sort((a, b) => {
+        if (a.used_last_time > b.used_last_time) {
+            return 1;
+        } else if (a.used_last_time < b.used_last_time) {
+            return -1;
+        }
+        return 0;
+    });
+
+    return tag_count;
+}
+
 
 (async () => {
 
@@ -34,15 +76,10 @@ const [
 
     const post_list = data.split('*******************');
 
-    function extractHashtags(str) {
-        const regexp = /(#\S+)/g;
-        return [...str.matchAll(regexp)].map((item) => item[0]);
-    }
-
     const tags = {};
 
     post_list.forEach((item) => {
-        const tags_list = extractHashtags(item);
+        const tags_list = StatisticScriptCommonsService.extractHashtags(item);
         tags_list.forEach((tag) => {
             if (tags[tag] === undefined) {
                 tags[tag] = 1;
@@ -73,47 +110,6 @@ const [
     console.log(tag_list.map((item) => item.name).join(' '));
     console.log(tag_list);
     console.log(tag_list.length);
-
-
-    function tagsOrderedByMostAncientUsage(_post_list) {
-
-        const post_tag_list = _post_list.map((item) => extractHashtags(item));
-
-        const uniq_tags_list = [];
-
-        post_tag_list.forEach((_tag_list) => {
-            _tag_list.forEach((_tag) => {
-                if (!uniq_tags_list.includes(_tag)) {
-                    uniq_tags_list.push(_tag);
-                }
-            });
-        });
-
-        const tag_count = uniq_tags_list.map((_tag) => {
-            let used_last_time = 0;
-            for (let i = post_tag_list.length - 1; i > 1; i--) {
-                if (post_tag_list[i].includes(_tag)) {
-                    used_last_time = post_tag_list.length - i - 1;
-                    break;
-                }
-            }
-            return {
-                name: _tag,
-                used_last_time,
-            };
-        });
-
-        tag_count.sort((a, b) => {
-            if (a.used_last_time > b.used_last_time) {
-                return 1;
-            } else if (a.used_last_time < b.used_last_time) {
-                return -1;
-            }
-            return 0;
-        });
-
-        return tag_count;
-    }
 
     console.log(tagsOrderedByMostAncientUsage(post_list));
 })();
