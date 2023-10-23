@@ -8,6 +8,7 @@ const {
 } = require('../repositories');
 const {
     CommandLineParamsService,
+    StatisticScriptCommonsService,
 } = require('../services/');
 
 const command_line_params_service = new CommandLineParamsService(logger);
@@ -37,11 +38,6 @@ const [
     never_used_file,
 ] = command_line_params_service.processSchema().array_params;
 
-function extractHashtags(str) {
-    const regexp = /(#\S+)/g;
-    return [...str.matchAll(regexp)].map((item) => item[0]);
-}
-
 function printTagList(tag_list) {
     tag_list.forEach((tag) => {
         logger.log(`#${tag.replace('#', '')}`);
@@ -54,19 +50,24 @@ function printTagList(tag_list) {
     const all_posts_string = await file_repository
         .readFileUtf8(all_posts_file);
 
-    const uniq_tag_list = [...new Set(extractHashtags(all_posts_string))]
+    const uniq_tag_list = [
+        ...new Set(StatisticScriptCommonsService.extractHashtags(all_posts_string)),
+    ]
         .map((tag) => tag.replace('#', ''));
     console.log('uniq_tag_list count', uniq_tag_list.length);
     console.log(uniq_tag_list);
 
     const never_used_string = await file_repository
         .readFileUtf8(never_used_file);
-    const never_used_tag_list = [...new Set(extractHashtags(never_used_string))]
+    const never_used_tag_list = [
+        ...new Set(StatisticScriptCommonsService.extractHashtags(never_used_string)),
+    ]
         .map((tag) => tag.replace('#', ''));
     console.log(never_used_tag_list);
 
-
-    const to_evaluate = [...new Set(extractHashtags(string_to_evaluate))]
+    const to_evaluate = [
+        ...new Set(StatisticScriptCommonsService.extractHashtags(string_to_evaluate)),
+    ]
         .map((tag) => tag.replace('#', ''));
     console.log(to_evaluate);
 
