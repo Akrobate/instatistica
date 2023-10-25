@@ -8,7 +8,7 @@ const {
 } = require('../repositories');
 const {
     CommandLineParamsService,
-    StatisticScriptCommonsService,
+    StatisticScriptCommonsService: SSCS,
 } = require('../services/');
 
 const command_line_params_service = new CommandLineParamsService(logger);
@@ -29,7 +29,7 @@ const [
 function tagsOrderedByMostAncientUsage(_post_list) {
 
     const post_tag_list = _post_list
-        .map((item) => StatisticScriptCommonsService.extractHashtags(item));
+        .map((item) => SSCS.extractHashtags(item));
 
     const uniq_tags_list = [];
 
@@ -68,6 +68,15 @@ function tagsOrderedByMostAncientUsage(_post_list) {
 }
 
 
+function printTagsCustom(list) {
+    list.forEach((tag_object) => {
+        logger.log(
+            `last used: ${tag_object.used_last_time} \t ${tag_object.name}`
+        );
+    });
+}
+
+
 (async () => {
 
     const file_repository = FileRepository.getInstance();
@@ -79,7 +88,7 @@ function tagsOrderedByMostAncientUsage(_post_list) {
     const tags = {};
 
     post_list.forEach((item) => {
-        const tags_list = StatisticScriptCommonsService.extractHashtags(item);
+        const tags_list = SSCS.extractHashtags(item);
         tags_list.forEach((tag) => {
             if (tags[tag] === undefined) {
                 tags[tag] = 1;
@@ -111,5 +120,9 @@ function tagsOrderedByMostAncientUsage(_post_list) {
     console.log(tag_list);
     console.log(tag_list.length);
 
-    console.log(tagsOrderedByMostAncientUsage(post_list));
+    // console.log(tagsOrderedByMostAncientUsage(post_list));
+
+    printTagsCustom(
+        tagsOrderedByMostAncientUsage(post_list)
+    );
 })();
