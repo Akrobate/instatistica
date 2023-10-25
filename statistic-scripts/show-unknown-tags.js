@@ -4,15 +4,16 @@ const {
     logger,
 } = require('../logger');
 const {
-    FileRepository,
-} = require('../repositories');
-const {
     CommandLineParamsService,
     StatisticScriptCommonsService: SSCS,
 } = require('../services/');
 
 const command_line_params_service = new CommandLineParamsService(logger);
-command_line_params_service.setCommandLineParamsSchema({
+const [
+    string_to_evaluate,
+    all_posts_file,
+    never_used_file,
+] = command_line_params_service.setCommandLineParamsSchemaAndProcess({
     array_params: [
         {
             type: 'String',
@@ -30,26 +31,16 @@ command_line_params_service.setCommandLineParamsSchema({
             help: 'Never used tags file (tags has to be wroten #something)',
         },
     ],
-});
-
-const [
-    string_to_evaluate,
-    all_posts_file,
-    never_used_file,
-] = command_line_params_service.processSchema().array_params;
+}).array_params;
 
 (async () => {
 
-    const file_repository = FileRepository.getInstance();
-
-    const all_posts_string = await file_repository.readFileUtf8(all_posts_file);
-    const uniq_tag_list = SSCS.extractUniqHashtagsFromString(all_posts_string);
+    const uniq_tag_list = await SSCS.extractUniqHashtagsFromFile(all_posts_file);
 
     logger.log('uniq_tag_list count', uniq_tag_list.length);
     logger.log(uniq_tag_list);
 
-    const never_used_string = await file_repository.readFileUtf8(never_used_file);
-    const never_used_tag_list = SSCS.extractUniqHashtagsFromString(never_used_string);
+    const never_used_tag_list = await SSCS.extractUniqHashtagsFromString(never_used_file);
     logger.log(never_used_tag_list);
 
     const to_evaluate = SSCS.extractUniqHashtagsFromString(string_to_evaluate);
