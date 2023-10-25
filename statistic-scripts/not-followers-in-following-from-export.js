@@ -51,23 +51,23 @@ const [
     const following_not_follower_list = following_list
         .filter((following) => !follower_list.includes(following));
 
-    console.log('following count', following_list.length);
-    console.log('follower count', follower_list.length);
+    logger.log('following count', following_list.length);
+    logger.log('follower count', follower_list.length);
 
     if (following_exception_file === undefined) {
-        console.log('following_not_follower_list', following_not_follower_list.length);
-        console.log(following_not_follower_list);
+        logger.log('following_not_follower_list', following_not_follower_list.length);
+        logger.log(following_not_follower_list);
     } else {
         const file_repository = FileRepository.getInstance();
         const exception_file = await file_repository
             .readFileUtf8(following_exception_file);
-        console.log(exception_file);
+        logger.log(exception_file);
 
         const exception_list = exception_file.split('\n');
         const excepted_list = following_not_follower_list.filter((following) => {
             return !exception_list.includes(following);
         });
-        console.log('following_not_follower_list', excepted_list.length);
-        console.log(excepted_list);
+        logger.log('following_not_follower_list', excepted_list.length);
+        logger.log(excepted_list);
     }
 })();
