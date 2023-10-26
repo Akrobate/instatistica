@@ -87,6 +87,14 @@ class CommandLineParamsService {
         return undefined;
     }
 
+    /**
+     * @param {*} command_line_params_schema
+     * @returns {Object}
+     */
+    setCommandLineParamsSchemaAndProcess(command_line_params_schema = {}) {
+        this.setCommandLineParamsSchema(command_line_params_schema);
+        return this.processSchema();
+    }
 
     /**
      * @returns {Object}
