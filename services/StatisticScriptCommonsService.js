@@ -4,6 +4,10 @@ const {
     logger,
 } = require('../logger');
 
+const {
+    FileRepository,
+} = require('../repositories');
+
 class StatisticScriptCommonsService {
 
     /**
@@ -28,13 +32,25 @@ class StatisticScriptCommonsService {
 
 
     /**
-     * @param {Array} str
+     * @param {String} str
      * @return {Array}
      */
     extractUniqHashtagsFromString(str) {
         return [
             ...new Set(StatisticScriptCommonsService.extractHashtags(str)),
         ];
+    }
+
+
+    /**
+     * @param {String} filename
+     * @return {Array}
+     */
+    async extractUniqHashtagsFromFile(filename) {
+        const str = await FileRepository
+            .getInstance()
+            .readFileUtf8(filename);
+        return StatisticScriptCommonsService.extractUniqHashtagsFromString(str);
     }
 }
 
