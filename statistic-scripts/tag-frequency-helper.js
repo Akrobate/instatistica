@@ -26,11 +26,7 @@ const [
     post_filename,
 ] = command_line_params_service.processSchema().array_params;
 
-function tagsOrderedByMostAncientUsage(_post_list) {
-
-    const post_tag_list = _post_list
-        .map((item) => SSCS.extractHashtags(item));
-
+function tagsLastUsage(post_tag_list) {
     const uniq_tags_list = [];
 
     post_tag_list.forEach((_tag_list) => {
@@ -41,7 +37,8 @@ function tagsOrderedByMostAncientUsage(_post_list) {
         });
     });
 
-    const tag_count = uniq_tags_list.map((_tag) => {
+    const tags = {};
+    uniq_tags_list.forEach((_tag) => {
         let used_last_time = 0;
         for (let i = post_tag_list.length - 1; i > 1; i--) {
             if (post_tag_list[i].includes(_tag)) {
@@ -49,22 +46,9 @@ function tagsOrderedByMostAncientUsage(_post_list) {
                 break;
             }
         }
-        return {
-            name: _tag,
-            used_last_time,
-        };
+        tags[_tag] = used_last_time;
     });
-
-    tag_count.sort((a, b) => {
-        if (a.used_last_time > b.used_last_time) {
-            return 1;
-        } else if (a.used_last_time < b.used_last_time) {
-            return -1;
-        }
-        return 0;
-    });
-
-    return tag_count;
+    return tags;
 }
 
 
@@ -85,10 +69,11 @@ function printTagsCustom(list) {
 
     const post_list = data.split('*******************');
 
-    const tags = {};
+    const post_tag_list = post_list
+        .map((item) => SSCS.extractHashtags(item));
 
-    post_list.forEach((item) => {
-        const tags_list = SSCS.extractHashtags(item);
+    const tags = {};
+    post_tag_list.forEach((tags_list) => {
         tags_list.forEach((tag) => {
             if (tags[tag] === undefined) {
                 tags[tag] = 1;
@@ -120,9 +105,17 @@ function printTagsCustom(list) {
     console.log(tag_list);
     console.log(tag_list.length);
 
-    // console.log(tagsOrderedByMostAncientUsage(post_list));
+    // console.log(tagsLastUsage(post_list));
 
-    printTagsCustom(
-        tagsOrderedByMostAncientUsage(post_list)
-    );
+    const tags_last_time = tagsLastUsage(post_tag_list);
+    console.log(tags_last_time);
+    // tag_count.sort((a, b) => {
+    //     if (a.used_last_time > b.used_last_time) {
+    //         return 1;
+    //     } else if (a.used_last_time < b.used_last_time) {
+    //         return -1;
+    //     }
+    //     return 0;
+    // });
+    // printTagsCustom(tags_with_used_last_time);
 })();
