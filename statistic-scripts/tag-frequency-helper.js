@@ -11,8 +11,9 @@ const {
     StatisticScriptCommonsService: SSCS,
 } = require('../services/');
 
-const command_line_params_service = new CommandLineParamsService(logger);
-command_line_params_service.setCommandLineParamsSchema({
+const [
+    post_filename,
+] = (new CommandLineParamsService(logger)).setCommandLineParamsSchemaAndProcess({
     array_params: [
         {
             type: 'String',
@@ -20,23 +21,10 @@ command_line_params_service.setCommandLineParamsSchema({
             help: 'Posts file name',
         },
     ],
-});
-
-const [
-    post_filename,
-] = command_line_params_service.processSchema().array_params;
+}).array_params;
 
 function tagsLastUsage(post_tag_list) {
-    const uniq_tags_list = [];
-
-    post_tag_list.forEach((_tag_list) => {
-        _tag_list.forEach((_tag) => {
-            if (!uniq_tags_list.includes(_tag)) {
-                uniq_tags_list.push(_tag);
-            }
-        });
-    });
-
+    const uniq_tags_list = [...new Set(post_tag_list.flat())];
     const tags = {};
     uniq_tags_list.forEach((_tag) => {
         let used_last_time = 0;
@@ -52,70 +40,44 @@ function tagsLastUsage(post_tag_list) {
 }
 
 
-function printTagsCustom(list) {
-    list.forEach((tag_object) => {
-        logger.log(
-            `last used: ${tag_object.used_last_time} \t ${tag_object.name}`
-        );
+function tagsTotalUsedCount(post_tag_list) {
+    const tags = {};
+    post_tag_list.flat().forEach((tag) => {
+        if (tags[tag]) {
+            tags[tag]++;
+        } else {
+            tags[tag] = 1;
+        }
     });
+    return tags;
+}
+
+
+function printTagsCustom(list) {
+    list.forEach((tag) => logger.log(
+        `last: ${tag.used_last_time} \t cnt: ${tag.count} \t ${tag.name}`
+    ));
 }
 
 
 (async () => {
-
     const file_repository = FileRepository.getInstance();
-    const data = await file_repository
-        .readFileUtf8(post_filename);
+    const data = await file_repository.readFileUtf8(post_filename);
 
-    const post_list = data.split('*******************');
-
-    const post_tag_list = post_list
+    const post_tag_list = data
+        .split('*******************')
         .map((item) => SSCS.extractHashtags(item));
-
-    const tags = {};
-    post_tag_list.forEach((tags_list) => {
-        tags_list.forEach((tag) => {
-            if (tags[tag] === undefined) {
-                tags[tag] = 1;
-            } else {
-                tags[tag]++;
-            }
-        });
-    });
-
-    const tag_list = [];
-
-    for (const tag of Object.keys(tags)) {
-        tag_list.push({
-            name: tag,
-            count: tags[tag],
-        });
-    }
-
-    tag_list.sort((a, b) => {
-        if (a.count > b.count) {
-            return -1;
-        } else if (a.count < b.count) {
-            return 1;
-        }
-        return 0;
-    });
-
-    console.log(tag_list.map((item) => item.name).join(' '));
-    console.log(tag_list);
-    console.log(tag_list.length);
-
-    // console.log(tagsLastUsage(post_list));
-
+    const uniq_tags = await SSCS.extractUniqHashtagsFromString(data);
+    const tags_total_count = tagsTotalUsedCount(post_tag_list);
     const tags_last_time = tagsLastUsage(post_tag_list);
-    console.log(tags_last_time);
-    // tag_count.sort((a, b) => {
-    //     if (a.used_last_time > b.used_last_time) {
-    //         return 1;
-    //     } else if (a.used_last_time < b.used_last_time) {
-    //         return -1;
-    //     }
-    //     return 0;
-    // });
-    // printTagsCustom(tags_with_used_last_time);
+
+    const tag_list = uniq_tags.map((tag) => ({
+        name: tag,
+        count: tags_total_count[tag],
+        used_last_time: tags_last_time[tag],
+    }));
+
+    // console.log(tag_list.map((item) => item.name).join(' '));
+    logger.log(`Total tags count: ${tag_list.length}`);
+    printTagsCustom(SSCS.sortArrayObj(tag_list, 'used_last_time', true));
 })();
