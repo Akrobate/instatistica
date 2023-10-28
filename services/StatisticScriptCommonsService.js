@@ -21,10 +21,20 @@ class StatisticScriptCommonsService {
 
 
     /**
+     * @param {String} str
+     * @return {Array}
+     */
+    static extractUniqHashtagsFromString(str) {
+        return [
+            ...new Set(StatisticScriptCommonsService.extractHashtags(str)),
+        ];
+    }
+
+    /**
      * @param {Array} tag_list
      * @return {Void}
      */
-    printTagList(tag_list) {
+    static printTagList(tag_list) {
         tag_list.forEach((tag) => {
             logger.log(`#${tag.replace('#', '')}`);
         });
@@ -32,25 +42,32 @@ class StatisticScriptCommonsService {
 
 
     /**
-     * @param {String} str
-     * @return {Array}
-     */
-    extractUniqHashtagsFromString(str) {
-        return [
-            ...new Set(StatisticScriptCommonsService.extractHashtags(str)),
-        ];
-    }
-
-
-    /**
      * @param {String} filename
      * @return {Array}
      */
-    async extractUniqHashtagsFromFile(filename) {
+    static async extractUniqHashtagsFromFile(filename) {
         const str = await FileRepository
             .getInstance()
             .readFileUtf8(filename);
         return StatisticScriptCommonsService.extractUniqHashtagsFromString(str);
+    }
+
+
+    /**
+     * @param {Array} input
+     * @param {string} sort_key
+     * @param {boolean} asc
+     * @returns {Array}
+     */
+    static sortArrayObj(input, sort_key, asc = false) {
+        return [...input].sort((a, b) => {
+            if (a[sort_key] > b[sort_key]) {
+                return asc ? 1 : -1;
+            } else if (a[sort_key] < b[sort_key]) {
+                return asc ? -1 : 1;
+            }
+            return 0;
+        });
     }
 }
 
