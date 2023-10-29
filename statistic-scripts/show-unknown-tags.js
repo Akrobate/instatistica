@@ -40,7 +40,7 @@ const [
     logger.log('uniq_tag_list count', uniq_tag_list.length);
     logger.log(uniq_tag_list);
 
-    const never_used_tag_list = await SSCS.extractUniqHashtagsFromString(never_used_file);
+    const never_used_tag_list = SSCS.extractUniqHashtagsFromString(never_used_file);
     logger.log(never_used_tag_list);
 
     const to_evaluate = SSCS.extractUniqHashtagsFromString(string_to_evaluate);
