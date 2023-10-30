@@ -53,16 +53,25 @@ class CommandLineParamsService {
      * @param {String} key
      * @param {Boolen} required
      * @param {Boolen} help
+     * @param {Any} _default
      * @returns {String}
      */
-    getParam(key, required = false, help = false) {
-        if (this.params[key] === undefined && required) {
-            throw new Error(`Missing param -${key}${
-                help
-                    ? `, ${help}`
-                    : ''
-            }`);
+    getParam(key, required = false, help = false, _default = undefined) {
+        if (this.params[key] === undefined) {
+
+            if (required) {
+                throw new Error(`Missing param -${key}${
+                    help
+                        ? `, ${help}`
+                        : ''
+                }`);
+            }
+
+            if (_default !== undefined) {
+                return _default;
+            }
         }
+
         return this.params[key];
     }
 
@@ -126,7 +135,8 @@ class CommandLineParamsService {
                 response[param_name] = this.getParam(
                     param_name,
                     params[param_name].required,
-                    params[param_name].help
+                    params[param_name].help,
+                    params[param_name].default
                 );
             });
 
