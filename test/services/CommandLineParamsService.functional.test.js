@@ -33,21 +33,21 @@ describe('CommandLineParamsService functional test', () => {
 
     describe('getParam', () => {
         it('getParam', () => {
-            const configuration_loader_service = new CommandLineParamsService();
-            configuration_loader_service.params = {
+            const command_line_params_service = new CommandLineParamsService();
+            command_line_params_service.params = {
                 test: 'value',
             };
-            const param = configuration_loader_service.getParam('test');
+            const param = command_line_params_service.getParam('test');
             expect(param).to.equal('value');
         });
 
         it('getParam required', () => {
-            const configuration_loader_service = new CommandLineParamsService();
-            configuration_loader_service.params = {
+            const command_line_params_service = new CommandLineParamsService();
+            command_line_params_service.params = {
                 not_test: 'value',
             };
             try {
-                configuration_loader_service.getParam('test', true);
+                command_line_params_service.getParam('test', true);
             } catch (error) {
                 expect(error.message).to.equal('Missing param -test');
             }
@@ -86,11 +86,11 @@ describe('CommandLineParamsService functional test', () => {
                 'count': 10,
             };
 
-            const configuration_loader_service = new CommandLineParamsService();
-            configuration_loader_service.params = argv_seed;
-            configuration_loader_service.setCommandLineParamsSchema(schema);
+            const command_line_params_service = new CommandLineParamsService();
+            command_line_params_service.params = argv_seed;
+            command_line_params_service.setCommandLineParamsSchema(schema);
 
-            const response = configuration_loader_service.processSchema();
+            const response = command_line_params_service.processSchema();
 
             expect(response).to.have.property('count', 10);
 
@@ -117,13 +117,13 @@ describe('CommandLineParamsService functional test', () => {
                 },
                 array_params: [],
             };
-            const configuration_loader_service = new CommandLineParamsService(logger);
-            configuration_loader_service.params = {
+            const command_line_params_service = new CommandLineParamsService(logger);
+            command_line_params_service.params = {
                 'count': 10,
             };
-            configuration_loader_service.setCommandLineParamsSchema(schema);
+            command_line_params_service.setCommandLineParamsSchema(schema);
 
-            configuration_loader_service.processSchema();
+            command_line_params_service.processSchema();
 
             mocks.process.verify();
             mocks.logger.verify();
@@ -144,10 +144,10 @@ describe('CommandLineParamsService functional test', () => {
                 },
                 array_params: [],
             };
-            const configuration_loader_service = new CommandLineParamsService(logger);
-            configuration_loader_service.params = {};
-            configuration_loader_service.setCommandLineParamsSchema(schema);
-            configuration_loader_service.processSchema();
+            const command_line_params_service = new CommandLineParamsService(logger);
+            command_line_params_service.params = {};
+            command_line_params_service.setCommandLineParamsSchema(schema);
+            command_line_params_service.processSchema();
             mocks.process.verify();
             mocks.logger.verify();
         });
@@ -187,11 +187,11 @@ describe('CommandLineParamsService functional test', () => {
                 ],
             };
 
-            const configuration_loader_service = new CommandLineParamsService();
-            configuration_loader_service.params = argv_seed;
-            configuration_loader_service.setCommandLineParamsSchema(schema);
+            const command_line_params_service = new CommandLineParamsService();
+            command_line_params_service.params = argv_seed;
+            command_line_params_service.setCommandLineParamsSchema(schema);
 
-            const response = configuration_loader_service.processSchema();
+            const response = command_line_params_service.processSchema();
 
             const [
                 first_param,
@@ -229,11 +229,11 @@ describe('CommandLineParamsService functional test', () => {
                 ],
             };
 
-            const configuration_loader_service = new CommandLineParamsService();
-            configuration_loader_service.params = argv_seed;
-            configuration_loader_service.setCommandLineParamsSchema(schema);
+            const command_line_params_service = new CommandLineParamsService();
+            command_line_params_service.params = argv_seed;
+            command_line_params_service.setCommandLineParamsSchema(schema);
 
-            const response = configuration_loader_service.processSchema();
+            const response = command_line_params_service.processSchema();
             const [
                 first_param,
                 second_param,
@@ -280,10 +280,10 @@ describe('CommandLineParamsService functional test', () => {
                 ],
             };
 
-            const configuration_loader_service = new CommandLineParamsService(logger);
-            configuration_loader_service.params = argv_seed;
-            configuration_loader_service.setCommandLineParamsSchema(schema);
-            configuration_loader_service.processSchema();
+            const command_line_params_service = new CommandLineParamsService(logger);
+            command_line_params_service.params = argv_seed;
+            command_line_params_service.setCommandLineParamsSchema(schema);
+            command_line_params_service.processSchema();
             mocks.process.verify();
             mocks.logger.verify();
         });
@@ -316,12 +316,64 @@ describe('CommandLineParamsService functional test', () => {
                 _: [],
             };
 
-            const configuration_loader_service = new CommandLineParamsService(logger);
-            configuration_loader_service.params = argv_seed;
-            configuration_loader_service.setCommandLineParamsSchema(schema);
-            configuration_loader_service.processSchema();
+            const command_line_params_service = new CommandLineParamsService(logger);
+            command_line_params_service.params = argv_seed;
+            command_line_params_service.setCommandLineParamsSchema(schema);
+            command_line_params_service.processSchema();
             mocks.process.verify();
             mocks.logger.verify();
+        });
+    });
+
+    describe.only('processSchema default params', () => {
+        it('No param, but default param', () => {
+            const schema = {
+                params: {
+                    'sort': {
+                        type: 'Number',
+                        required: false,
+                        help: 'Some explanation text',
+                        default: 'Default_value',
+                    },
+                },
+            };
+
+            const argv_seed = {};
+
+            const command_line_params_service = new CommandLineParamsService();
+            command_line_params_service.params = argv_seed;
+            command_line_params_service.setCommandLineParamsSchema(schema);
+
+            const response = command_line_params_service.processSchema();
+
+            expect(response).to.have.property('sort', 'Default_value');
+
+        });
+
+        it('Has param and default param, input param should pass', () => {
+            const schema = {
+                params: {
+                    'sort': {
+                        type: 'Number',
+                        required: false,
+                        help: 'Some explanation text',
+                        default: 'Default_value',
+                    },
+                },
+            };
+
+            const argv_seed = {
+                'sort': 'input_value',
+            };
+
+            const command_line_params_service = new CommandLineParamsService();
+            command_line_params_service.params = argv_seed;
+            command_line_params_service.setCommandLineParamsSchema(schema);
+
+            const response = command_line_params_service.processSchema();
+
+            expect(response).to.have.property('sort', 'input_value');
+
         });
     });
 });
