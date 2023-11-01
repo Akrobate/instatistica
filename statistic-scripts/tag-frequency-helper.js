@@ -11,9 +11,18 @@ const {
     StatisticScriptCommonsService: SSCS,
 } = require('../services/');
 
-const [
-    post_filename,
-] = (new CommandLineParamsService(logger)).setCommandLineParamsSchemaAndProcess({
+const {
+    array_params,
+    sort,
+} = (new CommandLineParamsService(logger)).setCommandLineParamsSchemaAndProcess({
+    params: {
+        'sort': {
+            type: 'String',
+            required: false,
+            help: 'sort by "count" or used',
+            default: 'count',
+        },
+    },
     array_params: [
         {
             type: 'String',
@@ -21,7 +30,11 @@ const [
             help: 'Posts file name',
         },
     ],
-}).array_params;
+});
+
+const [
+    post_filename,
+] = array_params;
 
 function tagsLastUsage(post_tag_list) {
     const uniq_tags_list = [...new Set(post_tag_list.flat())];
