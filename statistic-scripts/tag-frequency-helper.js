@@ -19,7 +19,7 @@ const {
         'sort': {
             type: 'String',
             required: false,
-            help: 'sort by "count" or used',
+            help: 'sort by "count" or "used_last_time',
             default: 'count',
         },
     },
@@ -92,5 +92,5 @@ function printTagsCustom(list) {
 
     // console.log(tag_list.map((item) => item.name).join(' '));
     logger.log(`Total tags count: ${tag_list.length}`);
-    printTagsCustom(SSCS.sortArrayObj(tag_list, 'used_last_time', true));
+    printTagsCustom(SSCS.sortArrayObj(tag_list, sort === 'count' ? 'count' : 'used_last_time', true));
 })();
