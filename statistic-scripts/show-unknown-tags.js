@@ -37,14 +37,14 @@ const [
 
     const uniq_tag_list = await SSCS.extractUniqHashtagsFromFile(all_posts_file);
 
-    logger.log('uniq_tag_list count', uniq_tag_list.length);
-    logger.log(uniq_tag_list);
+    logger.log('\nAll tags known count: ', uniq_tag_list.length);
 
-    const never_used_tag_list = SSCS.extractUniqHashtagsFromString(never_used_file);
-    logger.log(never_used_tag_list);
+    const never_used_tag_list = await SSCS.extractUniqHashtagsFromFile(never_used_file);
 
+    logger.log('Never used count: ', never_used_tag_list.length);
     const to_evaluate = SSCS.extractUniqHashtagsFromString(string_to_evaluate);
-    logger.log(to_evaluate);
+
+    logger.log('To evaluate count: ', to_evaluate.length);
 
     const unknown_tag_list = [];
 
@@ -59,5 +59,6 @@ const [
         }
     });
 
+    logger.log('\n====== UNKNOWN TAGS =======');
     SSCS.printTagList(unknown_tag_list);
 })();
