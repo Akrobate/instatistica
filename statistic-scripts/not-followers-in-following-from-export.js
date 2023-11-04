@@ -35,18 +35,31 @@ const [
 
 (async () => {
     const json_file_repository = JsonFileRepository.getInstance();
-    const followers_json = await json_file_repository.getData(
-        path.join(instagram_export_path, 'followers_and_following', 'followers_1.json')
-    );
-    const follower_list = followers_json
-        .map((item) => item.string_list_data[0].value);
 
-    const followings_json = await json_file_repository.getData(
-        path.join(instagram_export_path, 'followers_and_following', 'following.json')
-    );
-    const following_list = followings_json
-        .relationships_following
-        .map((item) => item.string_list_data[0].value);
+    let follower_list = [];
+    try {
+        const followers_json = await json_file_repository.getData(
+            path.join(instagram_export_path, 'followers_and_following', 'followers_1.json')
+        );
+        follower_list = followers_json.map((item) => item.string_list_data[0].value);
+    } catch (error) {
+        logger.log(`Cannot load data from ${path.join(instagram_export_path, 'followers_and_following', 'followers_1.json')}`);
+        // eslint-disable-next-line no-process-exit
+        process.exit();
+    }
+
+    let following_list = [];
+    try {
+        const followings_json = await json_file_repository.getData(
+            path.join(instagram_export_path, 'followers_and_following', 'following.json')
+        );
+        following_list = followings_json.relationships_following
+            .map((item) => item.string_list_data[0].value);
+    } catch (error) {
+        logger.log(`Cannot load data from ${path.join(instagram_export_path, 'followers_and_following', 'following.json')}`);
+        // eslint-disable-next-line no-process-exit
+        process.exit();
+    }
 
     const following_not_follower_list = following_list
         .filter((following) => !follower_list.includes(following));
