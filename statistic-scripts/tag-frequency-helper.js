@@ -19,8 +19,8 @@ const {
         'sort': {
             type: 'String',
             required: false,
-            help: 'sort by "count" or "used_last_time',
-            default: 'count',
+            help: 'sort by "count" or "used_last_time" (default)',
+            default: 'used_last_time',
         },
     },
     array_params: [
