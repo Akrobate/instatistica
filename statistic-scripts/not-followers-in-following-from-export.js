@@ -12,8 +12,9 @@ const {
     CommandLineParamsService,
 } = require('../services/');
 
-const command_line_params_service = new CommandLineParamsService(logger);
-command_line_params_service.setCommandLineParamsSchema({
+const {
+    array_params,
+} = (new CommandLineParamsService(logger)).setCommandLineParamsSchemaAndProcess({
     array_params: [
         {
             type: 'String',
@@ -31,7 +32,7 @@ command_line_params_service.setCommandLineParamsSchema({
 const [
     instagram_export_path,
     following_exception_file,
-] = command_line_params_service.processSchema().array_params;
+] = array_params;
 
 (async () => {
     const json_file_repository = JsonFileRepository.getInstance();
