@@ -4,16 +4,15 @@ const {
     logger,
 } = require('../logger');
 const {
-    CommandLineParamsService,
+    CommandLineParamsService: CLPS,
     StatisticScriptCommonsService: SSCS,
 } = require('../services/');
 
-const command_line_params_service = new CommandLineParamsService(logger);
 const [
     string_to_evaluate,
     all_posts_file,
     never_used_file,
-] = command_line_params_service.setCommandLineParamsSchemaAndProcess({
+] = (new CLPS(logger)).setCommandLineParamsSchemaAndProcess({
     array_params: [
         {
             type: 'String',

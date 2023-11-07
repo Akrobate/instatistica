@@ -7,14 +7,14 @@ const {
     FileRepository,
 } = require('../repositories');
 const {
-    CommandLineParamsService,
+    CommandLineParamsService: CLPS,
     StatisticScriptCommonsService: SSCS,
 } = require('../services/');
 
 const {
     array_params,
     sort,
-} = (new CommandLineParamsService(logger)).setCommandLineParamsSchemaAndProcess({
+} = (new CLPS(logger)).setCommandLineParamsSchemaAndProcess({
     params: {
         'sort': {
             type: 'String',
