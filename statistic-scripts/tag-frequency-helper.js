@@ -29,11 +29,17 @@ const {
             required: true,
             help: 'Posts file name',
         },
+        {
+            type: 'String',
+            required: false,
+            help: 'Ideas tags file name (for preview and update)',
+        },
     ],
 });
 
 const [
     post_filename,
+    tags_ideas_filename,
 ] = array_params;
 
 function tagsLastUsage(post_tag_list) {
@@ -93,4 +99,13 @@ function printTagsCustom(list) {
     // console.log(tag_list.map((item) => item.name).join(' '));
     logger.log(`Total tags count: ${tag_list.length}`);
     printTagsCustom(SSCS.sortArrayObj(tag_list, sort === 'count' ? 'count' : 'used_last_time', true));
+
+
+    if (tags_ideas_filename) {
+        logger.log('Work in progress.');
+        // Open file
+        // Compare with already used tags
+        // Display not used tags from file
+        // update tags idea file (optional?)
+    }
 })();
