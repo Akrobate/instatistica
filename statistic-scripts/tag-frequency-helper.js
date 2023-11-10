@@ -96,7 +96,6 @@ function printTagsCustom(list) {
         used_last_time: tags_last_time[tag],
     }));
 
-    // console.log(tag_list.map((item) => item.name).join(' '));
     logger.log(`Total tags count: ${tag_list.length}`);
     printTagsCustom(SSCS.sortArrayObj(tag_list, sort === 'count' ? 'count' : 'used_last_time', true));
 
