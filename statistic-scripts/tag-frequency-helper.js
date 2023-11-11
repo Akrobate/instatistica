@@ -102,7 +102,11 @@ function printTagsCustom(list) {
 
     if (tags_ideas_filename) {
         logger.log('Work in progress.');
-        // Open file
+        const tags_ideas_data = await file_repository.readFileUtf8(tags_ideas_filename);
+        const tags_ideas_tags = tags_ideas_data
+            .split('\n');
+        logger.log('Ideas tags:');
+        logger.log(tags_ideas_tags.join(' '));
         // Compare with already used tags
         // Display not used tags from file
         // update tags idea file (optional?)
