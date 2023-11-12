@@ -104,7 +104,8 @@ function printTagsCustom(list) {
         logger.log('Work in progress.');
         const tags_ideas_data = await file_repository.readFileUtf8(tags_ideas_filename);
         const tags_ideas_tags = tags_ideas_data
-            .split('\n');
+            .split('\n')
+            .filter((_tag) => !uniq_tags.includes(_tag));
         logger.log('Ideas tags:');
         logger.log(tags_ideas_tags.join(' '));
         // Compare with already used tags
