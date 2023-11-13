@@ -101,15 +101,19 @@ function printTagsCustom(list) {
 
 
     if (tags_ideas_filename) {
-        logger.log('Work in progress.');
-        const tags_ideas_data = await file_repository.readFileUtf8(tags_ideas_filename);
-        const tags_ideas_tags = tags_ideas_data
-            .split('\n')
-            .filter((_tag) => !uniq_tags.includes(_tag));
-        logger.log('Ideas tags:');
+        logger.log('');
+        const tags_ideas_list = (await file_repository.readFileUtf8(tags_ideas_filename))
+            .split('\n');
+
+        const tags_ideas_tags = tags_ideas_list.filter((_tag) => !uniq_tags.includes(_tag));
+        logger.log(`Ideas tags (file: ${tags_ideas_filename})`);
         logger.log(tags_ideas_tags.join(' '));
-        // Compare with already used tags
-        // Display not used tags from file
-        // update tags idea file (optional?)
+
+        const duplicated_tags = tags_ideas_list.filter((_tag) => uniq_tags.includes(_tag));
+
+        if (duplicated_tags.length > 0) {
+            logger.log('\nTo remove from idea tags');
+            logger.log(duplicated_tags.join(' '));
+        }
     }
 })();
