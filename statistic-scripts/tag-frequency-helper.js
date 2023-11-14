@@ -14,6 +14,7 @@ const {
 const {
     array_params,
     sort,
+    thematical_file,
 } = (new CLPS(logger)).setCommandLineParamsSchemaAndProcess({
     params: {
         'sort': {
@@ -21,6 +22,12 @@ const {
             required: false,
             help: 'sort by "count" or "used_last_time" (default)',
             default: 'used_last_time',
+        },
+        'thematical_file': {
+            type: 'String',
+            required: false,
+            help: 'thematical file to exclude them for display',
+            default: null,
         },
     },
     array_params: [
@@ -115,5 +122,12 @@ function printTagsCustom(list) {
             logger.log('\nTo remove from idea tags');
             logger.log(duplicated_tags.join(' '));
         }
+    }
+
+    if (thematical_file) {
+        logger.log('');
+        const tags_thematical_list = (await file_repository.readFileUtf8(thematical_file))
+            .split('\n');
+        logger.log('THEMATICAL @TODO');
     }
 })();
