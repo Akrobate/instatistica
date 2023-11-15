@@ -14,7 +14,7 @@ const {
 const {
     array_params,
     sort,
-    thematical_file,
+    thematical_file_to_exclude,
 } = (new CLPS(logger)).setCommandLineParamsSchemaAndProcess({
     params: {
         'sort': {
@@ -23,7 +23,7 @@ const {
             help: 'sort by "count" or "used_last_time" (default)',
             default: 'used_last_time',
         },
-        'thematical_file': {
+        'thematical_file_to_exclude': {
             type: 'String',
             required: false,
             help: 'thematical file to exclude them for display',
@@ -97,15 +97,32 @@ function printTagsCustom(list) {
     const tags_total_count = tagsTotalUsedCount(post_tag_list);
     const tags_last_time = tagsLastUsage(post_tag_list);
 
-    const tag_list = uniq_tags.map((tag) => ({
+    let tag_list = uniq_tags.map((tag) => ({
         name: tag,
         count: tags_total_count[tag],
         used_last_time: tags_last_time[tag],
     }));
 
+    let thematical_tags_list_display = [];
+    if (thematical_file_to_exclude) {
+        logger.log('');
+        const tags_thematical_list = (
+            await file_repository.readFileUtf8(thematical_file_to_exclude)
+        )
+            .split('\n');
+        thematical_tags_list_display = tag_list
+            .filter((_tag) => tags_thematical_list.includes(_tag));
+        tag_list = tag_list.filter((_tag) => !tags_thematical_list.includes(_tag));
+    }
+
     logger.log(`Total tags count: ${tag_list.length}`);
     printTagsCustom(SSCS.sortArrayObj(tag_list, sort === 'count' ? 'count' : 'used_last_time', true));
 
+    if (thematical_file_to_exclude) {
+        logger.log('');
+        logger.log(`Total thematical tags count: ${thematical_tags_list_display.length}`);
+        printTagsCustom(SSCS.sortArrayObj(thematical_tags_list_display, sort === 'count' ? 'count' : 'used_last_time', true));
+    }
 
     if (tags_ideas_filename) {
         logger.log('');
@@ -124,10 +141,4 @@ function printTagsCustom(list) {
         }
     }
 
-    if (thematical_file) {
-        logger.log('');
-        const tags_thematical_list = (await file_repository.readFileUtf8(thematical_file))
-            .split('\n');
-        logger.log('THEMATICAL @TODO');
-    }
 })();
