@@ -110,9 +110,10 @@ function printTagsCustom(list) {
             await file_repository.readFileUtf8(thematical_file_to_exclude)
         )
             .split('\n');
+
         thematical_tags_list_display = tag_list
-            .filter((_tag) => tags_thematical_list.includes(_tag));
-        tag_list = tag_list.filter((_tag) => !tags_thematical_list.includes(_tag));
+            .filter((_tag) => tags_thematical_list.includes(_tag.name));
+        tag_list = tag_list.filter((_tag) => !tags_thematical_list.includes(_tag.name));
     }
 
     logger.log(`Total tags count: ${tag_list.length}`);
