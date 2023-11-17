@@ -29,6 +29,12 @@ const {
             help: 'thematical file to exclude them for display',
             default: null,
         },
+        'ideas_file': {
+            type: 'String',
+            required: false,
+            help: 'Ideas tags file name (for preview and update)',
+            default: null,
+        },
     },
     array_params: [
         {
