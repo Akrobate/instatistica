@@ -15,6 +15,7 @@ const {
     array_params,
     sort,
     thematical_file_to_exclude,
+    tags_ideas_file,
 } = (new CLPS(logger)).setCommandLineParamsSchemaAndProcess({
     params: {
         'sort': {
@@ -29,7 +30,7 @@ const {
             help: 'thematical file to exclude them for display',
             default: null,
         },
-        'ideas_file': {
+        'tags_ideas_file': {
             type: 'String',
             required: false,
             help: 'Ideas tags file name (for preview and update)',
@@ -52,8 +53,17 @@ const {
 
 const [
     post_filename,
-    tags_ideas_filename,
+    array_param_tags_ideas_filename,
 ] = array_params;
+
+
+// eslint-disable-next-line no-nested-ternary
+const tags_ideas_filename = array_param_tags_ideas_filename
+    ? array_param_tags_ideas_filename
+    : tags_ideas_file
+        ? tags_ideas_file
+        : undefined;
+
 
 function tagsLastUsage(post_tag_list) {
     const uniq_tags_list = [...new Set(post_tag_list.flat())];
