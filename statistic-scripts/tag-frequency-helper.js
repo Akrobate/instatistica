@@ -97,7 +97,7 @@ function tagsTotalUsedCount(post_tag_list) {
 
 function printTagsCustom(list) {
     list.forEach((tag) => logger.log(
-        `last: ${tag.used_last_time} \t cnt: ${tag.count} \t ${tag.name}`
+        `last: ${tag.used_last_time} \t cnt: \x1b[33m${tag.count}\x1b[0m \t ${tag.name}`
     ));
 }
 
