@@ -16,6 +16,7 @@ const {
     sort,
     thematical_file_to_exclude,
     tags_ideas_file,
+    hightlight,
 } = (new CLPS(logger)).setCommandLineParamsSchemaAndProcess({
     params: {
         'sort': {
@@ -35,6 +36,12 @@ const {
             required: false,
             help: 'Ideas tags file name (for preview and update)',
             default: null,
+        },
+        'hightlight': {
+            type: 'String',
+            required: false,
+            help: 'Word to highlight',
+            default: '',
         },
     },
     array_params: [
@@ -94,13 +101,15 @@ function tagsTotalUsedCount(post_tag_list) {
     return tags;
 }
 
-
-function printTagsCustom(list) {
-    list.forEach((tag) => logger.log(
-        `last: ${tag.used_last_time} \t cnt: \x1b[33m${tag.count}\x1b[0m \t ${tag.name}`
-    ));
+function colorizeSection(content, word) {
+    return content.replaceAll(word, `\x1b[31m${word}\x1b[0m`);
 }
 
+function printTagsCustom(list, highlight_word = '') {
+    list.forEach((tag) => logger.log(
+        `last: ${tag.used_last_time} \t cnt: \x1b[33m${tag.count}\x1b[0m \t ${colorizeSection(tag.name, highlight_word)}`
+    ));
+}
 
 (async () => {
     const file_repository = FileRepository.getInstance();
@@ -133,12 +142,18 @@ function printTagsCustom(list) {
     }
 
     logger.log(`Total tags count: ${tag_list.length}`);
-    printTagsCustom(SSCS.sortArrayObj(tag_list, sort === 'count' ? 'count' : 'used_last_time', true));
+    printTagsCustom(
+        SSCS.sortArrayObj(tag_list, sort === 'count' ? 'count' : 'used_last_time', true),
+        hightlight
+    );
 
     if (thematical_file_to_exclude) {
         logger.log('');
         logger.log(`Total thematical tags count: ${thematical_tags_list_display.length}`);
-        printTagsCustom(SSCS.sortArrayObj(thematical_tags_list_display, sort === 'count' ? 'count' : 'used_last_time', true));
+        printTagsCustom(
+            SSCS.sortArrayObj(thematical_tags_list_display, sort === 'count' ? 'count' : 'used_last_time', true),
+            hightlight
+        );
     }
 
     if (tags_ideas_filename) {
