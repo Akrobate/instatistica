@@ -105,10 +105,19 @@ function colorizeSection(content, word) {
     return content.replaceAll(word, `\x1b[31m${word}\x1b[0m`);
 }
 
-function printTagsCustom(list, highlight_word = '') {
-    list.forEach((tag) => logger.log(
-        `last: ${tag.used_last_time} \t cnt: \x1b[33m${tag.count}\x1b[0m \t ${colorizeSection(tag.name, highlight_word)}`
-    ));
+function printTagsCustom(list, _sort = 'used_last_time', highlight_word = '') {
+
+    list.forEach((tag) => {
+        let out = '';
+        if (_sort === 'count') {
+            out = `last: ${tag.used_last_time} \t cnt: \x1b[33m${tag.count}\x1b[0m \t ${colorizeSection(tag.name, highlight_word)}`;
+        } else if (_sort === 'used_last_time') {
+            out = `last: \x1b[33m${tag.used_last_time}\x1b[0m \t cnt: ${tag.count} \t ${colorizeSection(tag.name, highlight_word)}`;
+        } else {
+            out = `last: ${tag.used_last_time} \t cnt: ${tag.count} \t ${colorizeSection(tag.name, highlight_word)}`;
+        }
+        logger.log(out);
+    });
 }
 
 (async () => {
@@ -144,6 +153,7 @@ function printTagsCustom(list, highlight_word = '') {
     logger.log(`Total tags count: ${tag_list.length}`);
     printTagsCustom(
         SSCS.sortArrayObj(tag_list, sort === 'count' ? 'count' : 'used_last_time', true),
+        sort,
         hightlight
     );
 
@@ -152,6 +162,7 @@ function printTagsCustom(list, highlight_word = '') {
         logger.log(`Total thematical tags count: ${thematical_tags_list_display.length}`);
         printTagsCustom(
             SSCS.sortArrayObj(thematical_tags_list_display, sort === 'count' ? 'count' : 'used_last_time', true),
+            sort,
             hightlight
         );
     }
