@@ -106,17 +106,14 @@ function colorizeSection(content, word) {
 }
 
 function printTagsCustom(list, _sort = 'used_last_time', highlight_word = '') {
-
     list.forEach((tag) => {
-        let out = '';
-        if (_sort === 'count') {
-            out = `last: ${tag.used_last_time} \t cnt: \x1b[33m${tag.count}\x1b[0m \t ${colorizeSection(tag.name, highlight_word)}`;
-        } else if (_sort === 'used_last_time') {
-            out = `last: \x1b[33m${tag.used_last_time}\x1b[0m \t cnt: ${tag.count} \t ${colorizeSection(tag.name, highlight_word)}`;
-        } else {
-            out = `last: ${tag.used_last_time} \t cnt: ${tag.count} \t ${colorizeSection(tag.name, highlight_word)}`;
-        }
-        logger.log(out);
+        // eslint-disable-next-line no-nested-ternary
+        logger.log(_sort === 'count'
+            ? `last: ${tag.used_last_time} \t cnt: \x1b[33m${tag.count}\x1b[0m \t ${colorizeSection(tag.name, highlight_word)}`
+            : _sort === 'used_last_time'
+                ? `last: \x1b[33m${tag.used_last_time}\x1b[0m \t cnt: ${tag.count} \t ${colorizeSection(tag.name, highlight_word)}`
+                : `last: ${tag.used_last_time} \t cnt: ${tag.count} \t ${colorizeSection(tag.name, highlight_word)}`
+        );
     });
 }
 
