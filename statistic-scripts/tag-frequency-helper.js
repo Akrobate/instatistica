@@ -43,6 +43,12 @@ const {
             help: 'Word to highlight',
             default: '',
         },
+        'secondary_hightlight': {
+            type: 'String',
+            required: false,
+            help: 'secondary highlight word',
+            default: '',
+        },
     },
     array_params: [
         {
