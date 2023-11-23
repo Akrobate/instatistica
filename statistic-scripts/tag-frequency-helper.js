@@ -94,7 +94,6 @@ function tagsLastUsage(post_tag_list) {
     return tags;
 }
 
-
 function tagsTotalUsedCount(post_tag_list) {
     const tags = {};
     post_tag_list.flat().forEach((tag) => {
@@ -107,18 +106,14 @@ function tagsTotalUsedCount(post_tag_list) {
     return tags;
 }
 
-function colorizeSection(content, word) {
-    return content.replaceAll(word, `\x1b[31m${word}\x1b[0m`);
-}
-
 function printTagsCustom(list, _sort = 'used_last_time', highlight_word = '') {
     list.forEach((tag) => {
         // eslint-disable-next-line no-nested-ternary
         logger.log(_sort === 'count'
-            ? `last: ${tag.used_last_time} \t cnt: \x1b[33m${tag.count}\x1b[0m \t ${colorizeSection(tag.name, highlight_word)}`
+            ? `last: ${tag.used_last_time} \t cnt: \x1b[33m${tag.count}\x1b[0m \t ${SSCS.colorizeSection(tag.name, highlight_word)}`
             : _sort === 'used_last_time'
-                ? `last: \x1b[33m${tag.used_last_time}\x1b[0m \t cnt: ${tag.count} \t ${colorizeSection(tag.name, highlight_word)}`
-                : `last: ${tag.used_last_time} \t cnt: ${tag.count} \t ${colorizeSection(tag.name, highlight_word)}`
+                ? `last: \x1b[33m${tag.used_last_time}\x1b[0m \t cnt: ${tag.count} \t ${SSCS.colorizeSection(tag.name, highlight_word)}`
+                : `last: ${tag.used_last_time} \t cnt: ${tag.count} \t ${SSCS.colorizeSection(tag.name, highlight_word)}`
         );
     });
 }

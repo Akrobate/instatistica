@@ -40,6 +40,15 @@ class StatisticScriptCommonsService {
         });
     }
 
+    /**
+     * @param {String} content
+     * @param {String} word
+     * @return {String}
+     */
+    static colorizeSection(content, word) {
+        return content.replaceAll(word, `\x1b[31m${word}\x1b[0m`);
+    }
+
 
     /**
      * @param {String} filename
